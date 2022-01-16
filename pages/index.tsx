@@ -3,7 +3,16 @@ import { Grid, Typography } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import SearchInput from 'components/SearchInput';
 
-const Home: NextPage = () => {
+interface HomeProps {
+  companyNames: string[];
+  companyIds: string[];
+  cities: string[];
+  certificates: string[];
+}
+
+const Home: NextPage<HomeProps> = ({ companyNames, companyIds, cities, certificates }) => {
+  const searchOptions = companyNames.concat(companyIds, cities, certificates);
+
   const onSubmit = (event) => {
     event.preventDefault();
     console.log(event.target[0].value);
@@ -23,7 +32,7 @@ const Home: NextPage = () => {
 
             <Grid item xs={5} sx={{ px: '10px' }}>
               <form onSubmit={onSubmit}>
-                <SearchInput />
+                <SearchInput searchOptions={searchOptions} />
               </form>
             </Grid>
           </Grid>
@@ -40,6 +49,17 @@ const Home: NextPage = () => {
       </Grid>
     </main>
    );
+};
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  return {
+    props: {
+      companyNames: ['Turun matkailuyritys Oy'],
+      companyIds: ['123456-7'],
+      cities: ['Turku'],
+      certificates: ['Green Key']
+    }
+  }
 };
 
 export default Home;

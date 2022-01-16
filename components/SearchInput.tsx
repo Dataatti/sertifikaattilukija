@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { Autocomplete, Button, InputAdornment, TextField } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
-const SearchInput = () => {
+const SearchInput = ({ searchOptions } : string[] ) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
     <Autocomplete
       freeSolo
       disableClearable
-      options={['Turun matkailuyritys Oy', 'Green Key']}
+      options={searchOptions}
       value={searchTerm}
       onChange={(e) => setSearchTerm(e.target.value)}
       renderInput={(params) => (
