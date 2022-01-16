@@ -18,13 +18,13 @@ const CityResult = ({ companies, city }: { companies: Company[]; city: City }) =
         </Grid>
         <Grid item>
           <Typography component="h2" variant="h3">
-            Sertifikaatin omaavat yritykset
+            Alueen yritykset
           </Typography>
           <Grid container>
             {companies.map((company) => {
               return (
                 <Grid item key={company.slug}>
-                  <CompanyListItem company={company} />
+                  <CompanyListItem company={company} hideCity={true} />
                 </Grid>
               );
             })}

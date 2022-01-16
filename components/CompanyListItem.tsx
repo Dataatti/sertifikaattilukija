@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Link as MuiLink } from '@mui/material';
 
-const CompanyListItem = ({ company }: { company: Company }) => {
+const CompanyListItem = ({ company, hideCity }: { company: Company, hideCity?: boolean }) => {
   return (
     <>
       <Link href={`/${company.slug}`} passHref>
@@ -9,9 +9,11 @@ const CompanyListItem = ({ company }: { company: Company }) => {
           {company.name}
         </MuiLink>
       </Link>
-      <Link href={`/kunta/${company.city}`} passHref>
-        <MuiLink>{company.city}</MuiLink>
-      </Link>
+      {!hideCity &&
+        <Link href={`/kunta/${company.city}`} passHref>
+          <MuiLink>{company.city}</MuiLink>
+        </Link>
+      }
       <div>
         {company.certificates.map((certificate) => {
           return (
