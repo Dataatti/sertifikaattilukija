@@ -17,3 +17,8 @@ interface Certificate {
 interface City {
   name: string;
 }
+
+interface SearchOption {
+  label: string;
+  slug: string;
+}

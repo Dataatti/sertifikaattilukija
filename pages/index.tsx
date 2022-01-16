@@ -1,23 +1,27 @@
 import type { GetStaticProps } from 'next';
-import type { ChangeEvent } from 'react';
+import { ChangeEvent, useRef } from 'react';
+import { useRouter } from 'next/router';
 import { Grid, Typography } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import SearchInput from 'components/SearchInput';
 
 interface HomeProps {
-  companyNames: string[];
-  companyIds: string[];
-  cities: string[];
-  certificates: string[];
+  companyNames: SearchOption[];
+  companyIds: SearchOption[];
+  cities: SearchOption[];
+  certificates: SearchOption[];
 }
 
 const Home = ({ companyNames, companyIds, cities, certificates }: HomeProps) => {
+  const router = useRouter();
+  const selectedSlug = useRef(null);
+
   const searchOptions = companyNames.concat(companyIds, cities, certificates);
 
   const onSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const inputElement = event.target[0] as HTMLInputElement;
-    console.log(inputElement.value);
+    const slug = selectedSlug.current;
+    slug && router.push(slug);
   };
 
   return (
@@ -34,7 +38,7 @@ const Home = ({ companyNames, companyIds, cities, certificates }: HomeProps) => 
 
             <Grid item xs={5} sx={{ px: '10px' }}>
               <form onSubmit={onSubmit}>
-                <SearchInput searchOptions={searchOptions} />
+                <SearchInput searchOptions={searchOptions} slugRef={selectedSlug} />
               </form>
             </Grid>
           </Grid>
@@ -58,10 +62,10 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      companyNames: ['Turun matkailuyritys Oy'],
-      companyIds: ['123456-7'],
-      cities: ['Turku'],
-      certificates: ['Green Key'],
+      companyNames: [ { label: 'Turun matkailuyritys Oy', slug: 'turun-matkailuyritys-oy' } ],
+      companyIds: [ { label: '123456-7', slug: '123456-7' } ],
+      cities: [ { label:'Turku', slug: 'kunta/turku' } ],
+      certificates: [ { label:'Green Key', slug: 'sert/green-key' } ],
     },
   };
 };

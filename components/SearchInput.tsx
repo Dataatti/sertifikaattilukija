@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import type { MutableRefObject } from 'react';
 import { Autocomplete, Button, InputAdornment, TextField } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
-const SearchInput = ({ searchOptions }: { searchOptions: string[] }) => {
-
+const SearchInput = ({ searchOptions, slugRef }: { searchOptions: SearchOption[], slugRef: MutableRefObject<string | null> }) => {
   return (
     <Autocomplete
       disableClearable
       options={searchOptions}
+      onChange={(event, newValue) => {
+        if (slugRef && 'current' in slugRef) {
+          slugRef.current = newValue.slug;
+        }
+      }}
       renderInput={(params) => (
         <TextField
           {...params}

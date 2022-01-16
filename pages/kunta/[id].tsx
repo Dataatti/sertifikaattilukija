@@ -68,7 +68,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Get data from database
-  const cities = ['Turku'];
+  const cities = ['turku'];
 
   const paths = cities.map((city) => {
     return { params: { id: city } };
