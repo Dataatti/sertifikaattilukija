@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import { Grid, Typography } from '@mui/material';
 import { Search } from '@mui/icons-material';
+import SearchInput from 'components/SearchInput';
 
 const Home: NextPage = () => {
   const onSubmit = (event) => {
@@ -22,7 +23,7 @@ const Home: NextPage = () => {
 
             <Grid item xs={5} sx={{ px: '10px' }}>
               <form onSubmit={onSubmit}>
-                <Search />
+                <SearchInput />
               </form>
             </Grid>
           </Grid>
