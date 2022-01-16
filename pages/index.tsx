@@ -1,30 +1,44 @@
 import type { NextPage } from 'next';
+import { Grid, Typography } from '@mui/material';
+import { Search } from '@mui/icons-material';
 
 const Home: NextPage = () => {
+  const onSubmit = (event) => {
+    event.preventDefault();
+    console.log(event.target[0].value);
+  }
+
   return (
-    <div>
-      <main>
-        <h1>Matkailualan sertifikaattilukija</h1>
+    <main>
+      <Grid container direction="column" sx={{ height: '100vh' }}>
+        <Grid item xs={9} sm={10} md={11}>
+          <Grid container direction="column" sx={{ height: '100%' }} >
+            <Grid container item xs={7} justifyContent="center" alignItems="center">
+              <Typography component="h1" variant="h2" sx={{ width: 'min-content' }}>
+                Matkailualan sertifikaattilukija
+              </Typography>
+              <Search style={{ fontSize: '8rem' }} />
+            </Grid>
 
-        <form onSubmit={(e) => e.preventDefault()}>
-          <input
-            type="search"
-            placeholder="Yrityksen nimi / y-tunnus tai sertifikaatti tai kunta"
-          />
-          <button type="submit">Hae</button>
-        </form>
+            <Grid item xs={5} sx={{ px: '10px' }}>
+              <form onSubmit={onSubmit}>
+                <Search />
+              </form>
+            </Grid>
+          </Grid>
+        </Grid>
 
-        <footer>
-          <p>
+        <Grid item xs={3} sm={2} md={1}>
+          <Typography align="center">
             Business Finlandin mukaan sertifiointi on laadun tae kansainvälisessä kaupassa.
             Matkailualan monimuotoisuus on kuitenkin mahdollistanut sen, että myös sertifikaatin
             tarjoajia on hyvin paljon. Ideana on tuottaa nyt hankalasti ja pirstoutuneena oleva
             tieto yhteen paikkaan kaikkien toimijoiden avoimesti saataville.
-          </p>
-        </footer>
-      </main>
-    </div>
-  );
+          </Typography>
+        </Grid>
+      </Grid>
+    </main>
+   );
 };
 
 export default Home;
