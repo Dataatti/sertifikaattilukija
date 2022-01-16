@@ -1,4 +1,5 @@
-import type { NextPage } from 'next';
+import type { GetStaticProps } from 'next';
+import type { ChangeEvent } from 'react';
 import { Grid, Typography } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import SearchInput from 'components/SearchInput';
@@ -10,19 +11,20 @@ interface HomeProps {
   certificates: string[];
 }
 
-const Home: NextPage<HomeProps> = ({ companyNames, companyIds, cities, certificates }) => {
+const Home = ({ companyNames, companyIds, cities, certificates }: HomeProps) => {
   const searchOptions = companyNames.concat(companyIds, cities, certificates);
 
-  const onSubmit = (event) => {
+  const onSubmit = (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(event.target[0].value);
-  }
+    const inputElement = event.target[0] as HTMLInputElement;
+    console.log(inputElement.value);
+  };
 
   return (
     <main>
       <Grid container direction="column" sx={{ height: '100vh' }}>
         <Grid item xs={9} sm={10} md={11}>
-          <Grid container direction="column" sx={{ height: '100%' }} >
+          <Grid container direction="column" sx={{ height: '100%' }}>
             <Grid container item xs={7} justifyContent="center" alignItems="center">
               <Typography component="h1" variant="h2" sx={{ width: 'min-content' }}>
                 Matkailualan sertifikaattilukija
@@ -48,18 +50,20 @@ const Home: NextPage<HomeProps> = ({ companyNames, companyIds, cities, certifica
         </Grid>
       </Grid>
     </main>
-   );
+  );
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async () => {
+  // Get data from database
+
   return {
     props: {
       companyNames: ['Turun matkailuyritys Oy'],
       companyIds: ['123456-7'],
       cities: ['Turku'],
-      certificates: ['Green Key']
-    }
-  }
+      certificates: ['Green Key'],
+    },
+  };
 };
 
 export default Home;

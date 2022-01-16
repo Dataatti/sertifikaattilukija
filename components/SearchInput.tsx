@@ -2,16 +2,12 @@ import { useState } from 'react';
 import { Autocomplete, Button, InputAdornment, TextField } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
-const SearchInput = ({ searchOptions } : string[] ) => {
-  const [searchTerm, setSearchTerm] = useState('');
+const SearchInput = ({ searchOptions }: { searchOptions: string[] }) => {
 
   return (
     <Autocomplete
-      freeSolo
       disableClearable
       options={searchOptions}
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -20,12 +16,17 @@ const SearchInput = ({ searchOptions } : string[] ) => {
           label="Yrityksen nimi / y-tunnus tai sertifikaatti tai kunta"
           InputProps={{
             ...params.InputProps,
-            sx:{ paddingRight: '1px !important' },
+            sx: { paddingRight: '1px !important' },
             endAdornment: (
               <InputAdornment position="end">
-                <Button type="submit" color="primary" variant="contained" sx={{ height: '54px', borderRadius: '3px' }}>
+                <Button
+                  type="submit"
+                  color="primary"
+                  variant="contained"
+                  sx={{ height: '54px', borderRadius: '3px' }}
+                >
                   Hae
-                  <Search/>
+                  <Search />
                 </Button>
               </InputAdornment>
             ),
@@ -33,7 +34,7 @@ const SearchInput = ({ searchOptions } : string[] ) => {
         />
       )}
     />
-  )
-}
+  );
+};
 
 export default SearchInput;
