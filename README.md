@@ -1,11 +1,11 @@
-# Matkailualan sertifikaattilukija
+# Certificate reader for travel industry
 
-## Tietokantayhteys
+## Database connection
 
-Projekti käyttää tietokantana PostgreSQL:ää.
-Kopioi pohja .env.example ja täytä muuttujat kehitysympäristösi perusteella.
+Project uses PostgreSQL as its database.
+Copy .env.example as .env and change variables according to your own environment
 
 ```
 # PostgreSQL connection url
-DATABASE_CONNECTION_URL=postgres://<KÄYTTÄJÄNIMI>:<SALASANA>@<HOST>:<PORTTI>/<TIETOKANTA>
+DATABASE_CONNECTION_URL=postgres://<USERNAME>:<PASSWORD>@<HOST>:<PORT>/<DATABASE>
 ```
