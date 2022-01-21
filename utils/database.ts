@@ -17,11 +17,13 @@ export const initDatabase = async () => {
     if (!hasTableCompany) {
       await dbClient.schema.createTable('company', (table) => {
         table.increments('id').primary();
-        table.string('name');
+        table.string('name').unique({ indexName: 'name_unique_id' });
         table.string('vat_number');
         table.string('address');
         table.string('city');
+        table.string('post_code');
         table.boolean('blacklisted');
+        table.timestamps(false, true);
       });
     }
     const hasTableCertificate = await dbClient.schema.hasTable('certificate');
@@ -30,6 +32,7 @@ export const initDatabase = async () => {
         table.increments('id').primary();
         table.increments('company_id', { primaryKey: false });
         table.foreign('company_id').references('company.id');
+        table.timestamps(false, true);
       });
     }
   } catch (error) {
