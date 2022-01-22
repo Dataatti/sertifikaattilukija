@@ -1,11 +1,6 @@
 import * as cheerio from 'cheerio';
 import { getErrorMessage, sleep } from 'utils/utils';
 
-type CompanyCertificate = {
-  companyName: string;
-  certificateId: string;
-};
-
 export const scrapeCertificates = (html: string): CompanyCertificate[] => {
   const $ = cheerio.load(html);
   const output: CompanyCertificate[] = [];

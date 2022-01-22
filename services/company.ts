@@ -1,15 +1,6 @@
 import { getErrorMessage, sleep } from 'utils/utils';
 import { dbClient } from 'utils/database';
 
-type Company = {
-  id?: number;
-  name: string;
-  vat_number: string;
-  address?: string;
-  post_code?: string;
-  city?: string;
-};
-
 type ApiCompanyType = {
   businessId: string;
   name: string;
