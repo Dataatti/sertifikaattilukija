@@ -33,10 +33,30 @@ export const initDatabase = async () => {
         table.increments('company_id', { primaryKey: false });
         table.foreign('company_id').references('company.id');
         table.string('certificate_id');
+        table.unique(['company_id', 'certificate_id']);
         table.timestamps(false, true);
       });
     }
   } catch (error) {
     console.error(error);
   }
+};
+
+/**
+ * Upsert company certificates to database. If company name not found, don't insert.
+ * @param input company certificate data to be upserted into database
+ */
+export const upsertCompanyCertificates = async (companySertificates: CompanyCertificate[]) => {
+  const companyNames = companySertificates.map((cert) => cert.companyName?.toLowerCase());
+  const companies = await dbClient('company').whereRaw('name ILIKE ANY (?)', [companyNames]);
+  const upsertableCompanyCertificates = companies?.map((company) => {
+    const cert = companySertificates.find(
+      (cCert) => cCert?.companyName?.toLowerCase() === company?.name?.toLowerCase()
+    );
+    return { certificate_id: cert?.certificateId, company_id: company?.id };
+  });
+  await dbClient('company_certificate')
+    .insert(upsertableCompanyCertificates)
+    .onConflict(['certificate_id', 'company_id'])
+    .ignore();
 };

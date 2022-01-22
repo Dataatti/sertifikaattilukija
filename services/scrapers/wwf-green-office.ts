@@ -1,5 +1,6 @@
 import * as cheerio from 'cheerio';
 import { getErrorMessage, sleep } from 'utils/utils';
+import { upsertCompanyCertificates } from 'utils/database';
 
 export const scrapeCertificates = (html: string): CompanyCertificate[] => {
   const $ = cheerio.load(html);
@@ -26,6 +27,7 @@ export const scrapeWWFGreenOffice = async () => {
       const res = await fetch('https://wwf.fi/greenoffice/asiakkaat/');
       const html = await res.text();
       const data = scrapeCertificates(html);
+      await upsertCompanyCertificates(data);
       return true;
     } catch (error) {
       console.error('Something went wrong with scrapeWWFGreenOffice, try again after delay');
