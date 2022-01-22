@@ -26,9 +26,9 @@ export const initDatabase = async () => {
         table.timestamps(false, true);
       });
     }
-    const hasTableCertificate = await dbClient.schema.hasTable('certificate');
+    const hasTableCertificate = await dbClient.schema.hasTable('company_certificate');
     if (!hasTableCertificate) {
-      await dbClient.schema.createTable('certificate', (table) => {
+      await dbClient.schema.createTable('company_certificate', (table) => {
         table.increments('id').primary();
         table.increments('company_id', { primaryKey: false });
         table.foreign('company_id').references('company.id');
