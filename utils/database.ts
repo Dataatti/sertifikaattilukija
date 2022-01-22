@@ -54,7 +54,6 @@ export const upsertCompanyCertificates = async (companyCertificates: CompanyCert
     const cert = companyCertificates.find(
       (cCert) => cCert?.companyName?.toLowerCase() === company?.name?.toLowerCase()
     );
-
     return { certificate_id: cert?.certificateId, company_id: company?.id };
   });
 
