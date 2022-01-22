@@ -15,8 +15,13 @@ describe('WWF Green Office HTML scraping', function () {
   });
 
   context('scrapeCertificates', () => {
-    it('scrapes html correctly', () => {
-      expect(scrapeCertificates(html)).to.deep.eq(data);
+    it('Scrapes html correctly', () => {
+      const scrapedData = scrapeCertificates(html);
+      expect(scrapedData?.length, 'Correct number of companies are read').to.eq(data?.length);
+      scrapedData.forEach((scraped) => {
+        const foundData = data.find((d) => d.companyName === scraped.companyName);
+        expect(scraped?.companyName).to.eq(foundData?.companyName);
+      });
     });
   });
 });

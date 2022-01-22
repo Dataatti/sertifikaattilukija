@@ -10,9 +10,10 @@
   { "companyName": "Asuntosäätiön Asumisoikeus Oy", "certificateId": "wwf-green-office" },
   { "companyName": "Bauer Media Oy", "certificateId": "wwf-green-office" },
   {
-    "companyName": "Beverage Partners Finland Oy ja Just Brands Oy",
+    "companyName": "Beverage Partners Finland Oy",
     "certificateId": "wwf-green-office"
   },
+  { "companyName": "Just Brands Oy", "certificateId": "wwf-green-office" },
   { "companyName": "Bonum Pankki Oyj", "certificateId": "wwf-green-office" },
   { "companyName": "Borenius Attorneys Ltd", "certificateId": "wwf-green-office" },
   { "companyName": "Business Joensuu Oy", "certificateId": "wwf-green-office" },
@@ -45,7 +46,9 @@
   { "companyName": "If Vakuutus", "certificateId": "wwf-green-office" },
   { "companyName": "ISS Palvelut Oy", "certificateId": "wwf-green-office" },
   { "companyName": "JKMM Arkkitehdit Oy", "certificateId": "wwf-green-office" },
-  { "companyName": "Juuranto Group Oy (Lejos Oy", "certificateId": "wwf-green-office" },
+  { "companyName": "Juuranto Group Oy", "certificateId": "wwf-green-office" },
+  { "companyName": "Lejos Oy", "certificateId": "wwf-green-office" },
+  { "companyName": "Ki-Sal Oy", "certificateId": "wwf-green-office" },
   { "companyName": "Keskinäinen Työeläkevakuutusyhtiö Elo", "certificateId": "wwf-green-office" },
   { "companyName": "Keskinäinen työeläkevakuutusyhtiö Varma", "certificateId": "wwf-green-office" },
   { "companyName": "Kesko Oyj", "certificateId": "wwf-green-office" },
@@ -84,6 +87,8 @@
   { "companyName": "Pääkaupunkiseudun Kierrätyskeskus Oy", "certificateId": "wwf-green-office" },
   { "companyName": "Ramboll Finland Oy", "certificateId": "wwf-green-office" },
   { "companyName": "Red Bev Oy", "certificateId": "wwf-green-office" },
+  { "companyName": "Fine Brands Oy", "certificateId": "wwf-green-office" },
+  { "companyName": "Interbrands Wines & Spirits Oy", "certificateId": "wwf-green-office" },
   { "companyName": "Reima Oy", "certificateId": "wwf-green-office" },
   { "companyName": "Saint-Gobain Finland Oy", "certificateId": "wwf-green-office" },
   { "companyName": "SEA LIFE Helsinki", "certificateId": "wwf-green-office" },
@@ -97,7 +102,8 @@
   { "companyName": "Talenom Oyj", "certificateId": "wwf-green-office" },
   { "companyName": "Taskut Communications Oy", "certificateId": "wwf-green-office" },
   { "companyName": "Tiketti Oy", "certificateId": "wwf-green-office" },
-  { "companyName": "T-Media Oy ja Third Rock Finland Oy", "certificateId": "wwf-green-office" },
+  { "companyName": "T-Media Oy", "certificateId": "wwf-green-office" },
+  { "companyName": "Third Rock Finland Oy", "certificateId": "wwf-green-office" },
   { "companyName": "Trevian Asset Management Oy", "certificateId": "wwf-green-office" },
   {
     "companyName": "Tulevaisuuden Tilitoimisto – Tulevaisuus Oy",
@@ -117,7 +123,6 @@
   { "companyName": "Yleisradio Oy", "certificateId": "wwf-green-office" },
   { "companyName": "Ylva Oy", "certificateId": "wwf-green-office" },
   { "companyName": "Ålands penningautomatförening (Paf)", "certificateId": "wwf-green-office" },
-  { "companyName": "Julkinen sektori ja koulutus", "certificateId": "wwf-green-office" },
   { "companyName": "Hanken – Svenska Handelshögskolan", "certificateId": "wwf-green-office" },
   {
     "companyName": "Helsingin kaupungin kasvatuksen ja koulutuksen toimiala",
@@ -129,7 +134,7 @@
   { "companyName": "Itä-Suomen yliopisto", "certificateId": "wwf-green-office" },
   { "companyName": "Jyväskylän yliopisto", "certificateId": "wwf-green-office" },
   {
-    "companyName": "Kaakkois-Suomen Ammattikorkeakoulu (XAMK )",
+    "companyName": "Kaakkois-Suomen Ammattikorkeakoulu (XAMK",
     "certificateId": "wwf-green-office"
   },
   { "companyName": "Keva", "certificateId": "wwf-green-office" },
