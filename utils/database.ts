@@ -32,6 +32,7 @@ export const initDatabase = async () => {
         table.increments('id').primary();
         table.increments('company_id', { primaryKey: false });
         table.foreign('company_id').references('company.id');
+        table.string('certificate_id');
         table.timestamps(false, true);
       });
     }

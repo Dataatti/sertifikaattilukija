@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getCompanyInformation } from 'services/company';
+import { getErrorMessage } from 'utils/utils';
 
 export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -7,13 +8,7 @@ export const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const ok = await getCompanyInformation();
     res.status(200).json(ok);
   } catch (error) {
-    let message;
-    if (error instanceof Error) {
-      message = error.message;
-    } else {
-      message = String(error);
-    }
-    res.status(500).json({ msg: message });
+    res.status(500).json({ msg: getErrorMessage(error) });
   }
 };
 
