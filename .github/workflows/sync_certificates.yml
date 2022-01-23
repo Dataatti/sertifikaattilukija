@@ -1,0 +1,17 @@
+name: Sync certificates (weekly)
+
+on:
+  schedule:
+    # Every sunday at 23:59
+    - cron: '59 23 * * 7'
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync SFT certificates
+        uses: fjogeleit/http-request-action@master
+        with:
+          url: 'https://sertifikaattilukija.netlify.app/api/sync/sft'
+          method: 'GET'
+          customerHeaders: '{ "Authorization": ${{ secrets.AUTH_TOKEN }} }'
