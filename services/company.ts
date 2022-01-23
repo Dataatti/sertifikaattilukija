@@ -1,15 +1,6 @@
 import { getErrorMessage, sleep } from 'utils/utils';
 import { dbClient } from 'utils/database';
 
-type Company = {
-  id?: number;
-  name: string;
-  vat_number: string;
-  address?: string;
-  post_code?: string;
-  city?: string;
-};
-
 type ApiCompanyType = {
   businessId: string;
   name: string;
@@ -48,7 +39,7 @@ const upsertCompanies = async (companies: Company[]) => {
 /**
  * Get additional company information for single company
  * @param company company data from PRH api
- * @returns company data according our database schema 
+ * @returns company data according our database schema
  */
 const getSingleCompanyAdditionalInformation = async (
   company: ApiCompanyType
@@ -74,17 +65,16 @@ const getSingleCompanyAdditionalInformation = async (
 
 /**
  * Service for fetching travel company information from PRH open api
- * @returns status as boolean, true = ok 
+ * @returns status as boolean, true = ok
  */
 export const getCompanyInformation = async () => {
-  const dev = process.env.NODE_ENV !== 'production';
+  const dev = process.env.NODE_ENV === 'development';
   console.info('START COMPANY INFORMATION FETCHING');
   try {
     // 55 = Majoitus
     // 56 = Ravitsemistoiminta
     // 79 = Matkatoimistojen ja matkanjärjestäjien toiminta; varauspalvelut
     const businessLineCodes = ['55', '56', '79'];
-    const output = [];
     const limit = dev ? 20 : 500;
     for (const lineCode of businessLineCodes) {
       let skip = 0;
@@ -93,6 +83,7 @@ export const getCompanyInformation = async () => {
       // Only ten errors allowed, otherwise break
       while (hasMore && errorCount < 10) {
         try {
+          const output = [];
           // NOTE: PRH API supports only 300 requests per minute for ALL users combined
           const res = await fetch(
             `https://avoindata.prh.fi/bis/v1?totalResults=false&maxResults=${limit}&resultsFrom=${skip}&businessLineCode=${lineCode}&companyRegistrationFrom=2014-02-28`
@@ -107,6 +98,18 @@ export const getCompanyInformation = async () => {
             // Throttle requests to prevent hogging the entire api bandwidth to ourselves
             await sleep(500);
           }
+          // Insert data into DB
+          for (let i = 0; i < 5; i++) {
+            try {
+              await upsertCompanies(output);
+              // All okay, no need to try again
+              break;
+            } catch (error) {
+              // something went wrong, try again after delay
+              console.error(getErrorMessage(error));
+              await sleep(30 * 1000);
+            }
+          }
           skip += limit;
           if (data?.results?.length < limit || (dev && skip >= limit)) {
             hasMore = false;
@@ -120,19 +123,6 @@ export const getCompanyInformation = async () => {
       }
       if (errorCount >= 10) {
         throw new Error('Too many errors with getCompanyInformation');
-      }
-    }
-
-    // Insert data into DB
-    for (let i = 0; i < 5; i++) {
-      try {
-        await upsertCompanies(output);
-        // All okay, no need to try again
-        break;
-      } catch (error) {
-        // something went wrong, try again after delay
-        console.error(getErrorMessage(error));
-        await sleep(30 * 1000);
       }
     }
     console.info('FINISH COMPANY INFORMATION FETCHING');
