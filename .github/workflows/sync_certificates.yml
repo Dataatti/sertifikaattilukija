@@ -1,8 +1,8 @@
-name: Sync certificates (weekly)
+name: Sync certificates (weekly at sunday 23:59)
 
 on:
   schedule:
-    # Every sunday at 23:59
+    # Every Sunday at 23:59
     - cron: '59 23 * * 7'
 
 jobs:
@@ -13,5 +13,11 @@ jobs:
         uses: fjogeleit/http-request-action@master
         with:
           url: 'https://sertifikaattilukija.netlify.app/api/sync/sft'
+          method: 'GET'
+          customerHeaders: '{ "Authorization": ${{ secrets.AUTH_TOKEN }} }'
+      - name: Sync SFT certificates
+        uses: fjogeleit/http-request-action@master
+        with:
+          url: 'https://sertifikaattilukija.netlify.app/api/sync/wwf-green-office'
           method: 'GET'
           customerHeaders: '{ "Authorization": ${{ secrets.AUTH_TOKEN }} }'
