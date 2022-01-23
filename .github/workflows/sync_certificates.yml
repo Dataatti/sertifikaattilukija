@@ -10,14 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Sync SFT certificates
-        uses: fjogeleit/http-request-action@master
-        with:
-          url: 'https://sertifikaattilukija.netlify.app/api/sync/sft'
-          method: 'GET'
-          customerHeaders: '{ "Authorization": ${{ secrets.AUTH_TOKEN }} }'
-      - name: Sync SFT certificates
-        uses: fjogeleit/http-request-action@master
-        with:
-          url: 'https://sertifikaattilukija.netlify.app/api/sync/wwf-green-office'
-          method: 'GET'
-          customerHeaders: '{ "Authorization": ${{ secrets.AUTH_TOKEN }} }'
+        run: |
+          curl --request GET \
+          --url 'https://sertifikaattilukija.netlify.app/api/sync/sft' \
+          --header 'Authorization: ${{ secrets.AUTH_TOKEN }}'
+      - name: Sync wwf green office certificates
+        run: |
+          curl --request GET \
+          --url 'https://sertifikaattilukija.netlify.app/api/sync/wwf-green-office' \
+          --header 'Authorization: ${{ secrets.AUTH_TOKEN }}'
