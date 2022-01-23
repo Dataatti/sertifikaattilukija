@@ -40,14 +40,15 @@ const fetchSFT = async (page: number) => {
  */
 const fetchAllSFT = async () => {
   let i = 1;
-
+  let hasMore = true;
   let SFTCertificates: SFTCertificate[] = [];
-  while (i < 100) {
+
+  while (hasMore) {
     const data: SFTCertificate[] = await fetchSFT(i);
     if (data) {
       SFTCertificates = [...SFTCertificates, ...data];
     } else {
-      break;
+      hasMore = false;
     }
     i++;
   }
