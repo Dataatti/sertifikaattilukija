@@ -1,6 +1,8 @@
 import { upsertCompanyCertificates } from 'utils/database';
-import { getErrorMessage, sleep } from 'utils/utils';
 
+/**
+ * SFT api types
+ */
 type SFTCertificate = {
   id: string;
   name: string;
@@ -29,9 +31,16 @@ const fetchSFT = async (page: number) => {
   }
 };
 
+/**
+ * Function for fetching all sft sertificates
+ * SFT api doesn't have metadata or anything to know
+ * how many certificates are there so we have to fetch until
+ * api returns 404
+ * @returns
+ */
 const fetchAllSFT = async () => {
   let i = 1;
-  // replace
+
   let SFTCertificates: SFTCertificate[] = [];
   while (i < 100) {
     const data: SFTCertificate[] = await fetchSFT(i);

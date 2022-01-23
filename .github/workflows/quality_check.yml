@@ -3,17 +3,17 @@ name: Quality check (lint files and run e2e tests)
 on: [pull_request]
 
 jobs:
-    lint_files:
-        runs-on: 'ubuntu-latest'
-        defaults:
-            run:
-                working-directory: ./
-        steps:
-            - uses: actions/checkout@v2
-            - name: Cypress run
-              uses: cypress-io/github-action@v2
-              with:
-                  working-directory: ./
-                  # next build also checks for TypeScript errors and lints files
-                  build: npm run build
-                  start: npm start
+  lint_files:
+    runs-on: 'ubuntu-latest'
+    defaults:
+      run:
+        working-directory: ./
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          working-directory: ./
+          # next build also checks for TypeScript errors and lints files
+          build: npm run build
+          start: npm start
