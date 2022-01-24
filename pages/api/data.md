@@ -2,7 +2,7 @@
 
 Find company information based on search parameters
 
-**URL** : `/api/search`
+**URL** : `/api/data`
 
 **Query Parameters** :
 
@@ -21,12 +21,6 @@ All the previous can be combined to make more complex search queries.
 For example: `city=turku,helsinki&certificate=sft` would return all companies with SFT certificate from the cities Turku and Helsinki.
 
 **Method** : `GET`
-
-**Auth required** : YES
-
-**Permissions required** :
-
-`authorization` header must be set as the `AUTH_TOKEN` from environment variables
 
 ## Success Response
 
@@ -65,9 +59,3 @@ For example: `city=turku,helsinki&certificate=sft` would return all companies wi
 ```json
 { "msg": "Error message" }
 ```
-
-## Notes
-
-There are security issues:
-
-- Calling this API from client exposes `AUTH_TOKEN` to user, server side rendering or other equivalent method should be preferred. 
