@@ -1,4 +1,4 @@
-# Search API
+# Data API
 
 Find company information based on search parameters
 
