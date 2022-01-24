@@ -6,7 +6,7 @@ on:
     - cron: '59 23 * * 7'
 
 jobs:
-  deployment:
+  sync:
     runs-on: ubuntu-latest
     steps:
       - name: Sync SFT certificates
