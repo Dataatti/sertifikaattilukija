@@ -1,3 +1,4 @@
+# https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
 name: Sync certificates (weekly at sunday 23:59)
 
 on:
