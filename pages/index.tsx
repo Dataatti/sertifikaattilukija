@@ -1,7 +1,7 @@
 import type { GetStaticProps } from 'next';
 import { ChangeEvent, useState, useRef } from 'react';
 import { Autocomplete, Button, Grid, TextField, Typography } from '@mui/material';
-import { dbClient } from 'utils/database';
+import { getCompanies } from 'utils/database';
 import cities from 'enums/cities.json';
 import certificates from 'enums/certificates.json';
 import CompanyListItem from 'components/CompanyListItem';
@@ -70,7 +70,7 @@ const Home = ({ firstCompanies }: HomeProps) => {
             </Grid>
           </form>
           <Grid container>
-            {companies.map((company) => (
+            {companies?.map((company) => (
               <CompanyListItem company={company} key={company.name} />
             ))}
           </Grid>
@@ -91,27 +91,13 @@ const Home = ({ firstCompanies }: HomeProps) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   // Get data from database
-  const firstCompanies = await dbClient('company')
-    .leftJoin('company_certificate', 'company.id', 'company_certificate.company_id')
-    .whereNull('company.blacklisted')
-    .orWhere('company.blacklisted', false)
-    .select([
-      'company.id as companyId',
-      'company.name as name',
-      'company.vat_number as vatNumber',
-      'company.address as address',
-      'company.post_code as postCode',
-      'company.city as city',
-      dbClient.raw(
-        'ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as certificateId'
-      ),
-    ])
-    .groupBy('company.id', 'company.name')
-    .limit(100);
+  const { companies } = await getCompanies(50);
+
+  console.log('firstCompanies', companies);
 
   return {
     props: {
-      firstCompanies,
+      firstCompanies: companies,
     },
   };
 };

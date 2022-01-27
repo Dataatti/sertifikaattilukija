@@ -2,7 +2,7 @@ import type { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Grid, Typography, Link as MuiLink } from '@mui/material';
-import { getCompany } from 'utils/database';
+import { getCompanies } from 'utils/database';
 import certificates from 'enums/certificates.json';
 
 const CompanyResult = ({ company }: { company: Company }) => {
@@ -49,11 +49,11 @@ const CompanyResult = ({ company }: { company: Company }) => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const vatNumber = params?.id as string;
-  const company = await getCompany(vatNumber);
+  const { companies } = await getCompanies(1, 0, vatNumber);
 
   return {
     props: {
-      company,
+      company: companies[0],
     },
   };
 };
