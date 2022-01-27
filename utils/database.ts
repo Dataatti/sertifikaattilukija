@@ -27,13 +27,13 @@ const dbConfig = {
  * export default databaseHoc()(handler)
  */
 export const databaseHoc = () => {
-  return (fn: (req: NextRequestWithDb, res: NextApiResponse) => Promise<void>) =>
+  return (fn: (req: NextRequestWithDb, res: NextApiResponse) => Promise<any>) =>
     async (req: NextRequestWithDb, res: NextApiResponse) => {
       const db = knex(dbConfig);
       req.db = db;
-      await fn(req, res);
+      const result = await fn(req, res);
       await req.db.destroy();
-      return;
+      return result;
     };
 };
 

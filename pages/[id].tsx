@@ -1,8 +1,8 @@
-import type { GetStaticProps, GetStaticPaths, NextApiRequest } from 'next';
+import type { GetStaticProps, GetStaticPaths, NextApiRequest, NextApiResponse } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Grid, Typography, Link as MuiLink } from '@mui/material';
-import { databaseHoc, getCompanies } from 'utils/database';
+import { databaseHoc, getCompanies, NextRequestWithDb } from 'utils/database';
 import { sleep } from 'utils/utils';
 
 import certificates from 'enums/certificates.json';
@@ -50,24 +50,19 @@ const CompanyResult = ({ company }: { company: Company }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  try {
-    const vatNumber = params?.id as string;
+  const vatNumber = params?.id as string;
 
-    const res = await fetch(`http://localhost:3000/api/data?name=${vatNumber}`);
-    const { data: company } = await res.json();
+  const hoc = databaseHoc()(async (req) => {
+    const { companies } = await getCompanies(req.db, 1, 0, vatNumber);
+    return companies;
+  });
+  const companies = await hoc({} as NextRequestWithDb, {} as NextApiResponse);
 
-    return {
-      props: {
-        company: company?.[0],
-      },
-    };
-  } catch (err) {
-    return {
-      props: {
-        error: JSON.stringify(err),
-      },
-    };
-  }
+  return {
+    props: {
+      company: companies[0],
+    },
+  };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {

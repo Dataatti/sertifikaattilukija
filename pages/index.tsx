@@ -1,7 +1,7 @@
-import type { GetStaticProps } from 'next';
+import type { GetStaticProps, NextApiResponse } from 'next';
 import { ChangeEvent, useState, useRef } from 'react';
 import { Autocomplete, Button, Grid, TextField, Typography } from '@mui/material';
-import { getCompanies } from 'utils/database';
+import { databaseHoc, getCompanies, NextRequestWithDb } from 'utils/database';
 import cities from 'enums/cities.json';
 import certificates from 'enums/certificates.json';
 import CompanyListItem from 'components/CompanyListItem';
@@ -91,24 +91,16 @@ const Home = ({ firstCompanies }: HomeProps) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   // Get data from database
-  try {
-    const res = await fetch('http://localhost:3000/api/data?limit=50');
-    const { data: companies } = await res.json();
-    console.log('firstCompanies', companies);
-
-    return {
-      props: {
-        firstCompanies: companies,
-      },
-    };
-  } catch (err) {
-    return {
-      props: {
-        error: err,
-        firstCompanies: [],
-      },
-    };
-  }
+  const hoc = databaseHoc()(async (req) => {
+    const { companies } = await getCompanies(req.db, 50);
+    return companies;
+  });
+  const firstCompanies = await hoc({} as NextRequestWithDb, {} as NextApiResponse);
+  return {
+    props: {
+      firstCompanies,
+    },
+  };
 };
 
 export default Home;
