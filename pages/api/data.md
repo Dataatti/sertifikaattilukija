@@ -24,8 +24,6 @@ For example: `city=turku,helsinki&certificate=sft` would return all companies wi
 
 ## Success Response
 
-**Condition** : If token is valid.
-
 **Code** : `200 OK`
 
 **Content example**

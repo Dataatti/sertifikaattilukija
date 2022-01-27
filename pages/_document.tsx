@@ -9,6 +9,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang="fi">
         <Head>
+          <meta name="description" content="Matkailualan sertifikaattilukija" />
           {/* PWA primary color */}
           <meta name="theme-color" content={theme.palette.primary.main} />
           <link
