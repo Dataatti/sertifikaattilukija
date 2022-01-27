@@ -1,22 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { checkCors, corsOptions } from 'utils/cors';
-import { dbClient } from 'utils/database';
+import { getCompanies } from 'utils/database';
 import { getErrorMessage } from 'utils/utils';
-
-type Data = {
-  companyId: number;
-  name: string;
-  vatNumber: string;
-  address: string;
-  postCode: string;
-  city: string;
-  certificateId: string[];
-};
+import { checkCors, corsOptions } from 'utils/cors';
 
 type ResponseData = {
   totalResults: number;
   resultsFrom: number;
-  data: Data[];
+  data: Company[];
 };
 
 /**
@@ -34,60 +24,14 @@ export const handler = async (
     const _city = city ? (city as string).split(',') : undefined;
     const _certificate = certificate ? (certificate as string).split(',') : undefined;
     const _limit = limit ? parseInt(limit as string) : undefined;
-    const _offset = offset ? parseInt(offset as string) : 0;
+    const _offset = offset ? parseInt(offset as string) : undefined;
 
-    const query = dbClient('company')
-      .leftJoin('company_certificate', 'company.id', 'company_certificate.company_id')
-      .where((builder) => {
-        builder.whereNull('company.blacklisted').orWhere('company.blacklisted', false);
-      })
-      .andWhere((builder) => {
-        if (name) {
-          builder
-            .whereRaw('company.name ILIKE ?', [`%${name}%`])
-            .orWhereRaw('company.vat_number ILIKE ?', [`%${name}%`]);
-        }
-      })
-      .andWhere((builder) => {
-        if (_city) {
-          builder.whereRaw('company.city ILIKE ANY (?)', [_city]);
-        }
-      })
-      .andWhere((builder) => {
-        if (_certificate) {
-          builder.whereRaw('company_certificate.certificate_id ILIKE ANY (?)', [_certificate]);
-        }
-      });
+    const { companies, total } = await getCompanies(_limit, _offset, name, _certificate, _city);
 
-    // Get total count ignoring limit
-    const totalQuery = await query.clone().count();
-    const total = totalQuery?.[0]?.count;
-
-    query
-      .select([
-        'company.id as companyId',
-        'company.name as name',
-        'company.vat_number as vatNumber',
-        'company.address as address',
-        'company.post_code as postCode',
-        'company.city as city',
-        dbClient.raw(
-          'ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as certificateId'
-        ),
-      ])
-      .groupBy('company.id', 'company.name')
-      .orderBy('company.name', 'asc')
-      .offset(_offset);
-
-    if (_limit) {
-      query.limit(_limit);
-    }
-
-    const results = await query;
     const resultObject = {
       totalResults: total ? parseInt(total as string) : 0,
-      resultsFrom: _offset ? _offset : 0,
-      data: results,
+      resultsFrom: _offset ?? 0,
+      data: companies,
     };
 
     res.status(200).json(resultObject);
