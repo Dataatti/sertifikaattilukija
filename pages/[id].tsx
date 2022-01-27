@@ -2,8 +2,9 @@ import type { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Grid, Typography, Link as MuiLink } from '@mui/material';
+import { dbClient } from 'utils/database';
 
-const CompanyResult = ({ company }: { company: Company }) => {
+const CompanyResult = ({ company, certificates }: { company: Company, certificates: string[] }) => {
   return (
     <main>
       <Head>
@@ -16,22 +17,20 @@ const CompanyResult = ({ company }: { company: Company }) => {
             {company.name}
           </Typography>
           <Typography>{company.address}</Typography>
-          <Link href={`/kunta/${company.city}`} passHref>
-            <MuiLink>{company.city}</MuiLink>
-          </Link>
-          <Typography>{company.businessId}</Typography>
+          <Typography>{company.city}</Typography>
+          <Typography>{company.vatNumber}</Typography>
         </Grid>
         <Grid item>
           <Typography component="h2" variant="h3">
             Yrityksen sertifikaatit
           </Typography>
           <Grid container>
-            {company.certificates.map((certificate) => {
+            {certificates.map((certificate) => {
               return (
-                <Grid item key={certificate.slug}>
-                  <img src={certificate.logoUrl} alt={certificate.name} height="100px" />
-                  <Link href={`/sert/${certificate.slug}`} passHref>
-                    <MuiLink>{certificate.name}</MuiLink>
+                <Grid item key={certificate}>
+                  {/* <img src={certificate.logoUrl} alt={certificate.name} height="100px" /> */}
+                  <Link href={`/sert/${certificate}`} passHref>
+                    <MuiLink>{certificate}</MuiLink>
                   </Link>
                 </Grid>
               );
@@ -44,39 +43,40 @@ const CompanyResult = ({ company }: { company: Company }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  // Get data from database with params.id as company slug / business id
+  const vat_number = params?.id;
+  const company = await dbClient('company')
+    .column(
+      'id',
+      'name',
+      'vat_number',
+      'address',
+      'city',
+      'post_code'
+    )
+    .where('vat_number', vat_number)
+    .first();
+
+  const certificates = await dbClient('company_certificate').column('certificate_id').where('company_id', company.id);
+
+  const certificateArray = certificates.map((certificate) => certificate.certificate_id);
 
   return {
     props: {
-      company: {
-        name: 'Turun matkailuyritys Oy',
-        businessId: '123456-7',
-        city: 'Turku',
-        address: 'Yliopistonkatu 48A, 20100 Turku',
-        certificates: [
-          {
-            name: 'Green Key',
-            logoUrl: 'https://picsum.photos/500',
-            slug: 'green-key',
-          },
-        ],
-      },
+      company: company,
+      certificates: certificateArray
     },
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Get data from database
-  const companySlugs = ['turun-matkailuyritys-oy'];
-  const businessIds = ['123456-7'];
+  const companyVats = await dbClient('company').whereNull('blacklisted').column('vat_number');
 
-  const paths = companySlugs.concat(businessIds);
-  const pathsInParamsFormat = paths.map((path) => {
-    return { params: { id: path } };
+  const paths = companyVats.map(({vat_number}) => {
+    return { params: { id: vat_number } };
   });
 
   return {
-    paths: pathsInParamsFormat,
+    paths: paths,
     fallback: false,
   };
 };
