@@ -76,7 +76,7 @@ export const initDatabase = async (db: Knex<any, unknown[]>) => {
  * @param companyCertificates company certificate data to be upserted into database
  */
 export const upsertCompanyCertificates = async (
-  companyCertificates: CompanyCertificate[],
+  companyCertificates: ApiCompanyCertificate[],
   db: Knex<any, unknown[]>
 ) => {
   const companyNames = companyCertificates.map((cert) => cert.companyName?.toLowerCase());

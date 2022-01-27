@@ -3,9 +3,9 @@ import { getErrorMessage, sleep } from 'utils/utils';
 import { upsertCompanyCertificates } from 'utils/database';
 import type { Knex } from 'knex';
 
-export const scrapeCertificates = (html: string): CompanyCertificate[] => {
+export const scrapeCertificates = (html: string): ApiCompanyCertificate[] => {
   const $ = cheerio.load(html);
-  const output: CompanyCertificate[] = [];
+  const output: ApiCompanyCertificate[] = [];
   $(
     '#content .container-fluid.text-block.go-pillar .text-block__text > p:nth-of-type(-n+2) > a'
   ).each((index, node) => {

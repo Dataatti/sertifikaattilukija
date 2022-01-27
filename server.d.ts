@@ -1,4 +1,4 @@
-type Company = {
+type ApiCompany = {
   id?: number;
   name: string;
   vat_number: string;
@@ -7,7 +7,7 @@ type Company = {
   city?: string;
 };
 
-type CompanyCertificate = {
+type ApiCompanyCertificate = {
   companyName: string;
   certificateId: string;
 };

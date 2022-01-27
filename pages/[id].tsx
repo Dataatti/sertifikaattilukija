@@ -1,8 +1,10 @@
-import type { GetStaticProps, GetStaticPaths } from 'next';
+import type { GetStaticProps, GetStaticPaths, NextApiRequest } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Grid, Typography, Link as MuiLink } from '@mui/material';
-import { getCompanies } from 'utils/database';
+import { databaseHoc, getCompanies } from 'utils/database';
+import { sleep } from 'utils/utils';
+
 import certificates from 'enums/certificates.json';
 
 const CompanyResult = ({ company }: { company: Company }) => {
@@ -48,14 +50,24 @@ const CompanyResult = ({ company }: { company: Company }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const vatNumber = params?.id as string;
-  const { companies } = await getCompanies(1, 0, vatNumber);
+  try {
+    const vatNumber = params?.id as string;
 
-  return {
-    props: {
-      company: companies[0],
-    },
-  };
+    const res = await fetch(`http://localhost:3000/api/data?name=${vatNumber}`);
+    const { data: company } = await res.json();
+
+    return {
+      props: {
+        company: company?.[0],
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        error: JSON.stringify(err),
+      },
+    };
+  }
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {

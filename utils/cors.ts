@@ -6,6 +6,10 @@ const whitelist = ['*'];
 
 export const corsOptions: CorsOptions = {
   origin: function (origin, callback) {
+    if (whitelist.includes('*')) {
+      callback(null, true);
+      return;
+    }
     if (whitelist.indexOf(origin || '') !== -1) {
       callback(null, true);
     } else {

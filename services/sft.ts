@@ -68,7 +68,7 @@ export const syncSFTCertificates = async (db: Knex<any, unknown[]>) => {
     throw new Error('No SFT certificates found');
   }
 
-  const companyCertificates: CompanyCertificate[] = SFTCertificates.map((cert) => ({
+  const companyCertificates: ApiCompanyCertificate[] = SFTCertificates.map((cert) => ({
     companyName: cert.name,
     certificateId: 'sft',
   }));

@@ -91,15 +91,24 @@ const Home = ({ firstCompanies }: HomeProps) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   // Get data from database
-  const { companies } = await getCompanies(50);
+  try {
+    const res = await fetch('http://localhost:3000/api/data?limit=50');
+    const { data: companies } = await res.json();
+    console.log('firstCompanies', companies);
 
-  console.log('firstCompanies', companies);
-
-  return {
-    props: {
-      firstCompanies: companies,
-    },
-  };
+    return {
+      props: {
+        firstCompanies: companies,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        error: err,
+        firstCompanies: [],
+      },
+    };
+  }
 };
 
 export default Home;
