@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Autocomplete, Button, InputAdornment, TextField } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
-const SearchInput = ({ searchOptions } : string[] ) => {
+const SearchInput = ({ searchOptions } : { searchOptions: string[] } ) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
