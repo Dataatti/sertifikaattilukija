@@ -1,15 +1,9 @@
 import type { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { Grid, Typography, Link as MuiLink } from '@mui/material';
-import CompanyListItem from 'components/CompanyListItem';
+import certificates from 'enums/certificates.json';
 
-const CertificateResult = ({
-  companies,
-  certificate,
-}: {
-  companies: Company[];
-  certificate: Certificate;
-}) => {
+const CertificateResult = ({ certificate }: { certificate: Certificate }) => {
   return (
     <main>
       <Head>
@@ -21,6 +15,8 @@ const CertificateResult = ({
           <Typography component="h1" variant="h3">
             {certificate.name}
           </Typography>
+          <img src={certificate.logoUrl} alt={certificate.name} height="100px" />
+          <Typography>{certificate.description}</Typography>
           <Typography>
             Lisätietoa:
             <MuiLink href={certificate.website}>{certificate.website}</MuiLink>
@@ -30,15 +26,6 @@ const CertificateResult = ({
           <Typography component="h2" variant="h3">
             Sertifikaatin omaavat yritykset
           </Typography>
-          <Grid container>
-            {companies.map((company) => {
-              return (
-                <Grid item key={company.slug}>
-                  <CompanyListItem company={company} />
-                </Grid>
-              );
-            })}
-          </Grid>
         </Grid>
       </Grid>
     </main>
@@ -46,50 +33,24 @@ const CertificateResult = ({
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  // Get data from database with params.id as company certificate slug / city name
+  const certificate = certificates.find((certificate) => certificate.id === params?.id);
 
   return {
     props: {
-      companies: [
-        {
-          name: 'Turun matkailuyritys Oy',
-          city: 'Turku',
-          slug: 'turun-matkailuyritys-oy',
-          certificates: [
-            {
-              name: 'Green Key',
-              logoUrl: 'https://picsum.photos/500',
-              slug: 'green-key',
-            },
-            {
-              name: 'Joutsenmerkki',
-              logoUrl: 'https://picsum.photos/500',
-              slug: 'joutsenmerkki',
-            },
-          ],
-        },
-      ],
-      certificate: {
-        name: 'Green Key',
-        logoUrl: 'https://picsum.photos/500',
-        website: 'https://greenkey.fi',
-      },
+      certificate: certificate,
     },
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // Get data from database
-  const certificateSlugs = ['green-key'];
-  const cities = ['Turku'];
+  const certificateIds = certificates.map((certificate) => certificate.id);
 
-  const paths = certificateSlugs.concat(cities);
-  const pathsInParamsFormat = paths.map((path) => {
-    return { params: { id: path } };
+  const paths = certificateIds.map((certificateId) => {
+    return { params: { id: certificateId } };
   });
 
   return {
-    paths: pathsInParamsFormat,
+    paths: paths,
     fallback: false,
   };
 };
