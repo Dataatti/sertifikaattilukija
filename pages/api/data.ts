@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getCompanies } from 'utils/database';
 import { getErrorMessage } from 'utils/utils';
+import { checkCors, corsOptions } from 'utils/cors';
 
 type ResponseData = {
   totalResults: number;
@@ -18,6 +19,7 @@ export const handler = async (
   res: NextApiResponse<ResponseData | { msg: string }>
 ) => {
   try {
+    await checkCors(req, res, corsOptions);
     const { name, city, certificate, limit, offset } = req.query;
     const _city = city ? (city as string).split(',') : undefined;
     const _certificate = certificate ? (certificate as string).split(',') : undefined;
