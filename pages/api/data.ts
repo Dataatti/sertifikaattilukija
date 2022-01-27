@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { dbClient } from 'utils/database';
+import { databaseHoc, NextRequestWithDb } from 'utils/database';
 import { getErrorMessage } from 'utils/utils';
 
 type Data = {
@@ -24,7 +24,7 @@ type ResponseData = {
  * @param res Next.js response
  */
 export const handler = async (
-  req: NextApiRequest,
+  req: NextRequestWithDb,
   res: NextApiResponse<ResponseData | { msg: string }>
 ) => {
   try {
@@ -34,7 +34,8 @@ export const handler = async (
     const _limit = limit ? parseInt(limit as string) : undefined;
     const _offset = offset ? parseInt(offset as string) : 0;
 
-    const query = dbClient('company')
+    const query = req
+      .db('company')
       .leftJoin('company_certificate', 'company.id', 'company_certificate.company_id')
       .where((builder) => {
         builder.whereNull('company.blacklisted').orWhere('company.blacklisted', false);
@@ -69,7 +70,7 @@ export const handler = async (
         'company.address as address',
         'company.post_code as postCode',
         'company.city as city',
-        dbClient.raw(
+        req.db.raw(
           'ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as certificateId'
         ),
       ])
@@ -94,4 +95,4 @@ export const handler = async (
   }
 };
 
-export default handler;
+export default databaseHoc()(handler);
