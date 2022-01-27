@@ -1,46 +1,78 @@
 import type { GetStaticProps } from 'next';
-import { ChangeEvent, useRef } from 'react';
-import { useRouter } from 'next/router';
-import { Grid, Typography } from '@mui/material';
-import { Search } from '@mui/icons-material';
-import SearchInput from 'components/SearchInput';
+import { ChangeEvent, useState, useRef } from 'react';
+import { Autocomplete, Button, Grid, TextField, Typography } from '@mui/material';
+import { dbClient } from 'utils/database';
+import cities from 'enums/cities.json';
+import certificates from 'enums/certificates.json';
+import CompanyListItem from 'components/CompanyListItem';
 
 interface HomeProps {
-  companyNames: SearchOption[];
-  companyIds: SearchOption[];
-  cities: SearchOption[];
-  certificates: SearchOption[];
+  firstCompanies: Company[];
 }
 
-const Home = ({ companyNames, companyIds, cities, certificates }: HomeProps) => {
-  const router = useRouter();
-  const selectedSlug = useRef(null);
+const Home = ({ firstCompanies }: HomeProps) => {
+  const [companies, setCompanies] = useState(firstCompanies);
+  const certRef = useRef<string | null>(null);
 
-  const searchOptions = companyNames.concat(companyIds, cities, certificates);
-
-  const onSubmit = (event: ChangeEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const slug = selectedSlug.current;
-    slug && router.push(slug);
+    const query = ['certificate', 'name', 'city'].reduce((result: string[], key) => {
+      const input = event.target?.[key] as HTMLInputElement;
+      const value = input?.value;
+      if (value) {
+        if (key === 'certificate') {
+          result.push(`${key}=${certRef.current}`);
+        } else {
+          result.push(`${key}=${value}`);
+        }
+      }
+      return result;
+    }, []);
+    const result = await fetch(`/api/data?${query.join('&')}`);
+    const { data } = await result.json();
+    setCompanies(data);
   };
 
   return (
     <main>
-      <Grid container direction="column" sx={{ height: '100vh' }}>
+      <Grid container direction="column" sx={{ minHeight: '100vh' }}>
         <Grid item xs={9} sm={10} md={11}>
-          <Grid container direction="column" sx={{ height: '100%' }}>
-            <Grid container item xs={7} justifyContent="center" alignItems="center">
-              <Typography component="h1" variant="h2" sx={{ width: 'min-content' }}>
-                Matkailualan sertifikaattilukija
-              </Typography>
-              <Search style={{ fontSize: '8rem' }} />
+          <form onSubmit={onSubmit}>
+            <Grid container sx={{ my: '10px' }}>
+              <Grid item>
+                <TextField id="name" label="Yrityksen nimi tai y-tunnus" />
+              </Grid>
+              <Grid item>
+                <Autocomplete
+                  disableClearable
+                  id="certificate"
+                  options={certificates}
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => <TextField {...params} label="Sertifikaatti" />}
+                  onChange={(event, newValue) => {
+                    if (certRef && 'current' in certRef) {
+                      certRef.current = newValue.id;
+                    }
+                  }}
+                />
+              </Grid>
+              <Grid item>
+                <Autocomplete
+                  disableClearable
+                  id="city"
+                  options={cities.cities}
+                  renderInput={(params) => <TextField {...params} label="Kaupunki" />}
+                />
+              </Grid>
+              <Grid item>
+                <Button type="submit">Hae</Button>
+              </Grid>
             </Grid>
-
-            <Grid item xs={5} sx={{ px: '10px' }}>
-              <form onSubmit={onSubmit}>
-                <SearchInput searchOptions={searchOptions} slugRef={selectedSlug} />
-              </form>
-            </Grid>
+          </form>
+          <Grid container>
+            {companies.map((company) => (
+              <CompanyListItem company={company} key={company.name} />
+            ))}
           </Grid>
         </Grid>
 
@@ -59,13 +91,27 @@ const Home = ({ companyNames, companyIds, cities, certificates }: HomeProps) => 
 
 export const getStaticProps: GetStaticProps = async () => {
   // Get data from database
+  const firstCompanies = await dbClient('company')
+    .leftJoin('company_certificate', 'company.id', 'company_certificate.company_id')
+    .whereNull('company.blacklisted')
+    .orWhere('company.blacklisted', false)
+    .select([
+      'company.id as companyId',
+      'company.name as name',
+      'company.vat_number as vatNumber',
+      'company.address as address',
+      'company.post_code as postCode',
+      'company.city as city',
+      dbClient.raw(
+        'ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as certificateId'
+      ),
+    ])
+    .groupBy('company.id', 'company.name')
+    .limit(100);
 
   return {
     props: {
-      companyNames: [ { label: 'Turun matkailuyritys Oy', slug: 'turun-matkailuyritys-oy' } ],
-      companyIds: [ { label: '123456-7', slug: '123456-7' } ],
-      cities: [ { label:'Turku', slug: 'kunta/turku' } ],
-      certificates: [ { label:'Green Key', slug: 'sert/green-key' } ],
+      firstCompanies: firstCompanies,
     },
   };
 };

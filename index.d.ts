@@ -1,24 +1,21 @@
 interface Company {
+  companyId: number;
   name: string;
-  businessId: string;
+  vatNumber: string;
   city: string;
   address: string;
-  slug: string;
-  certificates: Certificate[];
+  postCode: string;
+  certificateId: string[];
 }
 
 interface Certificate {
+  id: string;
   name: string;
   logoUrl: string;
-  slug: string;
   website: string;
+  description: string;
 }
 
 interface City {
   name: string;
-}
-
-interface SearchOption {
-  label: string;
-  slug: string;
 }

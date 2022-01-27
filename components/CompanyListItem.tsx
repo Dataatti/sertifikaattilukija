@@ -1,31 +1,29 @@
 import Link from 'next/link';
-import { Link as MuiLink } from '@mui/material';
+import { Grid, Link as MuiLink, Typography } from '@mui/material';
+import certificates from 'enums/certificates.json';
 
-const CompanyListItem = ({ company, hideCity }: { company: Company, hideCity?: boolean }) => {
+const CompanyListItem = ({ company }: { company: Company }) => {
   return (
-    <>
-      <Link href={`/${company.slug}`} passHref>
-        <MuiLink>
-          {company.name}
-        </MuiLink>
+    <Grid item>
+      <Link href={`/${company.vatNumber}`} passHref>
+        <MuiLink>{company.name}</MuiLink>
       </Link>
-      {!hideCity &&
-        <Link href={`/kunta/${company.city}`} passHref>
-          <MuiLink>{company.city}</MuiLink>
-        </Link>
-      }
+      <Typography>{company.city}</Typography>
       <div>
-        {company.certificates.map((certificate) => {
-          return (
-            <Link href={`/sert/${certificate.slug}`} passHref key={certificate.slug}>
-              <MuiLink>
-                <img src={certificate.logoUrl} alt={certificate.name} height="100px" />
-              </MuiLink>
-            </Link>
-          );
+        {company.certificateId?.map((id) => {
+          const certificate = certificates.find((certificate) => certificate.id === id);
+          if (certificate) {
+            return (
+              <Link href={`/sert/${certificate.id}`} passHref key={certificate.id}>
+                <MuiLink>
+                  <img src={certificate.logoUrl} alt={certificate.name} height="100px" />
+                </MuiLink>
+              </Link>
+            );
+          }
         })}
       </div>
-    </>
+    </Grid>
   );
 };
 
