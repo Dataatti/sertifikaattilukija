@@ -63,31 +63,41 @@ export const upsertCompanyCertificates = async (companyCertificates: CompanyCert
     .ignore();
 };
 
-export const getCompany = async (vatNumber: string) => {
-  const company = await dbClient('company')
+export const getCompanies = async (
+  limit?: number,
+  offset?: number,
+  name?: string | string[],
+  certificate?: string[],
+  city?: string[]
+) => {
+  const query = dbClient('company')
     .leftJoin('company_certificate', 'company.id', 'company_certificate.company_id')
-    .where('company.vat_number', vatNumber)
-    .select([
-      'company.id as companyId',
-      'company.name as name',
-      'company.vat_number as vatNumber',
-      'company.address as address',
-      'company.post_code as postCode',
-      'company.city as city',
-      dbClient.raw(
-        'ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as certificateId'
-      ),
-    ])
-    .groupBy('company.id', 'company.name')
-    .first();
-  return company;
-};
+    .where((builder) => {
+      builder.whereNull('company.blacklisted').orWhere('company.blacklisted', false);
+    })
+    .andWhere((builder) => {
+      if (name) {
+        builder
+          .whereRaw('company.name ILIKE ?', [`%${name}%`])
+          .orWhereRaw('company.vat_number ILIKE ?', [`%${name}%`]);
+      }
+    })
+    .andWhere((builder) => {
+      if (city) {
+        builder.whereRaw('company.city ILIKE ANY (?)', [city]);
+      }
+    })
+    .andWhere((builder) => {
+      if (certificate) {
+        builder.whereRaw('company_certificate.certificate_id ILIKE ANY (?)', [certificate]);
+      }
+    });
 
-export const getFirstCompanies = async (limit: number) => {
-  const companies = await dbClient('company')
-    .leftJoin('company_certificate', 'company.id', 'company_certificate.company_id')
-    .whereNull('company.blacklisted')
-    .orWhere('company.blacklisted', false)
+  // Get total count ignoring limit
+  const totalQuery = await query.clone().count();
+  const total = totalQuery?.[0]?.count;
+
+  query
     .select([
       'company.id as companyId',
       'company.name as name',
@@ -100,6 +110,14 @@ export const getFirstCompanies = async (limit: number) => {
       ),
     ])
     .groupBy('company.id', 'company.name')
-    .limit(limit);
-  return companies;
+    .orderBy('company.name', 'asc')
+    .offset(offset ?? 0);
+
+  if (limit) {
+    query.limit(limit);
+  }
+
+  const companies: Company[] = await query;
+
+  return { companies, total };
 };

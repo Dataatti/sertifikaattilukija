@@ -15,7 +15,3 @@ interface Certificate {
   website: string;
   description: string;
 }
-
-interface City {
-  name: string;
-}
