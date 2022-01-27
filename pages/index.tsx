@@ -111,7 +111,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   return {
     props: {
-      firstCompanies: firstCompanies,
+      firstCompanies,
     },
   };
 };

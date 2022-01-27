@@ -2,9 +2,10 @@ import type { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Grid, Typography, Link as MuiLink } from '@mui/material';
-import { dbClient } from 'utils/database';
+import { getCompany } from 'utils/database';
+import certificates from 'enums/certificates.json';
 
-const CompanyResult = ({ company, certificates }: { company: Company, certificates: string[] }) => {
+const CompanyResult = ({ company }: { company: Company }) => {
   return (
     <main>
       <Head>
@@ -25,15 +26,19 @@ const CompanyResult = ({ company, certificates }: { company: Company, certificat
             Yrityksen sertifikaatit
           </Typography>
           <Grid container>
-            {certificates.map((certificate) => {
-              return (
-                <Grid item key={certificate}>
-                  {/* <img src={certificate.logoUrl} alt={certificate.name} height="100px" /> */}
-                  <Link href={`/sert/${certificate}`} passHref>
-                    <MuiLink>{certificate}</MuiLink>
-                  </Link>
-                </Grid>
-              );
+            {company.certificateId?.map((id) => {
+              const certificate = certificates.find((certificate) => certificate.id === id);
+              if (certificate) {
+                return (
+                  <Grid item key={certificate.id}>
+                    <Link href={`/sert/${certificate.id}`} passHref>
+                      <MuiLink>
+                        <img src={certificate.logoUrl} alt={certificate.name} height="100px" />
+                      </MuiLink>
+                    </Link>
+                  </Grid>
+                );
+              }
             })}
           </Grid>
         </Grid>
@@ -43,41 +48,20 @@ const CompanyResult = ({ company, certificates }: { company: Company, certificat
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const vat_number = params?.id;
-  const company = await dbClient('company')
-    .column(
-      'id',
-      'name',
-      'vat_number',
-      'address',
-      'city',
-      'post_code'
-    )
-    .where('vat_number', vat_number)
-    .first();
-
-  const certificates = await dbClient('company_certificate').column('certificate_id').where('company_id', company.id);
-
-  const certificateArray = certificates.map((certificate) => certificate.certificate_id);
+  const vatNumber = params?.id as string;
+  const company = await getCompany(vatNumber);
 
   return {
     props: {
-      company: company,
-      certificates: certificateArray
+      company,
     },
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const companyVats = await dbClient('company').whereNull('blacklisted').column('vat_number');
-
-  const paths = companyVats.map(({vat_number}) => {
-    return { params: { id: vat_number } };
-  });
-
   return {
-    paths: paths,
-    fallback: false,
+    paths: [],
+    fallback: 'blocking',
   };
 };
 

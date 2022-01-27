@@ -62,3 +62,44 @@ export const upsertCompanyCertificates = async (companyCertificates: CompanyCert
     .onConflict(['certificate_id', 'company_id'])
     .ignore();
 };
+
+export const getCompany = async (vatNumber: string) => {
+  const company = await dbClient('company')
+    .leftJoin('company_certificate', 'company.id', 'company_certificate.company_id')
+    .where('company.vat_number', vatNumber)
+    .select([
+      'company.id as companyId',
+      'company.name as name',
+      'company.vat_number as vatNumber',
+      'company.address as address',
+      'company.post_code as postCode',
+      'company.city as city',
+      dbClient.raw(
+        'ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as certificateId'
+      ),
+    ])
+    .groupBy('company.id', 'company.name')
+    .first();
+  return company;
+};
+
+export const getFirstCompanies = async (limit: number) => {
+  const companies = await dbClient('company')
+    .leftJoin('company_certificate', 'company.id', 'company_certificate.company_id')
+    .whereNull('company.blacklisted')
+    .orWhere('company.blacklisted', false)
+    .select([
+      'company.id as companyId',
+      'company.name as name',
+      'company.vat_number as vatNumber',
+      'company.address as address',
+      'company.post_code as postCode',
+      'company.city as city',
+      dbClient.raw(
+        'ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as certificateId'
+      ),
+    ])
+    .groupBy('company.id', 'company.name')
+    .limit(limit);
+  return companies;
+};
