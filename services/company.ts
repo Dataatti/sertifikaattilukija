@@ -51,11 +51,11 @@ const getSingleCompanyAdditionalInformation = async (
     const addressInfo =
       address.find((n: AddressInfoType) => n.city && n.street && n.postCode) || address?.[0];
     return {
-      vat_number: company?.businessId,
+      vatNumber: company?.businessId,
       name: company?.name,
       address: addressInfo?.street,
       city: addressInfo?.city,
-      post_code: addressInfo?.postCode,
+      postCode: addressInfo?.postCode,
     };
   } catch (error) {
     console.error(getErrorMessage(error));

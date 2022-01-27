@@ -1,11 +1,11 @@
 interface Company {
-  companyId: number;
+  companyId?: number;
   name: string;
   vatNumber: string;
   city: string;
   address: string;
   postCode: string;
-  certificateId: string[];
+  certificateId?: string[];
 }
 
 interface Certificate {
