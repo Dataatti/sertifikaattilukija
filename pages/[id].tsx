@@ -1,9 +1,8 @@
-import type { GetStaticProps, GetStaticPaths, NextApiRequest, NextApiResponse } from 'next';
+import type { GetStaticProps, GetStaticPaths, NextApiResponse } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Grid, Typography, Link as MuiLink } from '@mui/material';
 import { databaseHoc, getCompanies, NextRequestWithDb } from 'utils/database';
-import { sleep } from 'utils/utils';
 
 import certificates from 'enums/certificates.json';
 
