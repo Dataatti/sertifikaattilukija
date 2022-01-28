@@ -1,8 +1,9 @@
-import type { GetStaticProps, GetStaticPaths } from 'next';
+import type { GetStaticProps, GetStaticPaths, NextApiResponse } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Grid, Typography, Link as MuiLink } from '@mui/material';
-import { getCompanies } from 'utils/database';
+import { databaseHoc, getCompanies, NextRequestWithDb } from 'utils/database';
+
 import certificates from 'enums/certificates.json';
 
 const CompanyResult = ({ company }: { company: Company }) => {
@@ -49,7 +50,12 @@ const CompanyResult = ({ company }: { company: Company }) => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const vatNumber = params?.id as string;
-  const { companies } = await getCompanies(1, 0, vatNumber);
+
+  const hoc = databaseHoc()(async (req) => {
+    const { companies } = await getCompanies(req.db, 1, 0, vatNumber);
+    return companies;
+  });
+  const companies = await hoc({} as NextRequestWithDb, {} as NextApiResponse);
 
   return {
     props: {

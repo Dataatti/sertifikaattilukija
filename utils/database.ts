@@ -1,21 +1,50 @@
-import knex from 'knex';
-/**
- * Database client using knex
- */
-export const dbClient = knex({
+import knex, { Knex } from 'knex';
+import { NextApiRequest, NextApiResponse } from 'next';
+
+export interface NextRequestWithDb extends NextApiRequest {
+  db: Knex<any, unknown[]>;
+}
+
+const dbConfig = {
   client: 'pg',
   connection: process.env.DATABASE_CONNECTION_URL,
   searchPath: ['knex', 'public'],
-});
+};
+
+/**
+ * Higher-order database client function
+ * creates a new knex instance every time and destroys it,
+ * to ensure that we don't have multiple connections
+ * db is put into request to ensure
+ * that we destroy the exact instance
+ *
+ * @example
+ * // /api/example
+ * export const handler = async (req: NextRequestWithDb, res: NextApiResponse) => {
+ *    ...
+ * }
+ *
+ * export default databaseHoc()(handler)
+ */
+export const databaseHoc = () => {
+  return (fn: (req: NextRequestWithDb, res: NextApiResponse) => Promise<any>) =>
+    async (req: NextRequestWithDb, res: NextApiResponse) => {
+      const db = knex(dbConfig);
+      req.db = db;
+      const result = await fn(req, res);
+      await req.db.destroy();
+      return result;
+    };
+};
 
 /**
  * Function for initializing database tables
  */
-export const initDatabase = async () => {
+export const initDatabase = async (db: Knex<any, unknown[]>) => {
   try {
-    const hasTableCompany = await dbClient.schema.hasTable('company');
+    const hasTableCompany = await db.schema.hasTable('company');
     if (!hasTableCompany) {
-      await dbClient.schema.createTable('company', (table) => {
+      await db.schema.createTable('company', (table) => {
         table.increments('id').primary();
         table.string('name').unique({ indexName: 'name_unique_id' });
         table.string('vat_number');
@@ -26,9 +55,9 @@ export const initDatabase = async () => {
         table.timestamps(false, true);
       });
     }
-    const hasTableCertificate = await dbClient.schema.hasTable('company_certificate');
+    const hasTableCertificate = await db.schema.hasTable('company_certificate');
     if (!hasTableCertificate) {
-      await dbClient.schema.createTable('company_certificate', (table) => {
+      await db.schema.createTable('company_certificate', (table) => {
         table.increments('id').primary();
         table.increments('company_id', { primaryKey: false });
         table.foreign('company_id').references('company.id');
@@ -46,9 +75,12 @@ export const initDatabase = async () => {
  * Upsert company certificates to database. If company name not found, don't insert.
  * @param companyCertificates company certificate data to be upserted into database
  */
-export const upsertCompanyCertificates = async (companyCertificates: CompanyCertificate[]) => {
+export const upsertCompanyCertificates = async (
+  companyCertificates: ApiCompanyCertificate[],
+  db: Knex<any, unknown[]>
+) => {
   const companyNames = companyCertificates.map((cert) => cert.companyName?.toLowerCase());
-  const companies = await dbClient('company').whereRaw('name ILIKE ANY (?)', [companyNames]);
+  const companies = await db('company').whereRaw('name ILIKE ANY (?)', [companyNames]);
 
   const upsertableCompanyCertificates = companies?.map((company) => {
     const cert = companyCertificates.find(
@@ -57,20 +89,21 @@ export const upsertCompanyCertificates = async (companyCertificates: CompanyCert
     return { certificate_id: cert?.certificateId, company_id: company?.id };
   });
 
-  await dbClient('company_certificate')
+  await db('company_certificate')
     .insert(upsertableCompanyCertificates)
     .onConflict(['certificate_id', 'company_id'])
     .ignore();
 };
 
 export const getCompanies = async (
+  db: Knex<any, unknown[]>,
   limit?: number,
   offset?: number,
   name?: string | string[],
   certificate?: string[],
   city?: string[]
 ) => {
-  const query = dbClient('company')
+  const query = db('company')
     .leftJoin('company_certificate', 'company.id', 'company_certificate.company_id')
     .where((builder) => {
       builder.whereNull('company.blacklisted').orWhere('company.blacklisted', false);
@@ -105,9 +138,7 @@ export const getCompanies = async (
       'company.address as address',
       'company.post_code as postCode',
       'company.city as city',
-      dbClient.raw(
-        'ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as certificateId'
-      ),
+      db.raw('ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as certificateId'),
     ])
     .groupBy('company.id', 'company.name')
     .orderBy('company.name', 'asc')

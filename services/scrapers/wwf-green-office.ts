@@ -1,10 +1,11 @@
 import * as cheerio from 'cheerio';
 import { getErrorMessage, sleep } from 'utils/utils';
 import { upsertCompanyCertificates } from 'utils/database';
+import type { Knex } from 'knex';
 
-export const scrapeCertificates = (html: string): CompanyCertificate[] => {
+export const scrapeCertificates = (html: string): ApiCompanyCertificate[] => {
   const $ = cheerio.load(html);
-  const output: CompanyCertificate[] = [];
+  const output: ApiCompanyCertificate[] = [];
   $(
     '#content .container-fluid.text-block.go-pillar .text-block__text > p:nth-of-type(-n+2) > a'
   ).each((index, node) => {
@@ -21,13 +22,13 @@ export const scrapeCertificates = (html: string): CompanyCertificate[] => {
  * Function for scraping wwf.fi/greenoffice/asiakkaat
  * @returns status as boolean, true = ok
  */
-export const scrapeWWFGreenOffice = async () => {
+export const scrapeWWFGreenOffice = async (db: Knex<any, unknown[]>) => {
   for (let i = 0; i < 5; i++) {
     try {
       const res = await fetch('https://wwf.fi/greenoffice/asiakkaat/');
       const html = await res.text();
       const data = scrapeCertificates(html);
-      await upsertCompanyCertificates(data);
+      await upsertCompanyCertificates(data, db);
       return true;
     } catch (error) {
       console.error('Something went wrong with scrapeWWFGreenOffice, try again after delay');

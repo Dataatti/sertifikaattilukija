@@ -1,5 +1,5 @@
 import { getErrorMessage, sleep } from 'utils/utils';
-import { dbClient } from 'utils/database';
+import type { Knex } from 'knex';
 
 type ApiCompanyType = {
   businessId: string;
@@ -23,7 +23,7 @@ type AddressInfoType = {
  * Upsert companies to database. If conflict on company name, update information.
  * @param companies company data to be upserted into database
  */
-const upsertCompanies = async (companies: Company[]) => {
+const upsertCompanies = async (companies: Company[], dbClient: Knex<any, unknown[]>) => {
   await dbClient.raw(
     `? ON CONFLICT (name)
               DO UPDATE SET
@@ -67,7 +67,7 @@ const getSingleCompanyAdditionalInformation = async (
  * Service for fetching travel company information from PRH open api
  * @returns status as boolean, true = ok
  */
-export const getCompanyInformation = async () => {
+export const getCompanyInformation = async (dbClient: Knex<any, unknown[]>) => {
   const dev = process.env.NODE_ENV === 'development';
   console.info('START COMPANY INFORMATION FETCHING');
   try {
@@ -101,7 +101,7 @@ export const getCompanyInformation = async () => {
           // Insert data into DB
           for (let i = 0; i < 5; i++) {
             try {
-              await upsertCompanies(output);
+              await upsertCompanies(output, dbClient);
               // All okay, no need to try again
               break;
             } catch (error) {

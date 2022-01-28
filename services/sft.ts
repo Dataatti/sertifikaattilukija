@@ -1,3 +1,4 @@
+import type { Knex } from 'knex';
 import { upsertCompanyCertificates } from 'utils/database';
 
 /**
@@ -61,18 +62,18 @@ const fetchAllSFT = async () => {
  * from https://api.sustainabletravel.businessfinland.fi/public/accepted-companies/
  * @returns status as boolean, true = ok
  */
-export const syncSFTCertificates = async () => {
+export const syncSFTCertificates = async (db: Knex<any, unknown[]>) => {
   const SFTCertificates = await fetchAllSFT();
   if (SFTCertificates.length <= 0) {
     throw new Error('No SFT certificates found');
   }
 
-  const companyCertificates: CompanyCertificate[] = SFTCertificates.map((cert) => ({
+  const companyCertificates: ApiCompanyCertificate[] = SFTCertificates.map((cert) => ({
     companyName: cert.name,
     certificateId: 'sft',
   }));
 
-  await upsertCompanyCertificates(companyCertificates);
+  await upsertCompanyCertificates(companyCertificates, db);
 
   return true;
 };

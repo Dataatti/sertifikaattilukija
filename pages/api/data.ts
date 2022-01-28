@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { getCompanies } from 'utils/database';
+import type { NextApiResponse } from 'next';
+import { databaseHoc, NextRequestWithDb, getCompanies } from 'utils/database';
 import { getErrorMessage } from 'utils/utils';
 import { checkCors, corsOptions } from 'utils/cors';
 
@@ -15,7 +15,7 @@ type ResponseData = {
  * @param res Next.js response
  */
 export const handler = async (
-  req: NextApiRequest,
+  req: NextRequestWithDb,
   res: NextApiResponse<ResponseData | { msg: string }>
 ) => {
   try {
@@ -26,7 +26,14 @@ export const handler = async (
     const _limit = limit ? parseInt(limit as string) : undefined;
     const _offset = offset ? parseInt(offset as string) : undefined;
 
-    const { companies, total } = await getCompanies(_limit, _offset, name, _certificate, _city);
+    const { companies, total } = await getCompanies(
+      req.db,
+      _limit,
+      _offset,
+      name,
+      _certificate,
+      _city
+    );
 
     const resultObject = {
       totalResults: total ? parseInt(total as string) : 0,
@@ -40,4 +47,4 @@ export const handler = async (
   }
 };
 
-export default handler;
+export default databaseHoc()(handler);
