@@ -1,9 +1,9 @@
 import type { GetStaticProps, GetStaticPaths, NextApiResponse } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { Grid, Typography, Link as MuiLink } from '@mui/material';
+import { Button, Grid, Typography, Link as MuiLink } from '@mui/material';
 import { databaseHoc, getCompanies, NextRequestWithDb } from 'utils/database';
-
+import { Print } from '@mui/icons-material';
 import certificates from 'enums/certificates.json';
 
 const CompanyResult = ({ company }: { company: Company }) => {
@@ -13,17 +13,19 @@ const CompanyResult = ({ company }: { company: Company }) => {
         <title>{company.name}</title>
         <meta name="description" content={`${company.name} - matkailusertifikaatit`} />
       </Head>
-      <Grid container direction="column" sx={{ height: '100vh' }}>
-        <Grid item>
-          <Typography component="h1" variant="h3">
+      <Button variant="contained" onClick={() => window.print()} sx={{ float: 'right', mt: '15px' }}>
+        <Print /> Tulosta
+      </Button>
+      <Grid container sx={{ mt: '15px' }}>
+        <Grid item xs={12} md={6}>
+          <Typography component="h2" variant="h5">
             {company.name}
           </Typography>
-          <Typography>{company.address}</Typography>
-          <Typography>{company.city}</Typography>
-          <Typography>{company.vatNumber}</Typography>
+          <Typography sx={{ mt: '20px' }}>{`${company.address}, ${company.postCode} ${company.city}`}</Typography>
+          <Typography>{`Y-tunnus: ${company.vatNumber}`}</Typography>
         </Grid>
-        <Grid item>
-          <Typography component="h2" variant="h3">
+        <Grid item xs={12} md={6} sx={{ mt: { xs: '20px', md: 0 } }}>
+          <Typography component="h2" variant="h5">
             Yrityksen sertifikaatit
           </Typography>
           <Grid container>
