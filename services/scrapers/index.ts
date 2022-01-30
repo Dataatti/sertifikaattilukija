@@ -1,5 +1,4 @@
 import * as cheerio from 'cheerio';
-import { write, writeFile } from 'fs';
 
 export const processWWFGreenOffice = (html: string): ApiCompanyCertificate[] => {
   const $ = cheerio.load(html);
