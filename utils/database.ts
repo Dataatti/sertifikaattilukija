@@ -81,6 +81,9 @@ export const upsertCompanyCertificates = async (
 ) => {
   const companyNames = companyCertificates.map((cert) => cert.companyName?.toLowerCase());
   const companies = await db('company').whereRaw('name ILIKE ANY (?)', [companyNames]);
+  
+  // If no matches, don't bother sending request to database
+  if (companies.length === 0) return;
 
   const upsertableCompanyCertificates = companies?.map((company) => {
     const cert = companyCertificates.find(

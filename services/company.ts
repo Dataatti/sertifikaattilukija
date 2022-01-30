@@ -24,16 +24,17 @@ type AddressInfoType = {
  * @param companies company data to be upserted into database
  */
 const upsertCompanies = async (companies: Company[], dbClient: Knex<any, unknown[]>) => {
-  await dbClient.raw(
-    `? ON CONFLICT (name)
-              DO UPDATE SET
-              address = EXCLUDED.address,
-              post_code = EXCLUDED.post_code,
-              city = EXCLUDED.city,
-              updated_at = CURRENT_TIMESTAMP
-            RETURNING *;`,
-    [dbClient('company').insert(companies)]
-  );
+  const insertableCompanies = companies.map((company) => ({
+    address: company?.address,
+    city: company?.city,
+    name: company?.name,
+    vat_number: company?.vatNumber,
+    post_code: company?.postCode,
+  }));
+
+  if (insertableCompanies?.length > 0) {
+    await dbClient('company').insert(insertableCompanies).onConflict('name').merge();
+  }
 };
 
 /**
@@ -74,7 +75,8 @@ export const getCompanyInformation = async (dbClient: Knex<any, unknown[]>) => {
     // 55 = Majoitus
     // 56 = Ravitsemistoiminta
     // 79 = Matkatoimistojen ja matkanjärjestäjien toiminta; varauspalvelut
-    const businessLineCodes = ['55', '56', '79'];
+    // 93 = Urheilutoiminta sekä huvi- ja virkistyspalvelut
+    const businessLineCodes = ['55', '56', '79', '93'];
     const limit = dev ? 20 : 500;
     for (const lineCode of businessLineCodes) {
       let skip = 0;
@@ -86,7 +88,7 @@ export const getCompanyInformation = async (dbClient: Knex<any, unknown[]>) => {
           const output = [];
           // NOTE: PRH API supports only 300 requests per minute for ALL users combined
           const res = await fetch(
-            `https://avoindata.prh.fi/bis/v1?totalResults=false&maxResults=${limit}&resultsFrom=${skip}&businessLineCode=${lineCode}&companyRegistrationFrom=2014-02-28`
+            `https://avoindata.prh.fi/bis/v1?totalResults=false&maxResults=${limit}&resultsFrom=${skip}&businessLineCode=${lineCode}`
           );
           const data = await res.json();
           // Address information has to be fetched separately with VAT-number
