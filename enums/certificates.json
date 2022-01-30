@@ -40,5 +40,12 @@
     "logoUrl": "/images/green-activities.webp",
     "website": "https://greenkey.fi/mika-green-activities",
     "description": "Green Activities-merkin saanut yritys on sitoutunut mm. henkilöstön ja asiakkaiden ympäristötietoisuuden kasvattamiseen, energian- ja vedenkäytön tehostamiseen sekä toimintansa ympäristörasituksen pienentämiseen. Merkki perustuu luonto-ohjelmapalvelualalle suunniteltuihin ympäristökriteereihin, joiden noudattamiseen ja seurannan raportointiin osallistuja sitoutuu."
+  },
+  {
+    "name": "GEO Golf",
+    "id": "geo-golf",
+    "logoUrl": "/images/geo-golf.webp",
+    "website": "https://sustainable.golf/about/certification/",
+    "description": "GEO (Golf Environment Organization) on kansainvälinen golfkenttien ympäristösertifikaattia ylläpitävä ja auditoiva järjestö. GEO Foundation edistää golfyhteisöjä todentamaan, arvioimaan ja kehittämään toimintaansa sekä viestimään siitä tuloksellisesti. "
   }
 ]
