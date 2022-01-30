@@ -53,7 +53,7 @@ export const processEkokompassi = (html: string): ApiCompanyCertificate[] => {
       .text()
       .trim()
       .replace(/(\r\n|\n)/gm, '')
-      // Replace spaces if there is multiple sequentially
+      // Replace extra spaces if there is multiple spaces sequentially
       .replace(/ +(?= )/g, '');
 
     if (name) {
