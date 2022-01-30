@@ -13,39 +13,50 @@ const CompanyResult = ({ company }: { company: Company }) => {
         <title>{company.name}</title>
         <meta name="description" content={`${company.name} - matkailusertifikaatit`} />
       </Head>
-      <Button variant="contained" onClick={() => window.print()} sx={{ float: 'right', mt: '15px' }}>
+      <Button
+        variant="contained"
+        onClick={() => window.print()}
+        sx={{ float: 'right', mt: '15px' }}
+      >
         <Print /> Tulosta
       </Button>
       <Grid container sx={{ mt: '15px' }}>
         <Grid item xs={12} md={6}>
-          <Typography component="h2" variant="h5">
+          <Typography component="h2" variant="h5" sx={{ mb: '20px' }}>
             {company.name}
           </Typography>
-          <Typography sx={{ mt: '20px' }}>{`${company.address}, ${company.postCode} ${company.city}`}</Typography>
+          <Typography>{`${company.address}, ${company.postCode} ${company.city}`}</Typography>
           <Typography>{`Y-tunnus: ${company.vatNumber}`}</Typography>
         </Grid>
         <Grid item xs={12} md={6} sx={{ mt: { xs: '20px', md: 0 } }}>
-          <Typography component="h2" variant="h5">
+          <Typography component="h2" variant="h5" sx={{ mb: '20px' }}>
             Yrityksen sertifikaatit
           </Typography>
           <Grid container>
-            {company.certificateId?.map((id) => {
-              const certificate = certificates.find((certificate) => certificate.id === id);
-              if (certificate) {
-                return (
-                  <Grid item key={certificate.id}>
-                    <Link href={`/sert/${certificate.id}`} passHref>
-                      <MuiLink>
-                        <img src={certificate.logoUrl} alt={certificate.name} height="100px" />
-                      </MuiLink>
-                    </Link>
-                  </Grid>
-                );
-              }
-            })}
+            {company.certificateId ? (
+              company.certificateId.map((id) => {
+                const certificate = certificates.find((certificate) => certificate.id === id);
+                if (certificate) {
+                  return (
+                    <Grid item key={certificate.id}>
+                      <Link href={`/sert/${certificate.id}`} passHref>
+                        <MuiLink>
+                          <img src={certificate.logoUrl} alt={certificate.name} height="100px" />
+                        </MuiLink>
+                      </Link>
+                    </Grid>
+                  );
+                }
+              })
+            ) : (
+              <Grid item>
+                <Typography>Yrityksellä ei vielä ole sertifikaatteja</Typography>
+              </Grid>
+            )}
           </Grid>
         </Grid>
       </Grid>
+      <Typography align="center" sx={{ mt: '20vh' }}>Ovatko yrityksen tiedot virheelliset? Ota yhteyttä osoitteeseen <MuiLink href="mailto:email@email.com">email@email.com</MuiLink></Typography>
     </main>
   );
 };

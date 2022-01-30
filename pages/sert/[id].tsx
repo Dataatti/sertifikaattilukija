@@ -11,7 +11,11 @@ const CertificateResult = ({ certificate }: { certificate: Certificate }) => {
         <title>{certificate.name}</title>
         <meta name="description" content={`${certificate.name} - matkailusertifikaatit`} />
       </Head>
-      <Button variant="contained" onClick={() => window.print()} sx={{ float: 'right', mt: '15px' }}>
+      <Button
+        variant="contained"
+        onClick={() => window.print()}
+        sx={{ float: 'right', mt: '15px' }}
+      >
         <Print /> Tulosta
       </Button>
       <Grid container sx={{ mt: '15px' }}>
