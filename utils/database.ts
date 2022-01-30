@@ -138,7 +138,7 @@ export const getCompanies = async (
       'company.address as address',
       'company.post_code as postCode',
       'company.city as city',
-      db.raw('ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as certificateId'),
+      db.raw('ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as "certificateId"'),
     ])
     .groupBy('company.id', 'company.name')
     .orderBy('company.name', 'asc')

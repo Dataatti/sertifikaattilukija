@@ -20,7 +20,7 @@ const CompanyListItem = ({ company }: { company: Company }) => {
           <Typography>{capitalizeFirstLetter(company.city)}</Typography>
         </Grid>
         <Grid item>
-          {company.certificateid?.map((id) => {
+          {company.certificateId?.map((id) => {
             const certificate = certificates.find((certificate) => certificate.id === id);
             if (certificate) {
               return (

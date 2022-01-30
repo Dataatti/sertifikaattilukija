@@ -50,7 +50,12 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
         <Typography component="h2" variant="h6" sx={{ pt: '10px' }}>
           Rajaa tuloksia
         </Typography>
-        <Grid container spacing={2} alignItems="center" sx={{ pt: '5px' , pb: '15px', borderBottom: '1px solid #C4C4C4' }}>
+        <Grid
+          container
+          spacing={2}
+          alignItems="center"
+          sx={{ pt: '5px' , pb: '15px', borderBottom: '1px solid #C4C4C4' }}
+        >
           <Grid item xs={8} sm={5}>
             <TextField id="name" fullWidth label="Yrityksen nimi tai y-tunnus" />
           </Grid>
@@ -89,7 +94,9 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
         <Typography component="h3" variant="h5" sx={{ mr: '10px' }}>
           Hakutulokset ({resultTotal} kpl)
         </Typography>
-        <Button variant="contained" size="small" onClick={() => window.print()}><Print/> Tulosta</Button>
+        <Button variant="contained" size="small" onClick={() => window.print()}>
+          <Print/> Tulosta
+        </Button>
       </Grid>
       <Grid container direction="column" sx={{ pt: '10px', pb: '30px' }} spacing={3}>
         {companies?.map((company) => (
