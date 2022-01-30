@@ -17,7 +17,6 @@ describe('Ekokompassi HTML scraping', function () {
       const scrapedData = processEkokompassi(html);
       expect(scrapedData?.length, 'Correct number of companies are read').to.eq(data?.length);
       scrapedData.forEach((scraped) => {
-        console.log(JSON.stringify(scraped.companyName));
         const foundData = data.find((d) => d.companyName === scraped.companyName);
         expect(scraped?.companyName).to.eq(foundData?.companyName);
       });
