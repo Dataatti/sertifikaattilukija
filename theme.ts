@@ -12,9 +12,6 @@ const theme = createTheme({
                 root: {
                     textTransform: 'none',
                 },
-                '& .MuiSvgIcon-root': {
-                    marginRight: '5px',
-                }
             },
         },
     },
