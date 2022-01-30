@@ -3,9 +3,9 @@ import { Grid, Link as MuiLink, Typography } from '@mui/material';
 import certificates from 'enums/certificates.json';
 
 const capitalizeFirstLetter = (string: string) => {
-  if (!string) return null
+  if (!string) return null;
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-}
+};
 
 const CompanyListItem = ({ company }: { company: Company }) => {
   return (

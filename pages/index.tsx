@@ -41,11 +41,12 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
 
   return (
     <main>
-      {showInfo &&
+      {showInfo && (
         <Alert severity="info" onClose={() => setShowInfo(false)} sx={{ mt: '15px' }}>
-          Tässä palvelussa voit hakea matkailualan yritysten suorittamia ympäristösertifikaatteja joko yrityksen nimen, y-tunnuksen, kaupungin tai sertifikaatin perusteella.
+          Tässä palvelussa voit hakea matkailualan yritysten suorittamia ympäristösertifikaatteja
+          joko yrityksen nimen, y-tunnuksen, kaupungin tai sertifikaatin perusteella.
         </Alert>
-      }
+      )}
       <form onSubmit={onSubmit}>
         <Typography component="h2" variant="h6" sx={{ pt: '10px' }}>
           Rajaa tuloksia
@@ -54,7 +55,7 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
           container
           spacing={2}
           alignItems="center"
-          sx={{ pt: '5px' , pb: '15px', borderBottom: '1px solid #C4C4C4' }}
+          sx={{ pt: '5px', pb: '15px', borderBottom: '1px solid #C4C4C4' }}
         >
           <Grid item xs={8} sm={5}>
             <TextField id="name" fullWidth label="Yrityksen nimi tai y-tunnus" />
@@ -85,7 +86,7 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
           </Grid>
           <Grid item xs={4} sm={1}>
             <Button type="submit" variant="contained" fullWidth size="large">
-              <Search/> Hae
+              <Search /> Hae
             </Button>
           </Grid>
         </Grid>
@@ -95,7 +96,7 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
           Hakutulokset ({resultTotal} kpl)
         </Typography>
         <Button variant="contained" size="small" onClick={() => window.print()}>
-          <Print/> Tulosta
+          <Print /> Tulosta
         </Button>
       </Grid>
       <Grid container direction="column" sx={{ pt: '10px', pb: '30px' }} spacing={3}>
