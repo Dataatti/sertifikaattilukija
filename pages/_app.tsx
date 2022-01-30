@@ -17,8 +17,6 @@ function MyApp({ Component, emotionCache = clientSideEmotionCache, pageProps }: 
     <CacheProvider value={emotionCache}>
       <Head>
         <title>Sertifikaattilukija</title>
-        <meta name="description" content="Matkailualan sertifikaattilukija" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />

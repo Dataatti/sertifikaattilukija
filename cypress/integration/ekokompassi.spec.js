@@ -1,20 +1,20 @@
-import { processWWFGreenOffice } from '../../services/scrapers';
+import { processEkokompassi } from '../../services/scrapers';
 
 let html;
 let data;
 
-describe('WWF Green Office HTML scraping', function () {
+describe('Ekokompassi HTML scraping', function () {
   before(() => {
     // check if the import worked correctly
-    expect(processWWFGreenOffice, 'processWWFGreenOffice').to.be.a('function');
+    expect(processEkokompassi, 'processEkokompassi').to.be.a('function');
     // load data
-    cy.fixture('scrapedData/wwf-green-office.json').then((output) => (data = output));
-    cy.fixture('html/wwf-green-office.html').then((output) => (html = output));
+    cy.fixture('scrapedData/ekokompassi.json').then((output) => (data = output));
+    cy.fixture('html/ekokompassi.html').then((output) => (html = output));
   });
 
   context('scrapeCertificates', () => {
     it('Scrapes html correctly', () => {
-      const scrapedData = processWWFGreenOffice(html);
+      const scrapedData = processEkokompassi(html);
       expect(scrapedData?.length, 'Correct number of companies are read').to.eq(data?.length);
       scrapedData.forEach((scraped) => {
         const foundData = data.find((d) => d.companyName === scraped.companyName);

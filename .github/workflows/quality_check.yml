@@ -5,6 +5,8 @@ on: [pull_request]
 jobs:
   lint_files:
     runs-on: 'ubuntu-latest'
+    env:
+      DATABASE_CONNECTION_URL: ${{ secrets.DATABASE_CONNECTION_URL }}
     defaults:
       run:
         working-directory: ./

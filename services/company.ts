@@ -1,5 +1,5 @@
 import { getErrorMessage, sleep } from 'utils/utils';
-import { dbClient } from 'utils/database';
+import type { Knex } from 'knex';
 
 type ApiCompanyType = {
   businessId: string;
@@ -23,17 +23,18 @@ type AddressInfoType = {
  * Upsert companies to database. If conflict on company name, update information.
  * @param companies company data to be upserted into database
  */
-const upsertCompanies = async (companies: Company[]) => {
-  await dbClient.raw(
-    `? ON CONFLICT (name)
-              DO UPDATE SET
-              address = EXCLUDED.address,
-              post_code = EXCLUDED.post_code,
-              city = EXCLUDED.city,
-              updated_at = CURRENT_TIMESTAMP
-            RETURNING *;`,
-    [dbClient('company').insert(companies)]
-  );
+const upsertCompanies = async (companies: Company[], dbClient: Knex<any, unknown[]>) => {
+  const insertableCompanies = companies.map((company) => ({
+    address: company?.address,
+    city: company?.city,
+    name: company?.name,
+    vat_number: company?.vatNumber,
+    post_code: company?.postCode,
+  }));
+
+  if (insertableCompanies?.length > 0) {
+    await dbClient('company').insert(insertableCompanies).onConflict('name').merge();
+  }
 };
 
 /**
@@ -51,11 +52,11 @@ const getSingleCompanyAdditionalInformation = async (
     const addressInfo =
       address.find((n: AddressInfoType) => n.city && n.street && n.postCode) || address?.[0];
     return {
-      vat_number: company?.businessId,
+      vatNumber: company?.businessId,
       name: company?.name,
       address: addressInfo?.street,
       city: addressInfo?.city,
-      post_code: addressInfo?.postCode,
+      postCode: addressInfo?.postCode,
     };
   } catch (error) {
     console.error(getErrorMessage(error));
@@ -67,14 +68,15 @@ const getSingleCompanyAdditionalInformation = async (
  * Service for fetching travel company information from PRH open api
  * @returns status as boolean, true = ok
  */
-export const getCompanyInformation = async () => {
+export const getCompanyInformation = async (dbClient: Knex<any, unknown[]>) => {
   const dev = process.env.NODE_ENV === 'development';
   console.info('START COMPANY INFORMATION FETCHING');
   try {
     // 55 = Majoitus
     // 56 = Ravitsemistoiminta
     // 79 = Matkatoimistojen ja matkanjärjestäjien toiminta; varauspalvelut
-    const businessLineCodes = ['55', '56', '79'];
+    // 93 = Urheilutoiminta sekä huvi- ja virkistyspalvelut
+    const businessLineCodes = ['55', '56', '79', '93'];
     const limit = dev ? 20 : 500;
     for (const lineCode of businessLineCodes) {
       let skip = 0;
@@ -86,7 +88,7 @@ export const getCompanyInformation = async () => {
           const output = [];
           // NOTE: PRH API supports only 300 requests per minute for ALL users combined
           const res = await fetch(
-            `https://avoindata.prh.fi/bis/v1?totalResults=false&maxResults=${limit}&resultsFrom=${skip}&businessLineCode=${lineCode}&companyRegistrationFrom=2014-02-28`
+            `https://avoindata.prh.fi/bis/v1?totalResults=false&maxResults=${limit}&resultsFrom=${skip}&businessLineCode=${lineCode}`
           );
           const data = await res.json();
           // Address information has to be fetched separately with VAT-number
@@ -101,7 +103,7 @@ export const getCompanyInformation = async () => {
           // Insert data into DB
           for (let i = 0; i < 5; i++) {
             try {
-              await upsertCompanies(output);
+              await upsertCompanies(output, dbClient);
               // All okay, no need to try again
               break;
             } catch (error) {
