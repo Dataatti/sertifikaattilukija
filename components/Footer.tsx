@@ -2,7 +2,7 @@ import { Container, Divider, Grid, Link, Paper, Typography } from '@mui/material
 
 const Header = () => {
   return (
-    <Paper sx={{ bgcolor: 'grey.800', color: 'common.white', fontWeight: '500' }}>
+    <Paper sx={{ bgcolor: 'grey.800', color: 'common.white' }}>
       <Container>
         <Typography align="center" sx={{ p: '20px' }}>
           Business Finlandin mukaan sertifiointi on laadun tae kansainvälisessä kaupassa.

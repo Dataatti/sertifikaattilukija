@@ -6,6 +6,9 @@ const theme = createTheme({
       main: '#F97C80',
     },
   },
+  typography: {
+    fontWeightRegular: 500,
+  },
   components: {
     MuiButton: {
       styleOverrides: {
