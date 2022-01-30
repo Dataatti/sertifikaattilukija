@@ -1,7 +1,8 @@
 import type { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
-import { Grid, Typography, Link as MuiLink } from '@mui/material';
+import { Button, Grid, Typography, Link as MuiLink } from '@mui/material';
 import certificates from 'enums/certificates.json';
+import { Print } from '@mui/icons-material';
 
 const CertificateResult = ({ certificate }: { certificate: Certificate }) => {
   return (
@@ -10,22 +11,30 @@ const CertificateResult = ({ certificate }: { certificate: Certificate }) => {
         <title>{certificate.name}</title>
         <meta name="description" content={`${certificate.name} - matkailusertifikaatit`} />
       </Head>
-      <Grid container direction="column" sx={{ height: '100vh' }}>
-        <Grid item>
-          <Typography component="h1" variant="h3">
+      <Button variant="contained" onClick={() => window.print()} sx={{ float: 'right', mt: '15px' }}>
+        <Print /> Tulosta
+      </Button>
+      <Grid container sx={{ mt: '15px' }}>
+        <Grid item xs={12} md={4}>
+          <Typography component="h2" variant="h5">
             {certificate.name}
           </Typography>
-          <img src={certificate.logoUrl} alt={certificate.name} height="100px" />
-          <Typography>{certificate.description}</Typography>
+          <img src={certificate.logoUrl} alt={certificate.name} width="300px" />
+        </Grid>
+        <Grid item xs={12} md={8}>
+          <Typography component="h3" variant="h5">
+            Tietoja sertifikaatista
+          </Typography>
+          <Typography sx={{ my: '10px' }}>{certificate.description}</Typography>
           <Typography>
-            Lisätietoa:
             <MuiLink href={certificate.website}>{certificate.website}</MuiLink>
           </Typography>
-        </Grid>
-        <Grid item>
-          <Typography component="h2" variant="h3">
+          <Typography component="h3" variant="h5" sx={{ my: '15px' }}>
             Sertifikaatin omaavat yritykset
           </Typography>
+          <Button href="/" variant="contained">
+            Näytä yritykset
+          </Button>
         </Grid>
       </Grid>
     </main>
