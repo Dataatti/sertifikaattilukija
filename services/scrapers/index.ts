@@ -41,3 +41,24 @@ export const processGEOGolf = (json: GEOGolfDataType[]): ApiCompanyCertificate[]
   }));
   return output;
 };
+
+export const processEkokompassi = (html: string): ApiCompanyCertificate[] => {
+  const $ = cheerio.load(html);
+  const output: ApiCompanyCertificate[] = [];
+  const nodes = $('.customers-list > li.customer > p.name');
+
+  nodes.each((index, node) => {
+    const name = $(node)
+      .text()
+      .trim()
+      .replace(/(\r\n|\n)/gm, '')
+      // Replace extra spaces if there is multiple spaces sequentially
+      .replace(/ +(?= )/g, '');
+
+    if (name) {
+      output.push({ companyName: name, certificateId: 'ekokompassi' });
+    }
+  });
+
+  return output;
+};
