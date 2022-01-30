@@ -7,35 +7,35 @@
     "description": "Jotta matkailuelinkeino pystyy vastaamaan muuttuvaan kysyntään ja turvaamaan tulevaisuutensa, on kehityksen oltava kestävää. Tätä varten Visit Finland on kehittänyt matkailuyrityksille ja -alueille tarkoitetun Sustainable Travel Finland -ohjelman ja sillä saavutettavan Sustainable Travel Finland -merkin."
   },
   {
-    "name": "WWF GREEN OFFICE",
+    "name": "WWF Green Office",
     "id": "wwf-green-office",
     "logoUrl": "/images/wwf-green-office.webp",
     "website": "https://wwf.fi/greenoffice",
     "description": "Kun toimistosi ympäristöjärjestelmä on valmis ja toimipiste on tarkastettu eli auditoitu, saa organisaatiosi WWF Green Office -sertifikaatin. Sertifikaatti on tunnustus siitä, että organisaation ympäristöjärjestelmän toiminta vastaa ulkoisesti asetettuja kriteerejä ja jatkuvaan parantamiseen on sitouduttu."
   },
   {
-    "name": "TRAVELIFE FOR TOUR OPERATORS",
+    "name": "Travelife for Tour Operators",
     "id": "travelife-for-tour-operators",
     "logoUrl": "/images/travelife-for-tour-operators.webp",
     "website": "https://www.travelife.info/index_new.php?lang=fi",
     "description": "Travelife-sertifikaatti on ajantasainen ja edullinen standardi, jonka avulla yritys voi saada arvion, todistaa ja kertoa vastuullisuudestaan."
   },
   {
-    "name": "EKOKOMPASSI",
+    "name": "Ekokompassi",
     "id": "ekokompassi",
     "logoUrl": "/images/ekokompassi.webp",
     "website": "https://ekokompassi.fi",
     "description": "Ekokompassi-sertifikaatti näyttää toteen konkreettista ympäristötyötänne. Se osoittaa, että teette aidosti vaikuttavia ympäristötekoja, joilla on tavoitteet, aikataulut ja seuranta. Sertifiointi on osa ympäristöjärjestelmää, joka on kehitetty kansainvälisen ISO14001-standardin pohjalta sopimaan kaikille pk-yrityksille. Järjestelmän omistaa Suomen vanhin ja vaikuttavin ympäristöjärjestö, Suomen Luonnonsuojeluliitto. Ekokompassi-sertifikaatti myönnetään, kun olette luoneet avullamme ympäristöohjelman tavoitteineen ja toimenpiteineen. "
   },
   {
-    "name": "GREEN KEY",
+    "name": "Green Key",
     "id": "green-key",
     "logoUrl": "/images/green-key.webp",
     "website": "https://greenkey.fi",
     "description": "Green Key on kansainvälinen hotelli- ja matkailualalle suunnattu ympäristö- ja vastuullisuusmerkki, jonka on saanut jo yli 3200 majoitusalan yritystä yli 65 maassa. Jatkuvaan kehittämiseen kannustavaa Green Key -ohjelmaa hallinnoi Suomessa ympäristökasvatusjärjestö FEE Suomen omistama Going Green Oy. Suomessa käytössä olevat kategoriat ovat hotellit ja hostellit, leirintäalueet ja mökkikylät, pienet majoitusliikkeet, ravintolat ja käyntikohteet."
   },
   {
-    "name": "GREEN ACTIVITIES",
+    "name": "Green Activities",
     "id": "green-activities",
     "logoUrl": "/images/green-activities.webp",
     "website": "https://greenkey.fi/mika-green-activities",
