@@ -2,7 +2,7 @@
 name: Sync certificates (weekly at sunday 23:59)
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
   schedule:
     # Every Sunday at 23:59
     - cron: '59 23 * * 0'
