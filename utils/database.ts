@@ -80,11 +80,20 @@ export const upsertCompanyCertificates = async (
   db: Knex<any, unknown[]>
 ) => {
   const companyNames = companyCertificates.map((cert) => cert.companyName?.toLowerCase());
-  const companies = await db('company').whereRaw('name ILIKE ANY (?)', [companyNames]);
+  const companies = await db('company').where((query) => {
+    companyNames.forEach((company) =>
+      query.orWhere('name', 'ilike', `${company} oy`).orWhere('name', 'ilike', company)
+    );
+    return query;
+  });
+
+  // If no matches, don't bother sending request to database
+  if (companies.length === 0) return;
 
   const upsertableCompanyCertificates = companies?.map((company) => {
     const cert = companyCertificates.find(
-      (cCert) => cCert?.companyName?.toLowerCase() === company?.name?.toLowerCase()
+      (cCert) =>
+        cCert?.companyName?.toLowerCase() === company?.name?.toLowerCase()?.replace(' oy', '')
     );
     return { certificate_id: cert?.certificateId, company_id: company?.id };
   });
