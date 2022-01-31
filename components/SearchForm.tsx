@@ -27,7 +27,6 @@ const SearchForm = ({
       query.push(`certificate=${certIds}`);
     }
     if (areas !== []) {
-      console.log(areas)
       const areaIds = areas.map((area) => area.id);
       query.push(`city=${areaIds}`);
     }
