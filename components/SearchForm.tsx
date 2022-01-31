@@ -13,7 +13,7 @@ const SearchForm = ({
 }) => {
   const [company, setCompany] = useState('');
   const [certs, setCerts] = useState<{ id: string; name: string }[]>([]);
-  const [areas, setAreas] = useState<string[]>([]);
+  const [areas, setAreas] = useState<{ id: string; name: string }[]>([]);
 
   const onSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -84,7 +84,7 @@ const SearchForm = ({
             limitTags={2}
             disableClearable
             fullWidth
-            options={[...cities.cities, ...cities.counties]}
+            options={cities}
             getOptionLabel={(option) => option.name}
             renderInput={(params) => <TextField {...params} label="Kaupunki/Maakunta" />}
           />
