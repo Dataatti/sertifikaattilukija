@@ -1,4 +1,4 @@
-import type { GetStaticProps, GetStaticPaths, NextApiResponse } from 'next';
+import type { GetServerSideProps, NextApiResponse } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Button, Grid, Typography, Link as MuiLink } from '@mui/material';
@@ -64,7 +64,7 @@ const CompanyResult = ({ company }: { company: Company }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const companyId = parseInt(params?.id as string);
 
   const hoc = databaseHoc()(async (req) => {
@@ -77,13 +77,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     props: {
       company,
     },
-  };
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: 'blocking',
   };
 };
 
