@@ -1,5 +1,20 @@
 import * as cheerio from 'cheerio';
 
+export const processTourCert = (html: string): ApiCompanyCertificate[] => {
+  const $ = cheerio.load(html);
+  const output: ApiCompanyCertificate[] = [];
+  $(
+    '.ajax_posts > .community-card .community-card-content h4.red.centered'
+  ).each((index, node) => {
+    // Trim whitespace
+    const companyName = $(node).text().trim();
+    if (companyName) {
+      output.push({ companyName, certificateId: 'tour-cert' });
+    }
+  });
+  return output;
+};
+
 export const processWWFGreenOffice = (html: string): ApiCompanyCertificate[] => {
   const $ = cheerio.load(html);
   const output: ApiCompanyCertificate[] = [];
