@@ -1,89 +1,43 @@
 import type { GetStaticProps, NextApiResponse } from 'next';
-import { ChangeEvent, useState, useRef } from 'react';
-import { Autocomplete, Button, Grid, TextField, Typography } from '@mui/material';
+import { useState } from 'react';
+import { Alert, Button, Grid, Typography } from '@mui/material';
 import { databaseHoc, getCompanies, NextRequestWithDb } from 'utils/database';
-import cities from 'enums/cities.json';
-import certificates from 'enums/certificates.json';
 import CompanyListItem from 'components/CompanyListItem';
+import { Print } from '@mui/icons-material';
+import useLocalStorage from 'hooks/useLocalStorage';
+import SearchForm from 'components/SearchForm';
 
 interface HomeProps {
   firstCompanies: Company[];
+  initialResultsAmount: number;
 }
 
-const Home = ({ firstCompanies }: HomeProps) => {
+const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
   const [companies, setCompanies] = useState(firstCompanies);
-  const certRef = useRef<string | null>(null);
-
-  const onSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const query = ['certificate', 'name', 'city'].reduce((result: string[], key) => {
-      const input = event.target?.[key] as HTMLInputElement;
-      const value = input?.value;
-      if (value) {
-        if (key === 'certificate') {
-          result.push(`${key}=${certRef.current}`);
-        } else {
-          result.push(`${key}=${value}`);
-        }
-      }
-      return result;
-    }, []);
-    const result = await fetch(`/api/data?${query.join('&')}`);
-    const { data } = await result.json();
-    setCompanies(data);
-  };
+  const [resultTotal, setResultTotal] = useState(initialResultsAmount);
+  const [showInfo, setShowInfo] = useLocalStorage('showInfo', true);
 
   return (
     <main>
-      <Grid container direction="column" sx={{ minHeight: '100vh' }}>
-        <Grid item xs={9} sm={10} md={11}>
-          <form onSubmit={onSubmit}>
-            <Grid container sx={{ my: '10px' }}>
-              <Grid item>
-                <TextField id="name" label="Yrityksen nimi tai y-tunnus" />
-              </Grid>
-              <Grid item>
-                <Autocomplete
-                  disableClearable
-                  id="certificate"
-                  options={certificates}
-                  getOptionLabel={(option) => option.name}
-                  renderInput={(params) => <TextField {...params} label="Sertifikaatti" />}
-                  onChange={(event, newValue) => {
-                    if (certRef && 'current' in certRef) {
-                      certRef.current = newValue.id;
-                    }
-                  }}
-                />
-              </Grid>
-              <Grid item>
-                <Autocomplete
-                  disableClearable
-                  id="city"
-                  options={cities.cities}
-                  renderInput={(params) => <TextField {...params} label="Kaupunki" />}
-                />
-              </Grid>
-              <Grid item>
-                <Button type="submit">Hae</Button>
-              </Grid>
-            </Grid>
-          </form>
-          <Grid container>
-            {companies?.map((company) => (
-              <CompanyListItem company={company} key={company.name} />
-            ))}
-          </Grid>
-        </Grid>
-
-        <Grid item xs={3} sm={2} md={1}>
-          <Typography align="center">
-            Business Finlandin mukaan sertifiointi on laadun tae kansainvälisessä kaupassa.
-            Matkailualan monimuotoisuus on kuitenkin mahdollistanut sen, että myös sertifikaatin
-            tarjoajia on hyvin paljon. Ideana on tuottaa nyt hankalasti ja pirstoutuneena oleva
-            tieto yhteen paikkaan kaikkien toimijoiden avoimesti saataville.
-          </Typography>
-        </Grid>
+      {showInfo && (
+        <Alert severity="info" onClose={() => setShowInfo(false)} sx={{ mt: '15px' }}>
+          Tässä palvelussa voit hakea matkailualan yritysten suorittamia ympäristösertifikaatteja
+          joko yrityksen nimen, y-tunnuksen, kaupungin tai sertifikaatin perusteella.
+        </Alert>
+      )}
+      <SearchForm setCompanies={setCompanies} setResultTotal={setResultTotal} />
+      <Grid container item sx={{ my: '15px' }}>
+        <Typography component="h3" variant="h5" sx={{ mr: '10px' }}>
+          Hakutulokset ({resultTotal} kpl)
+        </Typography>
+        <Button variant="contained" size="small" onClick={() => window.print()}>
+          <Print /> Tulosta
+        </Button>
+      </Grid>
+      <Grid container direction="column" sx={{ pt: '10px', pb: '30px' }} spacing={3}>
+        {companies?.map((company) => (
+          <CompanyListItem company={company} key={company.name} />
+        ))}
       </Grid>
     </main>
   );
@@ -91,14 +45,16 @@ const Home = ({ firstCompanies }: HomeProps) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   // Get data from database
+  const limit = 20;
   const hoc = databaseHoc()(async (req) => {
-    const { companies } = await getCompanies(req.db, 50);
+    const { companies } = await getCompanies(req.db, limit);
     return companies;
   });
   const firstCompanies = await hoc({} as NextRequestWithDb, {} as NextApiResponse);
   return {
     props: {
       firstCompanies,
+      initialResultsAmount: limit,
     },
   };
 };

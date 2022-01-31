@@ -40,7 +40,7 @@ For example: `city=turku,helsinki&certificate=sft` would return all companies wi
       "address": "Esimerkkikatu 1",
       "postCode": "12345",
       "city": "TURKU",
-      "certificateid": ["sft"]
+      "certificateId": ["sft"]
     }
   ]
 }
