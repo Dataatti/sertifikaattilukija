@@ -1,5 +1,5 @@
 import { Alert, Autocomplete, Button, Grid, TextField, Typography } from '@mui/material';
-import { ChangeEvent, useEffect, useState, useRef } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState, useRef } from 'react';
 import cities from 'enums/cities.json';
 import certificates from 'enums/certificates.json';
 import { Search } from '@mui/icons-material';
@@ -8,12 +8,12 @@ const SearchForm = ({
   setCompanies,
   setResultTotal,
 }: {
-  setCompanies: () => void;
-  setResultTotal: () => void;
+  setCompanies: Dispatch<SetStateAction<Company[]>>;
+  setResultTotal: Dispatch<SetStateAction<number>>;
 }) => {
   const [company, setCompany] = useState('');
-  const [certs, setCerts] = useState([]);
-  const [areas, setAreas] = useState([]);
+  const [certs, setCerts] = useState<{ id: string; name: string }[]>([]);
+  const [areas, setAreas] = useState<string[]>([]);
 
   const onSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
