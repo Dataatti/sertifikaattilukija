@@ -6,7 +6,6 @@ import { getErrorMessage } from 'utils/utils';
 
 export const handler = async (req: NextRequestWithDb, res: NextApiResponse) => {
   try {
-    // 1. step
     await checkCors(req, res, corsOptions);
     const ok = await scrapeTourCert(req.db);
     res.status(200).json(ok);
