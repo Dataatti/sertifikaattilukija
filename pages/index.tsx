@@ -1,11 +1,12 @@
 import type { GetStaticProps, NextApiResponse } from 'next';
-import { ChangeEvent, useState, useRef } from 'react';
+import { ChangeEvent, useEffect, useState, useRef } from 'react';
 import { Alert, Autocomplete, Button, Grid, TextField, Typography } from '@mui/material';
 import { databaseHoc, getCompanies, NextRequestWithDb } from 'utils/database';
 import cities from 'enums/cities.json';
 import certificates from 'enums/certificates.json';
 import CompanyListItem from 'components/CompanyListItem';
 import { Print, Search } from '@mui/icons-material';
+import useLocalStorage from 'hooks/useLocalStorage';
 
 interface HomeProps {
   firstCompanies: Company[];
@@ -15,7 +16,7 @@ interface HomeProps {
 const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
   const [companies, setCompanies] = useState(firstCompanies);
   const [resultTotal, setResultTotal] = useState(initialResultsAmount);
-  const [showInfo, setShowInfo] = useState(true);
+  const [showInfo, setShowInfo] = useLocalStorage('showInfo', true);
   const certRef = useRef<string | null>(null);
 
   const onSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
