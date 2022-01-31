@@ -90,13 +90,15 @@ export const upsertCompanyCertificates = async (
   // If no matches, don't bother sending request to database
   if (companies.length === 0) return;
 
-  const upsertableCompanyCertificates = companies?.map((company) => {
-    const cert = companyCertificates.find(
-      (cCert) =>
-        cCert?.companyName?.toLowerCase() === company?.name?.toLowerCase()?.replace(' oy', '')
-    );
-    return { certificate_id: cert?.certificateId, company_id: company?.id };
-  });
+  const upsertableCompanyCertificates = companies
+    ?.map((company) => {
+      const cert = companyCertificates.find(
+        (cCert) =>
+          cCert?.companyName?.toLowerCase()?.replace(/ oy$| tmi$| ky$/, '') === company?.name?.toLowerCase()?.replace(/ oy$| tmi$| ky$/, '')
+      );
+      return { certificate_id: cert?.certificateId, company_id: company?.id };
+    })
+    .filter((n) => n.company_id && n.certificate_id);
 
   await db('company_certificate')
     .insert(upsertableCompanyCertificates)
@@ -147,7 +149,9 @@ export const getCompanies = async (
       'company.address as address',
       'company.post_code as postCode',
       'company.city as city',
-      db.raw('ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as certificateId'),
+      db.raw(
+        'ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as "certificateId"'
+      ),
     ])
     .groupBy('company.id', 'company.name')
     .orderBy('company.name', 'asc')
