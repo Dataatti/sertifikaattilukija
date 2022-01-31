@@ -329,7 +329,7 @@
     "name": "Pirkanmaa"
   },
   {
-    "name": "Asikkala,Hartola,Heinola,Hollola,Iitti,Kärkölä,Lahti,Orimattila,Padasjoki,Sysmä",
+    "id": "Asikkala,Hartola,Heinola,Hollola,Iitti,Kärkölä,Lahti,Orimattila,Padasjoki,Sysmä",
     "name": "Päijät-Hämee"
   },
   { "id": "Hamina,Kotka,Kouvola,Miehikkälä,Pyhtää,Virolahti", "name": "Kymenlaakso" },
