@@ -65,7 +65,7 @@ const CompanyResult = ({ company }: { company: Company }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const companyId = params?.id as string;
+  const companyId = parseInt(params?.id as string);
 
   const hoc = databaseHoc()(async (req) => {
     const { company } = await getCompany(req.db, companyId);
