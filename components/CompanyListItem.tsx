@@ -12,7 +12,7 @@ const CompanyListItem = ({ company }: { company: Company }) => {
     <Grid item>
       <Grid container justifyContent="space-between" alignItems="center">
         <Grid item>
-          <Link href={`/${company.vatNumber}`} passHref>
+          <Link href={`/${company.companyId}`} passHref>
             <MuiLink color="text.primary" sx={{ fontWeight: '600' }}>
               {company.name}
             </MuiLink>

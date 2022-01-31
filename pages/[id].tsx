@@ -2,7 +2,7 @@ import type { GetStaticProps, GetStaticPaths, NextApiResponse } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Button, Grid, Typography, Link as MuiLink } from '@mui/material';
-import { databaseHoc, getCompanies, NextRequestWithDb } from 'utils/database';
+import { databaseHoc, getCompany, NextRequestWithDb } from 'utils/database';
 import { Print } from '@mui/icons-material';
 import certificates from 'enums/certificates.json';
 
@@ -56,23 +56,26 @@ const CompanyResult = ({ company }: { company: Company }) => {
           </Grid>
         </Grid>
       </Grid>
-      <Typography align="center" sx={{ mt: '20vh' }}>Ovatko yrityksen tiedot virheelliset? Ota yhteyttä osoitteeseen <MuiLink href="mailto:email@email.com">email@email.com</MuiLink></Typography>
+      <Typography align="center" sx={{ mt: '20vh' }}>
+        Ovatko yrityksen tiedot virheelliset? Ota yhteyttä osoitteeseen{' '}
+        <MuiLink href="mailto:email@email.com">email@email.com</MuiLink>
+      </Typography>
     </main>
   );
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const vatNumber = params?.id as string;
+  const companyId = params?.id as string;
 
   const hoc = databaseHoc()(async (req) => {
-    const { companies } = await getCompanies(req.db, 1, 0, vatNumber);
-    return companies;
+    const { company } = await getCompany(req.db, companyId);
+    return company;
   });
-  const companies = await hoc({} as NextRequestWithDb, {} as NextApiResponse);
+  const company = await hoc({} as NextRequestWithDb, {} as NextApiResponse);
 
   return {
     props: {
-      company: companies[0],
+      company,
     },
   };
 };

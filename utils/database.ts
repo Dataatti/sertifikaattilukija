@@ -94,7 +94,8 @@ export const upsertCompanyCertificates = async (
     ?.map((company) => {
       const cert = companyCertificates.find(
         (cCert) =>
-          cCert?.companyName?.toLowerCase()?.replace(/ oy$| tmi$| ky$/, '') === company?.name?.toLowerCase()?.replace(/ oy$| tmi$| ky$/, '')
+          cCert?.companyName?.toLowerCase()?.replace(/ oy$| tmi$| ky$/, '') ===
+          company?.name?.toLowerCase()?.replace(/ oy$| tmi$| ky$/, '')
       );
       return { certificate_id: cert?.certificateId, company_id: company?.id };
     })
@@ -164,4 +165,26 @@ export const getCompanies = async (
   const companies: Company[] = await query;
 
   return { companies, total };
+};
+
+export const getCompany = async (db: Knex<any, unknown[]>, id: number) => {
+  const query = db('company')
+    .leftJoin('company_certificate', 'company.id', 'company_certificate.company_id')
+    .where('company.id', id)
+    .first([
+      'company.id as companyId',
+      'company.name as name',
+      'company.vat_number as vatNumber',
+      'company.address as address',
+      'company.post_code as postCode',
+      'company.city as city',
+      db.raw(
+        'ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) as "certificateId"'
+      ),
+    ])
+    .groupBy('company.id');
+
+  const company: Company = await query;
+
+  return { company };
 };
