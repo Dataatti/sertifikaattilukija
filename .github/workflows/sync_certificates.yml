@@ -2,24 +2,44 @@
 
 name: Sync certificates (weekly at sunday 23:59)
 
-on: [workflow_dispatch]
+on:
+  schedule:
+    # Every Sunday at 21:30 to avoid traffic
+    - cron: '30 21 * * 0'
 
-# on:
-#   schedule:
-#     # Every Sunday at 23:59
-#     - cron: '59 23 * * 0'
+  workflow_dispatch:
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Sync SFT certificates
-        run: |
-          curl --request GET \
-          --url 'https://sertifikaattilukija.netlify.app/api/sync/sft' \
-          --header 'Authorization: ${{ secrets.AUTH_TOKEN }}'
       - name: Sync wwf green office certificates
+        continue-on-error: true
         run: |
-          curl --request GET \
+          curl --fail \
           --url 'https://sertifikaattilukija.netlify.app/api/sync/wwf-green-office' \
-          --header 'Authorization: ${{ secrets.AUTH_TOKEN }}'
+          -H 'Authorization: ${{ secrets.AUTH_TOKEN }}'
+      - name: Sync SFT certificates
+        continue-on-error: true
+        run: |
+          curl --fail \
+          --url 'https://sertifikaattilukija.netlify.app/api/sync/sft' \
+          -H 'Authorization: ${{ secrets.AUTH_TOKEN }}'
+      - name: Sync geo-golf certificates
+        continue-on-error: true
+        run: |
+          curl --fail \
+          --url 'https://sertifikaattilukija.netlify.app/api/sync/geo-golf' \
+          -H 'Authorization: ${{ secrets.AUTH_TOKEN }}'
+      - name: Sync geo-golf certificates
+        continue-on-error: true
+        run: |
+          curl --fail \
+          --url 'https://sertifikaattilukija.netlify.app/api/sync/ekokompassi' \
+          -H 'Authorization: ${{ secrets.AUTH_TOKEN }}'
+      - name: Sync tour-cert certificates
+        continue-on-error: true
+        run: |
+          curl --fail \
+          --url 'https://sertifikaattilukija.netlify.app/api/sync/tour-cert' \
+          -H 'Authorization: ${{ secrets.AUTH_TOKEN }}'
