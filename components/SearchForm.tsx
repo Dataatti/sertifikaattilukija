@@ -13,7 +13,7 @@ const SearchForm = ({
 }) => {
   const [company, setCompany] = useState('');
   const [certs, setCerts] = useState<{ id: string; name: string }[]>([]);
-  const [areas, setAreas] = useState<string[]>([]);
+  const [areas, setAreas] = useState<{ id: string; name: string }[]>([]);
 
   const onSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,7 +27,8 @@ const SearchForm = ({
       query.push(`certificate=${certIds}`);
     }
     if (areas !== []) {
-      query.push(`city=${areas}`);
+      const areaIds = areas.map((area) => area.id);
+      query.push(`city=${areaIds}`);
     }
 
     const result = await fetch(`/api/data?${query.join('&')}`);
@@ -83,8 +84,9 @@ const SearchForm = ({
             limitTags={2}
             disableClearable
             fullWidth
-            options={cities.cities}
-            renderInput={(params) => <TextField {...params} label="Kaupunki" />}
+            options={cities}
+            getOptionLabel={(option) => option.name}
+            renderInput={(params) => <TextField {...params} label="Kaupunki/Maakunta" />}
           />
         </Grid>
         <Grid item xs={4} sm={1}>
