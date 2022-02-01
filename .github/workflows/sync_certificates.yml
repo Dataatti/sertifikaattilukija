@@ -31,7 +31,7 @@ jobs:
           curl --fail \
           --url 'https://sertifikaattilukija.netlify.app/api/sync/geo-golf' \
           -H 'Authorization: ${{ secrets.AUTH_TOKEN }}'
-      - name: Sync geo-golf certificates
+      - name: Sync ekokompassi certificates
         continue-on-error: true
         run: |
           curl --fail \
