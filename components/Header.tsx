@@ -16,7 +16,7 @@ const Header = () => {
                   sx={{ fontWeight: '500', fontSize: '22px', p: '7px', color: 'text.primary' }}
                 >
                   Matkailualan
-                  <br /> ympäristösertifikaatit
+                  <br /> sertifikaatit
                 </Typography>
               </MuiLink>
             </Link>
