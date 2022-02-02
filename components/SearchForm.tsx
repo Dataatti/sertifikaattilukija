@@ -86,7 +86,7 @@ const SearchForm = ({
             fullWidth
             options={cities}
             getOptionLabel={(option) => option.name}
-            renderInput={(params) => <TextField {...params} label="Kaupunki/Maakunta" />}
+            renderInput={(params) => <TextField {...params} label="Kunta/Maakunta" />}
           />
         </Grid>
         <Grid item xs={4} sm={1}>
