@@ -24,7 +24,7 @@ const CompanyListItem = ({ company }: { company: Company }) => {
           {company.certificateId?.map((id) => {
             const certificate = certificates.find((certificate) => certificate.id === id);
             if (certificate) {
-              return <CertificateItem certificate={certificate} />;
+              return <CertificateItem certificate={certificate} key={certificate.id} />;
             }
           })}
         </Grid>
