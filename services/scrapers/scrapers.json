@@ -86,5 +86,13 @@
     "testInput": "html/joutsenmerkki.html",
     "testOutput": "scrapedData/joutsenmerkki.json",
     "inputType": "html"
+  },
+  {
+    "id": "roope-satama",
+    "url": "https://www.pidasaaristosiistina.fi/ymparistotietoa/roope-satamat/roope-satamat_2021",
+    "scraper": "processRoopeSatama",
+    "testInput": "html/roope-satama.html",
+    "testOutput": "scrapedData/roope-satama.json",
+    "inputType": "html"
   }
 ]

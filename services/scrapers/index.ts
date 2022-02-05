@@ -197,3 +197,21 @@ export const processJoutsenmerkki = (html: string): ApiCompanyCertificate[] => {
 
   return output;
 };
+
+export const processRoopeSatama = (html: string): ApiCompanyCertificate[] => {
+  const $ = cheerio.load(html);
+  const output: ApiCompanyCertificate[] = [];
+  const nodes = $('main > .content > p  a');
+
+  nodes.each((index, node) => {
+    // Trim and collapse whitespace
+    const rawCompanyName = $(node).text().trim().replace(/\s\s+/g, ' ');
+    const companyName = rawCompanyName?.split(',')?.[0];
+
+    if (companyName) {
+      output.push({ companyName, certificateId: 'roope-satama' });
+    }
+  });
+
+  return output;
+};
