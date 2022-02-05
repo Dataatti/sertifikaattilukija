@@ -215,3 +215,20 @@ export const processRoopeSatama = (html: string): ApiCompanyCertificate[] => {
 
   return output;
 };
+
+export const processTravelife = (html: string): ApiCompanyCertificate[] => {
+  const $ = cheerio.load(html);
+  const output: ApiCompanyCertificate[] = [];
+  const nodes = $('#Finland > div.company_info span a');
+
+  nodes.each((index, node) => {
+    // Trim and collapse whitespace
+    const companyName = $(node).text().trim().replace(/\s\s+/g, ' ');
+
+    if (companyName) {
+      output.push({ companyName, certificateId: 'travelife' });
+    }
+  });
+
+  return output;
+};

@@ -96,5 +96,12 @@
     "logoUrl": "/images/roope-satama.webp",
     "website": "https://www.pidasaaristosiistina.fi/ymparistotietoa/roope-satamat",
     "description": "Roope-satamaohjelma on Pidä Saaristo Siistinä ry:n suomalaisille venesatamille suunnittelema ainutlaatuinen ympäristöohjelma. Ohjelman tavoitteena on kehittää kaikenkokoisia venesatamia erityisesti ympäristönäkökulmat ja turvallisuusasiat huomioiden. Samalla ohjataan venesatamien käyttäjiä ympäristöystävälliseen toimintaan."
+  },
+  {
+    "name": "Travelife",
+    "id": "Travelife",
+    "logoUrl": "/images/travelife.webp",
+    "website": "https://www.travelife.info/index_new.php?menu=home&lang=en",
+    "description": "Travelife for Tour Operator on johtava koulutuksen, hallinnan ja sertifioinnin ohjelma matkailuyrityksille, jotka ovat sitoutuneet tavoittelemaan kestävyyttä. Travelife-järjestelmä matkanjärjestäjille tarjoaa verkkokoulutusta ja käytännön työkaluja kestävyyssuunnitteluun, hallintaan ja raportointiin. Koulutus ja työkalut sopivat kaiken kokoisille yrityksille ja kattavat kaikki matkailuyritysten johtamisen alueet sisältäen toimiston, toimitusketjun, kohteet ja kuluttajat. "
   }
 ]

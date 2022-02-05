@@ -94,5 +94,13 @@
     "testInput": "html/roope-satama.html",
     "testOutput": "scrapedData/roope-satama.json",
     "inputType": "html"
+  },
+  {
+    "id": "travelife",
+    "url": "https://www.travelife.info/index_new.php?menu=certifiedcompanies&lang=en",
+    "scraper": "processTravelife",
+    "testInput": "html/travelife.html",
+    "testOutput": "scrapedData/travelife.json",
+    "inputType": "html"
   }
 ]
