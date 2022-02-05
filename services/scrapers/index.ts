@@ -1,11 +1,45 @@
 import * as cheerio from 'cheerio';
 
+export const processGreenKeyAland = (html: string): ApiCompanyCertificate[] => {
+  const $ = cheerio.load(html);
+  const output: ApiCompanyCertificate[] = [];
+
+  $('.entry-content > ul > li a, .entry-content > ul > li span').each((index, node) => {
+    // Trim and collapse whitespace
+    const companyName = $(node).text().trim().replace(/\s\s+/g, ' ');
+
+    if (companyName) {
+      output.push({ companyName, certificateId: 'green-key' });
+    }
+  });
+  const uniqueOutput = output.filter(
+    (value, index, self) => index === self.findIndex((t) => t.companyName === value.companyName)
+  );
+
+  return uniqueOutput;
+};
+
+export const processGreenKeyMain = (html: string): ApiCompanyCertificate[] => {
+  const $ = cheerio.load(html);
+  const output: ApiCompanyCertificate[] = [];
+
+  $('.fusion-portfolio-content-wrapper > .fusion-portfolio-content > .fusion-post-title > a').each(
+    (index, node) => {
+      // Trim and collapse whitespace
+      const companyName = $(node).text().trim().replace(/\s\s+/g, ' ');
+      if (companyName) {
+        output.push({ companyName, certificateId: 'green-key' });
+      }
+    }
+  );
+
+  return output;
+};
+
 export const processTourCert = (html: string): ApiCompanyCertificate[] => {
   const $ = cheerio.load(html);
   const output: ApiCompanyCertificate[] = [];
-  $(
-    '.ajax_posts > .community-card .community-card-content h4.red.centered'
-  ).each((index, node) => {
+  $('.ajax_posts > .community-card .community-card-content h4.red.centered').each((index, node) => {
     // Trim whitespace
     const companyName = $(node).text().trim();
     if (companyName) {
