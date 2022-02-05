@@ -70,5 +70,13 @@
     "testInput": "html/emas.html",
     "testOutput": "scrapedData/emas.json",
     "inputType": "html"
+  },
+  {
+    "id": "eu-ecolabel",
+    "url": "https://eu-ymparistomerkki.fi/majoituspalvelut/",
+    "scraper": "processEUEcolabel",
+    "testInput": "html/eu-ecolabel.html",
+    "testOutput": "scrapedData/eu-ecolabel.json",
+    "inputType": "html"
   }
 ]

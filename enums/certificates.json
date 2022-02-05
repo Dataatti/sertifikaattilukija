@@ -75,5 +75,12 @@
     "logoUrl": "/images/emas.webp",
     "website": "https://www.ymparisto.fi/emas",
     "description": "EMAS (The Eco-Management and Audit Scheme) on kaikille yrityksille ja organisaatioille tarkoitettu vapaaehtoinen ympäristöasioiden hallintajärjestelmä, joka perustuu EU:n asetukseen (EY) N:o 1221/2009. Ympäristöjärjestelmä on organisaation ympäristöjohtamisen väline, jonka avulla organisaatio tunnistaa toimintansa, tuotteidensa ja palvelujensa välilliset ja välittömät ympäristövaikutukset ja toimii suunnitelmallisesti erilaisten päästöjen ja jätteiden sekä energian ja luonnonvarojen kulutuksen vähentämiseksi. "
+  },
+  {
+    "name": "EU Ecolabel",
+    "id": "eu-ecolabel",
+    "logoUrl": "/images/eu-ecolabel.webp",
+    "website": "https://eu-ymparistomerkki.fi/",
+    "description": "EU-ympäristömerkkijärjestelmä on osa Euroopan yhteisön kestävää kulutusta ja tuotantoa koskevaa politiikkaa. Merkki luotiin vuonna 1992 Euroopan parlamentin ja neuvoston asetuksella. Jokaisessa maassa on oma organisaationsa valvomassa merkin käyttöä ja osallistumassa merkin kehitystyöhön, Suomessa merkintää hoitaa Ympäristömerkintä Suomi Oy. Merkin voivat saada majoitusliikkeet, jotka täyttävät asetetut korkeat ympäristökriteerit."
   }
 ]
