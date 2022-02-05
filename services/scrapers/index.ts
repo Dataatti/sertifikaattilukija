@@ -23,12 +23,29 @@ export const processGreenKeyMain = (html: string): ApiCompanyCertificate[] => {
   const $ = cheerio.load(html);
   const output: ApiCompanyCertificate[] = [];
 
-  $('.fusion-portfolio-content-wrapper > .fusion-portfolio-content > .fusion-post-title > a').each(
+  $('article:not(.green-activities) .fusion-portfolio-content-wrapper > .fusion-portfolio-content > .fusion-post-title > a').each(
     (index, node) => {
       // Trim and collapse whitespace
       const companyName = $(node).text().trim().replace(/\s\s+/g, ' ');
       if (companyName) {
         output.push({ companyName, certificateId: 'green-key' });
+      }
+    }
+  );
+
+  return output;
+};
+
+export const processGreenActivities = (html: string): ApiCompanyCertificate[] => {
+  const $ = cheerio.load(html);
+  const output: ApiCompanyCertificate[] = [];
+
+  $('article.green-activities .fusion-portfolio-content-wrapper > .fusion-portfolio-content > .fusion-post-title > a').each(
+    (index, node) => {
+      // Trim and collapse whitespace
+      const companyName = $(node).text().trim().replace(/\s\s+/g, ' ');
+      if (companyName) {
+        output.push({ companyName, certificateId: 'green-activities' });
       }
     }
   );

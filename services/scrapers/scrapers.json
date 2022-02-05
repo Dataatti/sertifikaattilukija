@@ -16,6 +16,14 @@
     "inputType": "html"
   },
   {
+    "id": "green-activities",
+    "url": "https://greenkey.fi/kohteet/",
+    "scraper": "processGreenActivities",
+    "testInput": "html/green-key-main.html",
+    "testOutput": "scrapedData/green-activities.json",
+    "inputType": "html"
+  },
+  {
     "id": "ekokompassi",
     "url": "https://ekokompassi.fi/asiakkaamme",
     "scraper": "processEkokompassi",
