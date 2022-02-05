@@ -82,5 +82,12 @@
     "logoUrl": "/images/eu-ecolabel.webp",
     "website": "https://eu-ymparistomerkki.fi/",
     "description": "EU-ympäristömerkkijärjestelmä on osa Euroopan yhteisön kestävää kulutusta ja tuotantoa koskevaa politiikkaa. Merkki luotiin vuonna 1992 Euroopan parlamentin ja neuvoston asetuksella. Jokaisessa maassa on oma organisaationsa valvomassa merkin käyttöä ja osallistumassa merkin kehitystyöhön, Suomessa merkintää hoitaa Ympäristömerkintä Suomi Oy. Merkin voivat saada majoitusliikkeet, jotka täyttävät asetetut korkeat ympäristökriteerit."
+  },
+  {
+    "name": "Joutsenmerkki",
+    "id": "joutsenmerkki",
+    "logoUrl": "/images/joutsenmerkki.webp",
+    "website": "https://joutsenmerkki.fi/",
+    "description": "Joutsenmerkki on yksi Pohjoismaiden tunnetuimmista ympäristömerkeistä. Kulutustuotteista lähtenyt sertifiointi on laajentunut kattamaan myös monia palveluita, kuten hotellit, ravintolat ja kongressikeskukset. Merkin tavoitteena on edistää kestävää kehitystä. Merkin avulla ohjataan kuluttajia ja ostajia valitsemaan ympäristön kannalta viisaasti ja  kannustetaan valmistajia ja palveluntarjoajia tarjoamaan ympäristön kannalta parempia vaihtoehtoja. Merkin saaminen perustuu elinkaaripohjaisten kriteerien täyttymiseen."
   }
 ]

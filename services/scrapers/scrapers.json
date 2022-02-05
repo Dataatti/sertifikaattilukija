@@ -78,5 +78,13 @@
     "testInput": "html/eu-ecolabel.html",
     "testOutput": "scrapedData/eu-ecolabel.json",
     "inputType": "html"
+  },
+  {
+    "id": "joutsenmerkki",
+    "url": "https://joutsenmerkki.fi/tuotteet-ja-palvelut/?_sft_product_group=055-hotellit-ravintolat-ja-kongressikeskukset",
+    "scraper": "processJoutsenmerkki",
+    "testInput": "html/joutsenmerkki.html",
+    "testOutput": "scrapedData/joutsenmerkki.json",
+    "inputType": "html"
   }
 ]
