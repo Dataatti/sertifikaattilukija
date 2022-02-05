@@ -36,7 +36,7 @@ const CertificateResult = ({ certificate }: { certificate: Certificate }) => {
           <Typography component="h3" variant="h5" sx={{ my: '15px' }}>
             Sertifikaatin omaavat yritykset
           </Typography>
-          <Button href="/" variant="contained">
+          <Button href={`/?cert=${certificate.id}`} variant="contained">
             Näytä yritykset
           </Button>
         </Grid>
