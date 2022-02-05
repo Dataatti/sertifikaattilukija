@@ -1,0 +1,16 @@
+[
+  {
+    "id": "green-key",
+    "url": "https://greenkey.fi/kohteet/",
+    "scraper": "processGreenKeyMain",
+    "testInput": "html/green-key-main.html",
+    "testOutput": "scrapedData/green-key-main.json"
+  },
+  {
+    "id": "green-key",
+    "url": "https://www.visitaland.com/fi/green-key/",
+    "scraper": "processGreenKeyAland",
+    "testInput": "html/green-key-aland.html",
+    "testOutput": "scrapedData/green-key-aland.json"
+  }
+]

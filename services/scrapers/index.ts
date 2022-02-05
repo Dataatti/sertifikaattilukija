@@ -16,6 +16,8 @@ export const processGreenKeyAland = (html: string): ApiCompanyCertificate[] => {
     (value, index, self) => index === self.findIndex((t) => t.companyName === value.companyName)
   );
 
+  console.log(uniqueOutput.find(n => n.companyName === "Café Hjorten/Matverket"))
+
   return uniqueOutput;
 };
 
