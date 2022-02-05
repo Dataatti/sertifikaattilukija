@@ -4,13 +4,47 @@
     "url": "https://greenkey.fi/kohteet/",
     "scraper": "processGreenKeyMain",
     "testInput": "html/green-key-main.html",
-    "testOutput": "scrapedData/green-key-main.json"
+    "testOutput": "scrapedData/green-key-main.json",
+    "inputType": "html"
   },
   {
     "id": "green-key",
     "url": "https://www.visitaland.com/fi/green-key/",
     "scraper": "processGreenKeyAland",
     "testInput": "html/green-key-aland.html",
-    "testOutput": "scrapedData/green-key-aland.json"
+    "testOutput": "scrapedData/green-key-aland.json",
+    "inputType": "html"
+  },
+  {
+    "id": "ekokompassi",
+    "url": "https://ekokompassi.fi/asiakkaamme",
+    "scraper": "processEkokompassi",
+    "testInput": "html/ekokompassi.html",
+    "testOutput": "scrapedData/ekokompassi.json",
+    "inputType": "html"
+  },
+  {
+    "id": "geo-golf",
+    "url": "https://sustainable.golf/system/get-directory.json?formattedAddress=&boundsNorthEast=&boundsSouthWest=",
+    "scraper": "processGEOGolf",
+    "testInput": "json/geo-golf-raw.json",
+    "testOutput": "scrapedData/geo-golf.json",
+    "inputType": "json"
+  },
+  {
+    "id": "wwf-green-office",
+    "url": "https://wwf.fi/greenoffice/asiakkaat/",
+    "scraper": "processWWFGreenOffice",
+    "testInput": "html/wwf-green-office.html",
+    "testOutput": "scrapedData/wwf-green-office.json",
+    "inputType": "html"
+  },
+  {
+    "id": "tour-cert",
+    "url": "https://www.tourcert.org/wp-content/themes/tc_theme/search-ajax-test.php?page=1&vis=0&typ=undefined&s=Finland&cat=&cert=&lang=en",
+    "scraper": "processTourCert",
+    "testInput": "html/tour-cert.html",
+    "testOutput": "scrapedData/tour-cert.json",
+    "inputType": "html"
   }
 ]
