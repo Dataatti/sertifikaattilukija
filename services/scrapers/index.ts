@@ -116,3 +116,17 @@ export const processBlueFlag = (html: string): ApiCompanyCertificate[] => {
   // Currently https://greenkey.fi/blue-flag/ can't be scraped in a general way, so return the only certificated company
   return [{ companyName: 'Saaristokeskus Korpoström', certificateId: 'blue-flag' }];
 };
+
+export const processECEATSuomi = (html: string): ApiCompanyCertificate[] => {
+  const $ = cheerio.load(html);
+  const output: ApiCompanyCertificate[] = [];
+  $('.content-column.two_third.last_column > ul > li a').each((index, node) => {
+    // Trim and collapse whitespace and remove trailing –
+    const companyName = $(node).text().trim().replace(/\s\s+/g, ' ').replace(/ –$/gm, '');
+    if (companyName) {
+      output.push({ companyName, certificateId: 'eceat-suomi' });
+    }
+  });
+
+  return output;
+};
