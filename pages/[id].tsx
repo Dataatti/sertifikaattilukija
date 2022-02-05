@@ -5,8 +5,22 @@ import { Button, Grid, Typography, Link as MuiLink } from '@mui/material';
 import { databaseHoc, getCompanies, NextRequestWithDb } from 'utils/database';
 import { Print } from '@mui/icons-material';
 import certificates from 'enums/certificates.json';
+import CertificateItem from 'components/CertificateItem';
 
 const CompanyResult = ({ company }: { company: Company }) => {
+  let stf;
+  let certs;
+
+  if (company?.certificateId) {
+    certs = company.certificateId;
+    const hasStf = company.certificateId.some((certId) => certId === 'sft');
+    if (hasStf) {
+      stf = certificates.find((cert) => cert.id === 'sft');
+      certs = certs.filter((certId) => certId !== 'sft');
+    }
+    certs = certs.map((certId) => certificates.find((cert) => cert.id === certId));
+  }
+
   return (
     <main>
       <Head>
@@ -27,23 +41,19 @@ const CompanyResult = ({ company }: { company: Company }) => {
           </Typography>
           <Typography>{`${company.address}, ${company.postCode} ${company.city}`}</Typography>
           <Typography>{`Y-tunnus: ${company.vatNumber}`}</Typography>
+          {stf && <CertificateItem certificate={stf} />}
         </Grid>
         <Grid item xs={12} md={6} sx={{ mt: { xs: '20px', md: 0 } }}>
           <Typography component="h2" variant="h5" sx={{ mb: '20px' }}>
             Yrityksen sertifikaatit
           </Typography>
           <Grid container>
-            {company.certificateId ? (
-              company.certificateId.map((id) => {
-                const certificate = certificates.find((certificate) => certificate.id === id);
-                if (certificate) {
+            {certs ? (
+              certs.map((cert) => {
+                if (cert) {
                   return (
-                    <Grid item key={certificate.id}>
-                      <Link href={`/sert/${certificate.id}`} passHref>
-                        <MuiLink>
-                          <img src={certificate.logoUrl} alt={certificate.name} height="100px" />
-                        </MuiLink>
-                      </Link>
+                    <Grid item key={cert.id}>
+                      <CertificateItem certificate={cert} />
                     </Grid>
                   );
                 }
