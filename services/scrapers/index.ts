@@ -111,3 +111,8 @@ export const processEkokompassi = (html: string): ApiCompanyCertificate[] => {
 
   return output;
 };
+
+export const processBlueFlag = (html: string): ApiCompanyCertificate[] => {
+  // Currently https://greenkey.fi/blue-flag/ can't be scraped in a general way, so return the only certificated company
+  return [{ companyName: 'Saaristokeskus Korpoström', certificateId: 'blue-flag' }];
+};

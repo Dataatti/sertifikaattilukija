@@ -46,5 +46,13 @@
     "testInput": "html/tour-cert.html",
     "testOutput": "scrapedData/tour-cert.json",
     "inputType": "html"
+  },
+  {
+    "id": "blue-flag",
+    "url": "https://greenkey.fi/blue-flag/",
+    "scraper": "processBlueFlag",
+    "testInput": "html/blue-flag.html",
+    "testOutput": "scrapedData/blue-flag.json",
+    "inputType": "html"
   }
 ]
