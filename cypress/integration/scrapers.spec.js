@@ -19,7 +19,6 @@ for (const config of configs) {
     context('Scrape certificates', () => {
       it(`Uses ${config.scraper} to scrape data source "${config.id}" correctly`, () => {
         const scrapedData = processor(input);
-        expect(scrapedData?.length, 'Correct number of companies are read').to.eq(target?.length);
 
         target.forEach((t) => {
           const foundData = scrapedData.find(
@@ -27,6 +26,8 @@ for (const config of configs) {
           );
           expect(t?.companyName).to.eq(foundData?.companyName);
         });
+
+        expect(scrapedData?.length, 'Correct number of companies are read').to.eq(target?.length);
       });
     });
   });

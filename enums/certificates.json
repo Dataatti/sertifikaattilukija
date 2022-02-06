@@ -89,5 +89,12 @@
     "logoUrl": "/images/joutsenmerkki.webp",
     "website": "https://joutsenmerkki.fi/",
     "description": "Joutsenmerkki on yksi Pohjoismaiden tunnetuimmista ympäristömerkeistä. Kulutustuotteista lähtenyt sertifiointi on laajentunut kattamaan myös monia palveluita, kuten hotellit, ravintolat ja kongressikeskukset. Merkin tavoitteena on edistää kestävää kehitystä. Merkin avulla ohjataan kuluttajia ja ostajia valitsemaan ympäristön kannalta viisaasti ja  kannustetaan valmistajia ja palveluntarjoajia tarjoamaan ympäristön kannalta parempia vaihtoehtoja. Merkin saaminen perustuu elinkaaripohjaisten kriteerien täyttymiseen."
+  },
+  {
+    "name": "Roope-satama",
+    "id": "roope-satama",
+    "logoUrl": "/images/roope-satama.webp",
+    "website": "https://www.pidasaaristosiistina.fi/ymparistotietoa/roope-satamat",
+    "description": "Roope-satamaohjelma on Pidä Saaristo Siistinä ry:n suomalaisille venesatamille suunnittelema ainutlaatuinen ympäristöohjelma. Ohjelman tavoitteena on kehittää kaikenkokoisia venesatamia erityisesti ympäristönäkökulmat ja turvallisuusasiat huomioiden. Samalla ohjataan venesatamien käyttäjiä ympäristöystävälliseen toimintaan."
   }
 ]
