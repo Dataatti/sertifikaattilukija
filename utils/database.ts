@@ -94,7 +94,7 @@ export const upsertCompanyCertificates = async (
     ?.map((company) => {
       const cert = companyCertificates.find(
         (cCert) =>
-          cCert?.companyName?.toLowerCase()?.replace(/ oy$| oy ab$| tmi$| ky$/, '') === company?.name?.toLowerCase()?.replace(/ oy$| oy ab$| tmi$| ky$/, '')
+          cCert?.companyName?.toLowerCase()?.replace(/ oy$| oy ab$| ab$| tmi$| ky$/, '') === company?.name?.toLowerCase()?.replace(/ oy$| oy ab$| ab$| tmi$| ky$/, '')
       );
       return { certificate_id: cert?.certificateId, company_id: company?.id };
     })

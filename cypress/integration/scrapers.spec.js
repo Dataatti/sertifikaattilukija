@@ -22,7 +22,9 @@ for (const config of configs) {
         expect(scrapedData?.length, 'Correct number of companies are read').to.eq(target?.length);
 
         target.forEach((t) => {
-          const foundData = scrapedData.find((d) => d.companyName === t.companyName);
+          const foundData = scrapedData.find(
+            (d) => d.companyName === t.companyName && d.certificateId === config.id
+          );
           expect(t?.companyName).to.eq(foundData?.companyName);
         });
       });

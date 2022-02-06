@@ -151,7 +151,7 @@ export const processEMAS = (html: string): ApiCompanyCertificate[] => {
     const companyName = rawCompanyName?.split(',')?.[0];
 
     if (companyName) {
-      output.push({ companyName, certificateId: 'eceat-suomi' });
+      output.push({ companyName, certificateId: 'emas' });
     }
   });
 
@@ -161,9 +161,7 @@ export const processEMAS = (html: string): ApiCompanyCertificate[] => {
 export const processEUEcolabel = (html: string): ApiCompanyCertificate[] => {
   const $ = cheerio.load(html);
   const output: ApiCompanyCertificate[] = [];
-  const nodes = $(
-    '#post-3793 > div > p:nth-child(1) > a'
-  );
+  const nodes = $('#post-3793 > div > p:nth-child(1) > a');
 
   nodes.each((index, node) => {
     // Trim and collapse whitespace
@@ -171,9 +169,31 @@ export const processEUEcolabel = (html: string): ApiCompanyCertificate[] => {
     const companyName = rawCompanyName?.split(',')?.[0];
 
     if (companyName) {
-      output.push({ companyName, certificateId: 'eceat-suomi' });
+      output.push({ companyName, certificateId: 'eu-ecolabel' });
     }
   });
+
+  return output;
+};
+
+export const processJoutsenmerkki = (html: string): ApiCompanyCertificate[] => {
+  const $ = cheerio.load(html);
+  const output: ApiCompanyCertificate[] = [];
+  const nodes = $(
+    '#search-filter-form-28257 > ul > li.sf-field-taxonomy-company > label > select > option.sf-level-0'
+  );
+
+  nodes.each((index, node) => {
+    // Trim and collapse whitespace
+    const companyName = $(node).text().trim().replace(/\s\s+/g, ' ');
+
+    if (companyName) {
+      output.push({ companyName, certificateId: 'joutsenmerkki' });
+    }
+  });
+
+  // Remove first element
+  output.shift();
 
   return output;
 };
