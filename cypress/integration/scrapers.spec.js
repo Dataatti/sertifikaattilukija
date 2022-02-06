@@ -19,6 +19,11 @@ for (const config of configs) {
     context('Scrape certificates', () => {
       it(`Uses ${config.scraper} to scrape data source "${config.id}" correctly`, () => {
         const scrapedData = processor(input);
+        const scrapedCertificateIds = scrapedData?.map((n) => n.certificateId);
+        const uniqueCertificateIds = [...new Set(scrapedCertificateIds)];
+
+        expect(uniqueCertificateIds.length, 'Only one certificate id is issued').to.eq(1);
+        expect(uniqueCertificateIds[0], 'Correct certificate id is issued').to.eq(config.id);
 
         target.forEach((t) => {
           const foundData = scrapedData.find(
