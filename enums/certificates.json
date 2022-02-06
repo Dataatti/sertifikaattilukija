@@ -68,5 +68,12 @@
     "logoUrl": "/images/eceat-suomi.webp",
     "website": "https://luomumatkailu.fi/",
     "description": "Suomen luomumatkailuyhdistys - ECEAT Suomi ry (European Centre for Ecological and Agricultural Tourism) edistää ympäristövastuullisen matkailun avulla luomuviljelyä, luonnon- ja ympäristönsuojelua, kestävää maankäyttöä, kulttuuriperinnön ja -maiseman suojelua sekä maaseudun ekologisia toimintamahdollisuuksia. Lisäksi yhdistys tarjoaa ympäristökasvatusta."
+  },
+  {
+    "name": "EMAS",
+    "id": "emas",
+    "logoUrl": "/images/emas.webp",
+    "website": "https://www.ymparisto.fi/emas",
+    "description": "EMAS (The Eco-Management and Audit Scheme) on kaikille yrityksille ja organisaatioille tarkoitettu vapaaehtoinen ympäristöasioiden hallintajärjestelmä, joka perustuu EU:n asetukseen (EY) N:o 1221/2009. Ympäristöjärjestelmä on organisaation ympäristöjohtamisen väline, jonka avulla organisaatio tunnistaa toimintansa, tuotteidensa ja palvelujensa välilliset ja välittömät ympäristövaikutukset ja toimii suunnitelmallisesti erilaisten päästöjen ja jätteiden sekä energian ja luonnonvarojen kulutuksen vähentämiseksi. "
   }
 ]

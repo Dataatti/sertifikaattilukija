@@ -62,5 +62,13 @@
     "testInput": "html/eceat-suomi.html",
     "testOutput": "scrapedData/eceat-suomi.json",
     "inputType": "html"
+  },
+  {
+    "id": "emas",
+    "url": "https://www.ymparisto.fi/fi-FI/Kulutus_ja_tuotanto/Ymparistojarjestelmat_ja_johtaminen/EMASrekisteri",
+    "scraper": "processEMAS",
+    "testInput": "html/emas.html",
+    "testOutput": "scrapedData/emas.json",
+    "inputType": "html"
   }
 ]
