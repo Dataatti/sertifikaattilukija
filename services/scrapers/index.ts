@@ -157,3 +157,23 @@ export const processEMAS = (html: string): ApiCompanyCertificate[] => {
 
   return output;
 };
+
+export const processEUEcolabel = (html: string): ApiCompanyCertificate[] => {
+  const $ = cheerio.load(html);
+  const output: ApiCompanyCertificate[] = [];
+  const nodes = $(
+    '#post-3793 > div > p:nth-child(1) > a'
+  );
+
+  nodes.each((index, node) => {
+    // Trim and collapse whitespace
+    const rawCompanyName = $(node).text().trim().replace(/\s\s+/g, ' ');
+    const companyName = rawCompanyName?.split(',')?.[0];
+
+    if (companyName) {
+      output.push({ companyName, certificateId: 'eceat-suomi' });
+    }
+  });
+
+  return output;
+};
