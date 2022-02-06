@@ -54,5 +54,12 @@
     "logoUrl": "/images/tour-cert.svg",
     "website": "https://www.tourcert.org/en/",
     "description": "TourCert on voittoa tavoittelematon matkailun sertifiointijärjestö. TourCert tarjoaa perehdytystä kestävään matkailuun niin destinaatioille, yrityksille kuin matkailijoille. Vuonna 2009 perustettu TourCert tarjoaa erilaisia indikaattoreita, kriteerejä ja työkaluja, joiden avulla matkanjärjestäjien yhteiskuntavastuu voidaan mitata. TourCert auttaa organisaatioita kestävän kehityksen suunnitelman kokonaisvaltaisessa implementoinnissa. TourCert mm. konsultoi, järjestää seminaareja ja tarjoaa itsearviointityökaluja jäsenilleen."
+  },
+  {
+    "name": "Blue Flag",
+    "id": "blue-flag",
+    "logoUrl": "/images/blue-flag.webp",
+    "website": "https://greenkey.fi",
+    "description": "Blue Flag on vapaaehtoinen kansainvälinen ympäristösertifikaatti, joka on suunnattu uimarannoille, venesatamille ja veneilyn retkeily-yrityksille (Suomessa tällä hetkellä vain venesatamille). Myös yksittäiset veneilijät voivat hakea ja saada Blue Flag -sertifikaatin veneilleen. Blue Flagin päämääränä on juurruttaa sekä ympäristön että yhteiskunnan kannalta kestäviä toimintatapoja vesillä ja veden äärellä toimiviin vapaa-ajan toimijoihin."
   }
 ]
