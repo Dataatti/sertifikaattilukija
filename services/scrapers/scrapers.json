@@ -54,5 +54,13 @@
     "testInput": "html/blue-flag.html",
     "testOutput": "scrapedData/blue-flag.json",
     "inputType": "html"
+  },
+  {
+    "id": "eceat-suomi",
+    "url": "https://luomumatkailu.fi/kohteet/arvilan-tila/kohteet-alueittain/",
+    "scraper": "processECEATSuomi",
+    "testInput": "html/eceat-suomi.html",
+    "testOutput": "scrapedData/eceat-suomi.json",
+    "inputType": "html"
   }
 ]

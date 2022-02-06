@@ -61,5 +61,12 @@
     "logoUrl": "/images/blue-flag.webp",
     "website": "https://greenkey.fi",
     "description": "Blue Flag on vapaaehtoinen kansainvälinen ympäristösertifikaatti, joka on suunnattu uimarannoille, venesatamille ja veneilyn retkeily-yrityksille (Suomessa tällä hetkellä vain venesatamille). Myös yksittäiset veneilijät voivat hakea ja saada Blue Flag -sertifikaatin veneilleen. Blue Flagin päämääränä on juurruttaa sekä ympäristön että yhteiskunnan kannalta kestäviä toimintatapoja vesillä ja veden äärellä toimiviin vapaa-ajan toimijoihin."
+  },
+  {
+    "name": "ECEAT Suomi",
+    "id": "eceat-suomi",
+    "logoUrl": "/images/eceat-suomi.webp",
+    "website": "https://luomumatkailu.fi/",
+    "description": "Suomen luomumatkailuyhdistys - ECEAT Suomi ry (European Centre for Ecological and Agricultural Tourism) edistää ympäristövastuullisen matkailun avulla luomuviljelyä, luonnon- ja ympäristönsuojelua, kestävää maankäyttöä, kulttuuriperinnön ja -maiseman suojelua sekä maaseudun ekologisia toimintamahdollisuuksia. Lisäksi yhdistys tarjoaa ympäristökasvatusta."
   }
 ]
