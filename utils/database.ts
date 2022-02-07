@@ -133,9 +133,10 @@ export const getCompanies = async (
       }
     });
 
-  if (certificate) {
+  if (certificate && certificate.length !== 0) {
+    // Get fields where there is an intersection between company's certificate_id:s and searched certificate_id:s
     query.havingRaw('ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) && (?)', [
-      certificate || [],
+      certificate,
     ]);
   }
 
