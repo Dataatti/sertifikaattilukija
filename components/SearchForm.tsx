@@ -10,10 +10,16 @@ const SearchForm = ({
   setCompanies,
   setResultTotal,
   setLoading,
+  setOffset,
+  offset,
+  searchLimit,
 }: {
   setCompanies: Dispatch<SetStateAction<Company[]>>;
   setResultTotal: Dispatch<SetStateAction<number>>;
-  setLoading: Dispatch<SetStateAction<boolean>>
+  setLoading: Dispatch<SetStateAction<boolean>>;
+  setOffset: Dispatch<SetStateAction<number>>;
+  offset: number;
+  searchLimit: number;
 }) => {
   const router = useRouter();
   const [company, setCompany] = useState('');
@@ -38,10 +44,16 @@ const SearchForm = ({
     }
   }, [fetchPreSelected]);
 
+  useEffect(() => {
+    if (offset > 0) {
+      onSubmit();
+    }
+  }, [offset]);
+
   const onSubmit = async (event?: FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
     setLoading(true);
-    let query = [];
+    let query = [`limit=${searchLimit}`];
 
     if (company !== '') {
       query.push(`name=${company}`);
@@ -54,12 +66,22 @@ const SearchForm = ({
       const areaIds = areas.map((area) => area.id);
       query.push(`city=${areaIds}`);
     }
+    if (offset !== 0) {
+      query.push(`offset=${offset}`);
+    }
 
     const result = await fetch(`/api/data?${query.join('&')}`);
-    const { data, totalResults } = await result.json();
-    setCompanies(data);
+    const { data, totalResults, resultsFrom } = await result.json();
+
+    if (offset !== 0) {
+      setCompanies((prevCompanies) => [...prevCompanies, ...data]);
+    } else {
+      setCompanies(data);
+    }
+
     setResultTotal(totalResults);
     setLoading(false);
+    setOffset(resultsFrom);
   };
 
   return (

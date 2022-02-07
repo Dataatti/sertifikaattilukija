@@ -16,7 +16,11 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
   const [companies, setCompanies] = useState(firstCompanies);
   const [resultTotal, setResultTotal] = useState(initialResultsAmount);
   const [loading, setLoading] = useState(false);
+  const [offset, setOffset] = useState(0);
   const [showInfo, setShowInfo] = useLocalStorage('showInfo', true);
+
+  const searchLimit = 50;
+  const showFetchMore = offset !== 0 || resultTotal > searchLimit;
 
   return (
     <main>
@@ -30,8 +34,11 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
         setCompanies={setCompanies}
         setResultTotal={setResultTotal}
         setLoading={setLoading}
+        setOffset={setOffset}
+        offset={offset}
+        searchLimit={searchLimit}
       />
-      {loading ? (
+      {loading && offset === 0 ? (
         <Grid container item alignItems="center" justifyContent="center" sx={{ marginY: '10vh' }}>
           <CircularProgress />
         </Grid>
@@ -49,6 +56,17 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
             {companies?.map((company) => (
               <CompanyListItem company={company} key={company.name} />
             ))}
+            {showFetchMore && (
+              <Grid container justifyContent="center">
+                {!loading ? (
+                  <Button variant="outlined" onClick={() => setOffset(offset + searchLimit)}>
+                    Hae lisää
+                  </Button>
+                ) : (
+                  <CircularProgress />
+                )}
+              </Grid>
+            )}
           </Grid>
         </>
       )}
