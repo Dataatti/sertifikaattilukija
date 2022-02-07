@@ -94,7 +94,8 @@ export const upsertCompanyCertificates = async (
     ?.map((company) => {
       const cert = companyCertificates.find(
         (cCert) =>
-          cCert?.companyName?.toLowerCase()?.replace(/ oy$| oy ab$| ab$| tmi$| ky$/, '') === company?.name?.toLowerCase()?.replace(/ oy$| oy ab$| ab$| tmi$| ky$/, '')
+          cCert?.companyName?.toLowerCase()?.replace(/ oy$| oy ab$| ab$| tmi$| ky$/, '') ===
+          company?.name?.toLowerCase()?.replace(/ oy$| oy ab$| ab$| tmi$| ky$/, '')
       );
       return { certificate_id: cert?.certificateId, company_id: company?.id };
     })
@@ -130,16 +131,13 @@ export const getCompanies = async (
       if (city) {
         builder.whereRaw('company.city ILIKE ANY (?)', [city]);
       }
-    })
-    .andWhere((builder) => {
-      if (certificate) {
-        builder.whereRaw('company_certificate.certificate_id ILIKE ANY (?)', [certificate]);
-      }
     });
 
-  // Get total count ignoring limit
-  const totalQuery = await query.clone().count();
-  const total = totalQuery?.[0]?.count;
+  if (certificate) {
+    query.havingRaw('ARRAY_REMOVE(ARRAY_AGG(company_certificate.certificate_id), NULL) && (?)', [
+      certificate || [],
+    ]);
+  }
 
   query
     .select([
@@ -154,8 +152,15 @@ export const getCompanies = async (
       ),
     ])
     .groupBy('company.id', 'company.name')
-    .orderBy('company.name', 'asc')
-    .offset(offset ?? 0);
+    .orderBy('company.name', 'asc');
+
+  const counter = db.count().from(query.clone().as('a')).first();
+
+  // Get total count ignoring limit and offset
+  const totalQuery = await counter;
+  const total = totalQuery?.count;
+
+  query.offset(offset ?? 0);
 
   if (limit) {
     query.limit(limit);
