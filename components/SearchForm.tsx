@@ -9,9 +9,11 @@ import { useRouter } from 'next/router';
 const SearchForm = ({
   setCompanies,
   setResultTotal,
+  setLoading,
 }: {
   setCompanies: Dispatch<SetStateAction<Company[]>>;
   setResultTotal: Dispatch<SetStateAction<number>>;
+  setLoading: Dispatch<SetStateAction<boolean>>
 }) => {
   const router = useRouter();
   const [company, setCompany] = useState('');
@@ -38,6 +40,7 @@ const SearchForm = ({
 
   const onSubmit = async (event?: FormEvent<HTMLFormElement>) => {
     event?.preventDefault();
+    setLoading(true);
     let query = [];
 
     if (company !== '') {
@@ -56,6 +59,7 @@ const SearchForm = ({
     const { data, totalResults } = await result.json();
     setCompanies(data);
     setResultTotal(totalResults);
+    setLoading(false);
   };
 
   return (
