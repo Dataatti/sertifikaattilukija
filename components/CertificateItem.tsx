@@ -6,7 +6,7 @@ const CertificateItem = ({ certificate }: { certificate: Certificate }) => {
 
   return (
     <Link href={`/sert/${id}`} passHref>
-      <MuiLink>
+      <MuiLink className="company-item-cert">
         <img
           src={logoUrl}
           alt={name}
