@@ -12,6 +12,8 @@ interface HomeProps {
   initialResultsAmount: number;
 }
 
+const searchLimit = 50;
+
 const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
   const [companies, setCompanies] = useState(firstCompanies);
   const [resultTotal, setResultTotal] = useState(initialResultsAmount);
@@ -19,7 +21,6 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
   const [offset, setOffset] = useState(0);
   const [showInfo, setShowInfo] = useLocalStorage('showInfo', true);
 
-  const searchLimit = 50;
   const showFetchMore = offset !== 0 || resultTotal > searchLimit;
 
   return (
@@ -76,16 +77,15 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   // Get data from database
-  const limit = 20;
   const hoc = databaseHoc()(async (req) => {
-    const { companies } = await getCompanies(req.db, limit);
+    const { companies } = await getCompanies(req.db, searchLimit);
     return companies;
   });
   const firstCompanies = await hoc({} as NextRequestWithDb, {} as NextApiResponse);
   return {
     props: {
       firstCompanies,
-      initialResultsAmount: limit,
+      initialResultsAmount: searchLimit,
     },
   };
 };
