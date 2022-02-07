@@ -10,7 +10,7 @@ const capitalizeFirstLetter = (string: string) => {
 
 const CompanyListItem = ({ company }: { company: Company }) => {
   return (
-    <Grid item>
+    <Grid item className="company-item">
       <Grid container justifyContent="space-between" alignItems="center">
         <Grid item>
           <Link href={`/${company.vatNumber}`} passHref>

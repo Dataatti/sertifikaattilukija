@@ -26,7 +26,12 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
   return (
     <main>
       {showInfo && (
-        <Alert severity="info" onClose={() => setShowInfo(false)} sx={{ mt: '15px' }}>
+        <Alert
+          severity="info"
+          onClose={() => setShowInfo(false)}
+          sx={{ mt: '15px' }}
+          data-testid="info-popup"
+        >
           Tässä palvelussa voit hakea matkailualan yritysten suorittamia ympäristösertifikaatteja
           joko yrityksen nimen, y-tunnuksen, kaupungin tai sertifikaatin perusteella.
         </Alert>
@@ -46,14 +51,25 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
       ) : (
         <>
           <Grid container item sx={{ my: '15px' }}>
-            <Typography component="h3" variant="h5" sx={{ mr: '10px' }}>
+            <Typography component="h3" variant="h5" data-testid="result-total" sx={{ mr: '10px' }}>
               Hakutulokset ({resultTotal} kpl)
             </Typography>
-            <Button variant="contained" size="small" onClick={() => window.print()}>
+            <Button
+              variant="contained"
+              size="small"
+              data-testid="print-button"
+              onClick={() => window.print()}
+            >
               <Print /> Tulosta
             </Button>
           </Grid>
-          <Grid container direction="column" sx={{ pt: '10px', pb: '30px' }} spacing={3}>
+          <Grid
+            container
+            direction="column"
+            sx={{ pt: '10px', pb: '30px' }}
+            spacing={3}
+            data-testid="company-list"
+          >
             {companies?.map((company) => (
               <CompanyListItem company={company} key={company.name} />
             ))}
