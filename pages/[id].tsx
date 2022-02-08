@@ -31,23 +31,24 @@ const CompanyResult = ({ company }: { company: Company }) => {
         variant="contained"
         onClick={() => window.print()}
         sx={{ float: 'right', mt: '15px' }}
+        data-testid="print-button"
       >
         <Print /> Tulosta
       </Button>
       <Grid container sx={{ mt: '15px' }}>
         <Grid item xs={12} md={6}>
-          <Typography component="h2" variant="h5" sx={{ mb: '20px' }}>
+          <Typography component="h2" variant="h5" data-testid="company-name" sx={{ mb: '20px' }}>
             {company.name}
           </Typography>
-          <Typography>{`${company.address}, ${company.postCode} ${company.city}`}</Typography>
-          <Typography>{`Y-tunnus: ${company.vatNumber}`}</Typography>
+          <Typography data-testid="company-address">{`${company.address}, ${company.postCode} ${company.city}`}</Typography>
+          <Typography data-testid="company-vat">{`Y-tunnus: ${company.vatNumber}`}</Typography>
           {stf && <CertificateItem certificate={stf} />}
         </Grid>
         <Grid item xs={12} md={6} sx={{ mt: { xs: '20px', md: 0 } }}>
           <Typography component="h2" variant="h5" sx={{ mb: '20px' }}>
             Yrityksen sertifikaatit
           </Typography>
-          <Grid container>
+          <Grid container data-testid="company-certificates">
             {certs ? (
               certs.map((cert) => {
                 if (cert) {

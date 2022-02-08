@@ -24,7 +24,7 @@ const Header = () => {
           {router.pathname !== '/' && (
             <Grid item>
               <Link href="/" passHref>
-                <MuiLink>Yrityshakuun</MuiLink>
+                <MuiLink data-testid="link-to-search">Yrityshakuun</MuiLink>
               </Link>
             </Grid>
           )}

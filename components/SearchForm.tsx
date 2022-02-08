@@ -98,6 +98,7 @@ const SearchForm = ({
         <Grid item xs={7} sm={4}>
           <TextField
             id="name"
+            data-testid="name"
             value={company}
             onChange={(event) => setCompany(event.target.value)}
             fullWidth
@@ -107,6 +108,7 @@ const SearchForm = ({
         <Grid item xs={5} sm={4}>
           <Autocomplete
             id="certificate"
+            data-testid="certificate"
             value={certs}
             onChange={(event, newValue) => {
               setCerts([...newValue]);
@@ -123,6 +125,7 @@ const SearchForm = ({
         <Grid item xs={8} sm={3}>
           <Autocomplete
             id="city"
+            data-testid="city"
             value={areas}
             onChange={(event, newValue) => {
               setAreas([...newValue]);
@@ -137,7 +140,13 @@ const SearchForm = ({
           />
         </Grid>
         <Grid item xs={4} sm={1}>
-          <Button type="submit" variant="contained" fullWidth size="large">
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            size="large"
+            data-testid="submit-button"
+          >
             <Search /> Hae
           </Button>
         </Grid>

@@ -15,12 +15,13 @@ const CertificateResult = ({ certificate }: { certificate: Certificate }) => {
         variant="contained"
         onClick={() => window.print()}
         sx={{ float: 'right', mt: '15px' }}
+        data-testid="print-button"
       >
         <Print /> Tulosta
       </Button>
       <Grid container sx={{ mt: '15px' }}>
         <Grid item xs={12} md={4}>
-          <Typography component="h2" variant="h5">
+          <Typography component="h2" variant="h5" data-testid="cert-name">
             {certificate.name}
           </Typography>
           <img src={certificate.logoUrl} alt={certificate.name} width="300px" />
@@ -29,14 +30,22 @@ const CertificateResult = ({ certificate }: { certificate: Certificate }) => {
           <Typography component="h3" variant="h5">
             Tietoja sertifikaatista
           </Typography>
-          <Typography sx={{ my: '10px' }}>{certificate.description}</Typography>
+          <Typography data-testid="cert-desc" sx={{ my: '10px' }}>
+            {certificate.description}
+          </Typography>
           <Typography>
-            <MuiLink href={certificate.website}>{certificate.website}</MuiLink>
+            <MuiLink data-testid="cert-website" href={certificate.website}>
+              {certificate.website}
+            </MuiLink>
           </Typography>
           <Typography component="h3" variant="h5" sx={{ my: '15px' }}>
             Sertifikaatin omaavat yritykset
           </Typography>
-          <Button href={`/?cert=${certificate.id}`} variant="contained">
+          <Button
+            href={`/?cert=${certificate.id}`}
+            variant="contained"
+            data-testid="cert-companies"
+          >
             Näytä yritykset
           </Button>
         </Grid>
