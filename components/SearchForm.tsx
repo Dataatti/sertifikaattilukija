@@ -70,7 +70,13 @@ const SearchForm = ({
       query.push(`offset=${offset}`);
     }
 
-    const result = await fetch(`/api/data?${query.join('&')}`);
+    const request = new Request(`https://sertifikaattilukija.herokuapp.com/data?${query.join('&')}`, {
+      method: 'GET',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+    });
+    const result = await fetch(request);
     const { data, totalResults, resultsFrom } = await result.json();
 
     if (offset !== 0) {
