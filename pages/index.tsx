@@ -1,5 +1,5 @@
-import type { GetStaticProps, NextApiResponse } from 'next';
-import { useEffect, useState } from 'react';
+import type { GetStaticProps } from 'next';
+import { useState } from 'react';
 import { Alert, Button, CircularProgress, Grid, Typography } from '@mui/material';
 import CompanyListItem from 'components/CompanyListItem';
 import { Print } from '@mui/icons-material';
@@ -94,16 +94,18 @@ export const getStaticProps: GetStaticProps = async () => {
   try {
     const res = await fetch(`https://sertifikaattilukija.herokuapp.com/data?limit=${searchLimit}`);
     const { data: companies } = await res.json();
+
     return {
       props: {
         firstCompanies: companies,
-        initialResultAmount: searchLimit,
+        initialResultsAmount: searchLimit,
       },
     };
   } catch (err) {
     return {
       props: {
-        error: err,
+        firstCompanies: [],
+        initialResultsAmount: 0,
       },
     };
   }

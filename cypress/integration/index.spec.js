@@ -30,7 +30,7 @@ describe('index', () => {
 
     cy.intercept({
       method: 'GET',
-      url: '**/api/data?**',
+      url: 'https://sertifikaattilukija.herokuapp.com/data?**',
     }).as('getCompanies');
 
     cy.get('[data-testid="submit-button"]').click();
@@ -55,7 +55,7 @@ describe('index', () => {
 
     cy.intercept({
       method: 'GET',
-      url: '**/api/data?**',
+      url: 'https://sertifikaattilukija.herokuapp.com/data?**',
     }).as('getCompanies');
 
     cy.get('[data-testid="submit-button"]').click();
@@ -71,13 +71,13 @@ describe('index', () => {
       .get('[alt="Sustainable Travel Finland"]')
       .parent()
       .should('have.attr', 'href')
-      .should('include', '/sert/sft');
+      .should('include', '/sert/stf');
   });
 
   it('should prefetch cert companies if set in query parameter', () => {
     cy.intercept({
       method: 'GET',
-      url: '**/api/data?**',
+      url: 'https://sertifikaattilukija.herokuapp.com/data?**',
     }).as('getCompanies');
 
     cy.visit('/?cert=green-key');

@@ -14,7 +14,7 @@ describe('company', () => {
     cy.get('[alt="Sustainable Travel Finland"]')
       .parent()
       .should('have.attr', 'href')
-      .should('include', 'sert/sft');
+      .should('include', 'sert/stf');
 
     cy.get('[data-testid="company-certificates"]').should('have.length', '1');
     cy.get('[data-testid="company-certificates"]')

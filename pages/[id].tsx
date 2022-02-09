@@ -1,4 +1,4 @@
-import type { GetStaticProps, GetStaticPaths, NextApiResponse } from 'next';
+import type { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
 import { Button, Grid, Typography, Link as MuiLink } from '@mui/material';
 import { Print } from '@mui/icons-material';
@@ -11,10 +11,10 @@ const CompanyResult = ({ company }: { company: Company }) => {
 
   if (company?.certificateId) {
     certs = company.certificateId;
-    const hasStf = company.certificateId.some((certId) => certId === 'sft');
+    const hasStf = company.certificateId.some((certId) => certId === 'stf');
     if (hasStf) {
-      stf = certificates.find((cert) => cert.id === 'sft');
-      certs = certs.filter((certId) => certId !== 'sft');
+      stf = certificates.find((cert) => cert.id === 'stf');
+      certs = certs.filter((certId) => certId !== 'stf');
     }
     certs = certs.map((certId) => certificates.find((cert) => cert.id === certId));
   }
@@ -79,6 +79,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
     const res = await fetch(`https://sertifikaattilukija.herokuapp.com/data?name=${vatNumber}`);
     const { data: companies } = await res.json();
+
+    if (!companies[0]) throw new Error();
     return {
       props: {
         company: companies[0],
@@ -86,9 +88,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   } catch (err) {
     return {
-      props: {
-        error: err,
-      },
+      notFound: true,
     };
   }
 };
