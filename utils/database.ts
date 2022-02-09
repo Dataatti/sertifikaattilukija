@@ -1,5 +1,6 @@
 import knex, { Knex } from 'knex';
 import { NextApiRequest, NextApiResponse } from 'next';
+import companies from 'data/company_dump_09022022.json';
 
 export interface NextRequestWithDb extends NextApiRequest {
   db: Knex<any, unknown[]>;
@@ -44,6 +45,7 @@ export const initDatabase = async (db: Knex<any, unknown[]>) => {
   try {
     const hasTableCompany = await db.schema.hasTable('company');
     if (!hasTableCompany) {
+      // Create company table
       await db.schema.createTable('company', (table) => {
         table.increments('id').primary();
         table.string('name').unique({ indexName: 'name_unique_id' });
@@ -54,9 +56,20 @@ export const initDatabase = async (db: Knex<any, unknown[]>) => {
         table.boolean('blacklisted');
         table.timestamps(false, true);
       });
+
+      // Insert initial company data
+      const chunkSize = 500;
+      let index = 0;
+      while (index <= (companies as Array<any>)?.length) {
+        const chunk = (companies as Array<any>)?.slice(index, index + chunkSize);
+        await db('company').insert(chunk);
+        index += chunkSize;
+      }
     }
+
     const hasTableCertificate = await db.schema.hasTable('company_certificate');
     if (!hasTableCertificate) {
+      // Create company_certificate table
       await db.schema.createTable('company_certificate', (table) => {
         table.increments('id').primary();
         table.increments('company_id', { primaryKey: false });
