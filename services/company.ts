@@ -32,8 +32,13 @@ const upsertCompanies = async (companies: Company[], dbClient: Knex<any, unknown
     post_code: company?.postCode,
   }));
 
+  // Remove duplicate rows with the same name to prevent insert errors
+  const uniqueInsertableCompanies = insertableCompanies.filter(
+    (v, i, a) => a.findIndex((t) => t.name === v.name && t.name === v.name) === i
+  );
+
   if (insertableCompanies?.length > 0) {
-    await dbClient('company').insert(insertableCompanies).onConflict('name').merge();
+    await dbClient('company').insert(uniqueInsertableCompanies).onConflict('name').merge();
   }
 };
 
@@ -69,7 +74,6 @@ const getSingleCompanyAdditionalInformation = async (
  * @returns status as boolean, true = ok
  */
 export const getCompanyInformation = async (dbClient: Knex<any, unknown[]>) => {
-  const dev = process.env.NODE_ENV === 'development';
   console.info('START COMPANY INFORMATION FETCHING');
   try {
     // 55 = Majoitus
@@ -77,20 +81,32 @@ export const getCompanyInformation = async (dbClient: Knex<any, unknown[]>) => {
     // 79 = Matkatoimistojen ja matkanjärjestäjien toiminta; varauspalvelut
     // 93 = Urheilutoiminta sekä huvi- ja virkistyspalvelut
     const businessLineCodes = ['55', '56', '79', '93'];
-    const limit = dev ? 20 : 500;
+    const limit = 500;
     for (const lineCode of businessLineCodes) {
       let skip = 0;
       let hasMore = true;
       let errorCount = 0;
-      // Only ten errors allowed, otherwise break
-      while (hasMore && errorCount < 10) {
+
+      // 100 errors allowed, otherwise break
+      while (hasMore && errorCount < 100) {
         try {
           const output = [];
+
           // NOTE: PRH API supports only 300 requests per minute for ALL users combined
+          // Get companies registered in past two weeks
+          const twoWeeksAgo = new Date(Date.now() - 12096e5);
+          const date =
+            twoWeeksAgo.getFullYear() +
+            '-' +
+            ('0' + twoWeeksAgo.getMonth() + 1).slice(-2) +
+            '-' +
+            ('0' + twoWeeksAgo.getDate()).slice(-2);
+
           const res = await fetch(
-            `https://avoindata.prh.fi/bis/v1?totalResults=false&maxResults=${limit}&resultsFrom=${skip}&businessLineCode=${lineCode}`
+            `https://avoindata.prh.fi/bis/v1?totalResults=false&maxResults=${limit}&resultsFrom=${skip}&businessLineCode=${lineCode}&companyRegistrationFrom=${date}`
           );
           const data = await res.json();
+
           // Address information has to be fetched separately with VAT-number
           for (const d of data?.results) {
             const completeData = await getSingleCompanyAdditionalInformation(d);
@@ -113,7 +129,7 @@ export const getCompanyInformation = async (dbClient: Knex<any, unknown[]>) => {
             }
           }
           skip += limit;
-          if (data?.results?.length < limit || (dev && skip >= limit)) {
+          if (data?.results?.length < limit) {
             hasMore = false;
           }
         } catch (error) {
