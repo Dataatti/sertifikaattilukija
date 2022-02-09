@@ -34,7 +34,7 @@ const upsertCompanies = async (companies: Company[], dbClient: Knex<any, unknown
 
   // Remove duplicate rows with the same name to prevent insert errors
   const uniqueInsertableCompanies = insertableCompanies.filter(
-    (v, i, a) => a.findIndex((t) => t.name === v.name && t.name === v.name) === i
+    (company, index, all) => all.findIndex((c) => c.name === company.name) === index
   );
 
   if (insertableCompanies?.length > 0) {
