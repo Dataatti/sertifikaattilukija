@@ -2,6 +2,7 @@ import * as processors from '../../services/scrapers';
 import configs from '../../services/scrapers/scrapers.json';
 
 for (const config of configs) {
+  if (!config.testInput) continue;
   let input;
   let target;
   const processor = processors[config.scraper];

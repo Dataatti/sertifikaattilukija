@@ -1,8 +1,6 @@
 import type { GetStaticProps, GetStaticPaths, NextApiResponse } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { Button, Grid, Typography, Link as MuiLink } from '@mui/material';
-import { databaseHoc, getCompanies, NextRequestWithDb } from 'utils/database';
 import { Print } from '@mui/icons-material';
 import certificates from 'enums/certificates.json';
 import CertificateItem from 'components/CertificateItem';
@@ -76,19 +74,23 @@ const CompanyResult = ({ company }: { company: Company }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const vatNumber = params?.id as string;
+  try {
+    const vatNumber = params?.id as string;
 
-  const hoc = databaseHoc()(async (req) => {
-    const { companies } = await getCompanies(req.db, 1, 0, vatNumber);
-    return companies;
-  });
-  const companies = await hoc({} as NextRequestWithDb, {} as NextApiResponse);
-
-  return {
-    props: {
-      company: companies[0],
-    },
-  };
+    const res = await fetch(`https://sertifikaattilukija.herokuapp.com/data?name=${vatNumber}`);
+    const { data: companies } = await res.json();
+    return {
+      props: {
+        company: companies[0],
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        error: err,
+      },
+    };
+  }
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
