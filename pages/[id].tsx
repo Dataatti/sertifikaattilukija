@@ -1,8 +1,6 @@
-import type { GetStaticProps, GetStaticPaths, NextApiResponse } from 'next';
+import type { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
-import Link from 'next/link';
 import { Button, Grid, Typography, Link as MuiLink } from '@mui/material';
-import { databaseHoc, getCompanies, NextRequestWithDb } from 'utils/database';
 import { Print } from '@mui/icons-material';
 import certificates from 'enums/certificates.json';
 import CertificateItem from 'components/CertificateItem';
@@ -13,10 +11,10 @@ const CompanyResult = ({ company }: { company: Company }) => {
 
   if (company?.certificateId) {
     certs = company.certificateId;
-    const hasStf = company.certificateId.some((certId) => certId === 'sft');
+    const hasStf = company.certificateId.some((certId) => certId === 'stf');
     if (hasStf) {
-      stf = certificates.find((cert) => cert.id === 'sft');
-      certs = certs.filter((certId) => certId !== 'sft');
+      stf = certificates.find((cert) => cert.id === 'stf');
+      certs = certs.filter((certId) => certId !== 'stf');
     }
     certs = certs.map((certId) => certificates.find((cert) => cert.id === certId));
   }
@@ -76,19 +74,23 @@ const CompanyResult = ({ company }: { company: Company }) => {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const vatNumber = params?.id as string;
+  try {
+    const vatNumber = params?.id as string;
 
-  const hoc = databaseHoc()(async (req) => {
-    const { companies } = await getCompanies(req.db, 1, 0, vatNumber);
-    return companies;
-  });
-  const companies = await hoc({} as NextRequestWithDb, {} as NextApiResponse);
+    const res = await fetch(`https://sertifikaattilukija.herokuapp.com/data?name=${vatNumber}`);
+    const { data: companies } = await res.json();
 
-  return {
-    props: {
-      company: companies[0],
-    },
-  };
+    if (!companies[0]) throw new Error();
+    return {
+      props: {
+        company: companies[0],
+      },
+    };
+  } catch (err) {
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {

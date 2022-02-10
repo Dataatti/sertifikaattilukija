@@ -1,7 +1,6 @@
-import type { GetStaticProps, NextApiResponse } from 'next';
+import type { GetStaticProps } from 'next';
 import { useState } from 'react';
 import { Alert, Button, CircularProgress, Grid, Typography } from '@mui/material';
-import { databaseHoc, getCompanies, NextRequestWithDb } from 'utils/database';
 import CompanyListItem from 'components/CompanyListItem';
 import { Print } from '@mui/icons-material';
 import useLocalStorage from 'hooks/useLocalStorage';
@@ -92,18 +91,24 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  // Get data from database
-  const hoc = databaseHoc()(async (req) => {
-    const { companies } = await getCompanies(req.db, searchLimit);
-    return companies;
-  });
-  const firstCompanies = await hoc({} as NextRequestWithDb, {} as NextApiResponse);
-  return {
-    props: {
-      firstCompanies,
-      initialResultsAmount: searchLimit,
-    },
-  };
+  try {
+    const res = await fetch(`https://sertifikaattilukija.herokuapp.com/data?limit=${searchLimit}`);
+    const { data: companies } = await res.json();
+
+    return {
+      props: {
+        firstCompanies: companies,
+        initialResultsAmount: searchLimit,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        firstCompanies: [],
+        initialResultsAmount: 0,
+      },
+    };
+  }
 };
 
 export default Home;
