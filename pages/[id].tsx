@@ -29,7 +29,10 @@ const CompanyResult = ({ company }: { company: Company }) => {
 
     // If only address is found, remove trailing comma
     addressInfo = addressInfo.replace(/, $/, '');
-
+  
+    // If no address at all, add fallback
+    if (addressInfo === '') addressInfo = "Ei osoitetietoja";  
+    
     return addressInfo;
   };
 
