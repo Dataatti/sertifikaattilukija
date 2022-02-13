@@ -3,7 +3,11 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#F97C80',
+      main: '#1D764A',
+      contrastText: '#DBEEFE',
+    },
+    common: {
+      black: '#2222222',
     },
   },
   typography: {
@@ -13,6 +17,8 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
+          backgroundColor: '#DBEEFE',
+          color: '#1D764A',
           textTransform: 'none',
         },
       },

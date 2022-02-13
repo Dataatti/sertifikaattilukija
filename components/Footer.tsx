@@ -2,7 +2,7 @@ import { Container, Divider, Grid, Link, Paper, Typography } from '@mui/material
 
 const Header = () => {
   return (
-    <Paper sx={{ bgcolor: 'grey.800', color: 'common.white' }}>
+    <Paper sx={{ bgcolor: 'grey.800', color: 'common.black', bgcolor: '#F1F8FF' }}>
       <Container>
         <Typography align="center" sx={{ p: '20px' }}>
           Business Finlandin mukaan sertifiointi on laadun tae kansainvälisessä kaupassa.
@@ -10,7 +10,7 @@ const Header = () => {
           tarjoajia on hyvin paljon. Ideana on tuottaa nyt hankalasti ja pirstoutuneena oleva tieto
           yhteen paikkaan kaikkien toimijoiden avoimesti saataville.
         </Typography>
-        <Divider sx={{ bgcolor: 'common.white' }} />
+        <Divider sx={{ borderColor: 'common.black' }} />
         <Grid container justifyContent="space-around" sx={{ p: '10px' }}>
           <Grid item>
             <Link href="https://european-union.europa.eu/index_fi" color="inherit">
