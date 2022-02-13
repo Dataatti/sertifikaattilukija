@@ -42,6 +42,7 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
         setOffset={setOffset}
         offset={offset}
         searchLimit={searchLimit}
+        resultTotal={resultTotal}
       />
       {loading && offset === 0 ? (
         <Grid container item alignItems="center" justifyContent="center" sx={{ marginY: '10vh' }}>
