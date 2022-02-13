@@ -1,6 +1,6 @@
 import type { GetStaticProps, GetStaticPaths } from 'next';
 import Head from 'next/head';
-import { Button, Grid, Typography, Link as MuiLink } from '@mui/material';
+import { Box, Button, Grid, Typography, Link as MuiLink } from '@mui/material';
 import certificates from 'enums/certificates.json';
 import { Print } from '@mui/icons-material';
 
@@ -14,7 +14,7 @@ const CertificateResult = ({ certificate }: { certificate: Certificate }) => {
       <Button
         variant="contained"
         onClick={() => window.print()}
-        sx={{ float: 'right', mt: '15px' }}
+        sx={{ float: 'right', my: '15px' }}
         data-testid="print-button"
       >
         <Print /> Tulosta
@@ -24,7 +24,13 @@ const CertificateResult = ({ certificate }: { certificate: Certificate }) => {
           <Typography component="h2" variant="h5" data-testid="cert-name">
             {certificate.name}
           </Typography>
-          <img src={certificate.logoUrl} alt={certificate.name} width="300px" />
+          <Box sx={{ my: '15px' }}>
+            <img
+              src={certificate.logoUrl}
+              alt={certificate.name}
+              width="300px"
+            />
+          </Box>
         </Grid>
         <Grid item xs={12} md={8}>
           <Typography component="h3" variant="h5">
@@ -38,13 +44,14 @@ const CertificateResult = ({ certificate }: { certificate: Certificate }) => {
               {certificate.website}
             </MuiLink>
           </Typography>
-          <Typography component="h3" variant="h5" sx={{ my: '15px' }}>
+          <Typography component="h3" variant="h5" sx={{ mt: '30px' }}>
             Sertifikaatin omaavat yritykset
           </Typography>
           <Button
             href={`/?cert=${certificate.id}`}
             variant="contained"
             data-testid="cert-companies"
+            sx={{ my: '25px' }}
           >
             Näytä yritykset
           </Button>
