@@ -8,7 +8,6 @@ const CertificateItem = ({ certificate }: { certificate: Certificate }) => {
   const theme = useTheme();
   const mobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-
   return (
     <Link href={`/sert/${id}`} passHref>
       <MuiLink className="company-item-cert">
