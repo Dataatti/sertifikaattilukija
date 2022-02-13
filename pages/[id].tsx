@@ -21,19 +21,9 @@ const CompanyResult = ({ company }: { company: Company }) => {
 
   const getAddressInfo = (company: Company) => {
     const { address, postCode, city } = company;
-    let addressInfo = '';
-
-    if (address) addressInfo += `${address}, `;
-    if (postCode) addressInfo += `${postCode} `;
-    if (city) addressInfo += city;
-
-    // If only address is found, remove trailing comma
-    addressInfo = addressInfo.replace(/, $/, '');
-  
-    // If no address at all, add fallback
-    if (addressInfo === '') addressInfo = "Ei osoitetietoja";  
-    
-    return addressInfo;
+    const addressArray = [address, postCode, city];
+    addressArray.filter(n => n);
+    return addressArray.length ? addressArray.join(', ') : 'Ei osoitetietoja';
   };
 
   return (
