@@ -20,6 +20,9 @@ const theme = createTheme({
           backgroundColor: '#DBEEFE',
           color: '#1D764A',
           textTransform: 'none',
+          '&:hover': {
+            backgroundColor: '#E4F2FE',
+          }
         },
       },
     },
