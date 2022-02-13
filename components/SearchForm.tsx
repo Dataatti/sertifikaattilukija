@@ -152,6 +152,7 @@ const SearchForm = ({
             fullWidth
             size="large"
             data-testid="submit-button"
+            sx={{ displayPrint: 'none' }}
           >
             <Search /> Hae
           </Button>
