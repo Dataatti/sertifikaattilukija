@@ -6,7 +6,7 @@ jobs:
   lint_files:
     runs-on: 'ubuntu-latest'
     env:
-      NEXT_PUBLIC_API_URL: ${{secrets.NEXT_PUBLIC_API_URL}}
+      NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
     defaults:
       run:
         working-directory: ./
