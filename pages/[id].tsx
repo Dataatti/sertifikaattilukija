@@ -84,7 +84,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
     const vatNumber = params?.id as string;
 
-    const res = await fetch(`https://sertifikaattilukija.herokuapp.com/data?name=${vatNumber}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data?name=${vatNumber}`);
     const { data: companies } = await res.json();
 
     if (!companies[0]) throw new Error();
