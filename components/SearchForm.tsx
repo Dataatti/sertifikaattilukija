@@ -109,7 +109,7 @@ const SearchForm = ({
         alignItems="center"
         sx={{ pt: '5px', pb: '15px', borderBottom: '1px solid #C4C4C4' }}
       >
-        <Grid item xs={7} sm={4}>
+        <Grid item xs={12} sm={4}>
           <TextField
             id="name"
             data-testid="name"
@@ -119,7 +119,7 @@ const SearchForm = ({
             label="Yrityksen nimi tai y-tunnus"
           />
         </Grid>
-        <Grid item xs={5} sm={4}>
+        <Grid item xs={12} sm={4}>
           <Autocomplete
             id="certificate"
             data-testid="certificate"
@@ -136,7 +136,7 @@ const SearchForm = ({
             renderInput={(params) => <TextField {...params} label="Sertifikaatti" />}
           />
         </Grid>
-        <Grid item xs={8} sm={3}>
+        <Grid item xs={12} sm={3}>
           <Autocomplete
             id="city"
             data-testid="city"
@@ -153,7 +153,7 @@ const SearchForm = ({
             renderInput={(params) => <TextField {...params} label="Kunta/Maakunta" />}
           />
         </Grid>
-        <Grid item xs={4} sm={1}>
+        <Grid item xs={12} sm={1}>
           <Button
             type="submit"
             variant="contained"
