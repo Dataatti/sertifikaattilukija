@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 const Header = () => {
   const router = useRouter();
   return (
-    <AppBar position="static" color="inherit">
+    <AppBar position="static" color="inherit" sx={{ bgcolor: '#222222' }}>
       <Container>
         <Grid container justifyContent="space-between" alignItems="center">
           <Grid item>
@@ -13,7 +13,7 @@ const Header = () => {
               <MuiLink underline="none">
                 <Typography
                   component="h1"
-                  sx={{ fontWeight: '500', fontSize: '22px', p: '7px', color: 'text.primary' }}
+                  sx={{ fontWeight: '500', fontSize: '22px', p: '7px', color: 'common.white' }}
                 >
                   Matkailualan
                   <br /> sertifikaatit
@@ -24,7 +24,12 @@ const Header = () => {
           {router.pathname !== '/' && (
             <Grid item>
               <Link href="/" passHref>
-                <MuiLink data-testid="link-to-search">Yrityshakuun</MuiLink>
+                <MuiLink
+                  data-testid="link-to-search"
+                  sx={{ color: '#BCE3BF', textDecorationColor: '#BCE3BF' }}
+                >
+                  Yrityshakuun
+                </MuiLink>
               </Link>
             </Grid>
           )}
