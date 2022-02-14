@@ -10,7 +10,7 @@ const Header = () => {
           tarjoajia on hyvin paljon. Ideana on tuottaa nyt hankalasti ja pirstoutuneena oleva tieto
           yhteen paikkaan kaikkien toimijoiden avoimesti saataville.
         </Typography>
-        <Divider sx={{ borderColor: 'common.black' }} />
+        <Divider sx={{ borderColor: 'common.black' }} aria-hidden="true" />
         <Grid container justifyContent="space-around" sx={{ p: '10px' }}>
           <Grid item>
             <Link href="https://european-union.europa.eu/index_fi" color="inherit">
