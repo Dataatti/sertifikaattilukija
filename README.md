@@ -66,23 +66,8 @@ Open Cypress for developing E2E tests
   npm run cypress:open
 ```
 
-## Data scraping
+## Data scraping and database
 
-Data scraping functions are run by [a cron based Github action](/.github/workflows/sync_certificates.yml).
+Data scraping and database are found in a separate repository in [sertifikaattilukija-api](https://github.com/Dataatti/sertifikaattilukija-api).
 
 The list of scraped certificate websites is based on the certificates that are part of Business Finland's [Sustainable Travel Finland](https://www.businessfinland.fi/suomalaisille-asiakkaille/palvelut/matkailun-edistaminen/vastuullisuus/sertifioinnit--ohjelmat) program.
-
-## Database connection
-
-The project uses PostgreSQL as its database.
-
-Copy .env.example as .env and change variables according to your own environment
-
-```bash
-  cp .env.example .env
-```
-
-```
-# PostgreSQL connection url
-DATABASE_CONNECTION_URL=postgres://<USERNAME>:<PASSWORD>@<HOST>:<PORT>/<DATABASE>
-```

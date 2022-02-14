@@ -13,6 +13,7 @@ const SearchForm = ({
   setOffset,
   offset,
   searchLimit,
+  resultTotal,
 }: {
   setCompanies: Dispatch<SetStateAction<Company[]>>;
   setResultTotal: Dispatch<SetStateAction<number>>;
@@ -20,6 +21,7 @@ const SearchForm = ({
   setOffset: Dispatch<SetStateAction<number>>;
   offset: number;
   searchLimit: number;
+  resultTotal: number;
 }) => {
   const router = useRouter();
   const [company, setCompany] = useState('');
@@ -70,27 +72,30 @@ const SearchForm = ({
       query.push(`offset=${offset}`);
     }
 
-    const request = new Request(
-      `https://sertifikaattilukija.herokuapp.com/data?${query.join('&')}`,
-      {
-        method: 'GET',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
+    const request = new Request(`${process.env.NEXT_PUBLIC_API_URL}/data?${query.join('&')}`, {
+      method: 'GET',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+    });
+    try {
+      const result = await fetch(request);
+      const { data, totalResults, resultsFrom } = await result.json();
+
+      if (resultTotal !== totalResults) setOffset(0);
+
+      if (offset !== 0) {
+        setCompanies((prevCompanies) => [...prevCompanies, ...data]);
+      } else {
+        setCompanies(data);
       }
-    );
-    const result = await fetch(request);
-    const { data, totalResults, resultsFrom } = await result.json();
 
-    if (offset !== 0) {
-      setCompanies((prevCompanies) => [...prevCompanies, ...data]);
-    } else {
-      setCompanies(data);
+      setResultTotal(totalResults);
+      setOffset(resultsFrom);
+    } catch (error) {
+      console.log(error);
     }
-
-    setResultTotal(totalResults);
     setLoading(false);
-    setOffset(resultsFrom);
   };
 
   return (
@@ -155,6 +160,7 @@ const SearchForm = ({
             fullWidth
             size="large"
             data-testid="submit-button"
+            sx={{ displayPrint: 'none' }}
           >
             <Search /> Hae
           </Button>

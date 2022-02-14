@@ -28,8 +28,9 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
         <Alert
           severity="info"
           onClose={() => setShowInfo(false)}
-          sx={{ mt: '15px' }}
+          sx={{ mt: '15px', displayPrint: 'none' }}
           data-testid="info-popup"
+          className="print:hidden"
         >
           Tässä palvelussa voit hakea matkailualan yritysten suorittamia ympäristösertifikaatteja
           joko yrityksen nimen, y-tunnuksen, kaupungin tai sertifikaatin perusteella.
@@ -42,6 +43,7 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
         setOffset={setOffset}
         offset={offset}
         searchLimit={searchLimit}
+        resultTotal={resultTotal}
       />
       {loading && offset === 0 ? (
         <Grid container item alignItems="center" justifyContent="center" sx={{ marginY: '10vh' }}>
@@ -58,6 +60,7 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
               size="small"
               data-testid="print-button"
               onClick={() => window.print()}
+              sx={{ displayPrint: 'none' }}
             >
               <Print /> Tulosta
             </Button>

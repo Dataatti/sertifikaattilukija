@@ -19,6 +19,13 @@ const CompanyResult = ({ company }: { company: Company }) => {
     certs = certs.map((certId) => certificates.find((cert) => cert.id === certId));
   }
 
+  const getAddressInfo = (company: Company) => {
+    const { address, postCode, city } = company;
+    const addressArray = [address, postCode, city];
+    addressArray.filter(n => n);
+    return addressArray.length ? addressArray.join(', ') : 'Ei osoitetietoja';
+  };
+
   return (
     <main>
       <Head>
@@ -38,7 +45,7 @@ const CompanyResult = ({ company }: { company: Company }) => {
           <Typography component="h2" variant="h5" data-testid="company-name" sx={{ mb: '20px' }}>
             {company.name}
           </Typography>
-          <Typography data-testid="company-address">{`${company.address}, ${company.postCode} ${company.city}`}</Typography>
+          <Typography data-testid="company-address">{getAddressInfo(company)}</Typography>
           <Typography data-testid="company-vat">{`Y-tunnus: ${company.vatNumber}`}</Typography>
           {stf && <CertificateItem certificate={stf} />}
         </Grid>
@@ -79,7 +86,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
     const vatNumber = params?.id as string;
 
-    const res = await fetch(`https://sertifikaattilukija.herokuapp.com/data?name=${vatNumber}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/data?name=${vatNumber}`);
     const { data: companies } = await res.json();
 
     if (!companies[0]) throw new Error();
