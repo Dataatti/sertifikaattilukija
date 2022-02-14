@@ -17,11 +17,11 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          backgroundColor: '#DBEEFE',
-          color: '#1D764A',
+          backgroundColor: '#1D764A',
+          color: '#FFFFFF',
           textTransform: 'none',
           '&:hover': {
-            backgroundColor: '#E4F2FE',
+            backgroundColor: '#1D764ACC',
           }
         },
       },
