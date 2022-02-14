@@ -22,6 +22,9 @@ const theme = createTheme({
           textTransform: 'none',
           '&:hover': {
             backgroundColor: '#1D764ACC',
+          },
+          '& .MuiSvgIcon-root': {
+            marginRight: '4px',
           }
         },
       },
