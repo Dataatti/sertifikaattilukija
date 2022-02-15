@@ -18,6 +18,8 @@ The user interface of the application is styled using [MUI](https://mui.com/) co
 
 The data is fetched by scraping certificate provider websites with [Node.js](https://nodejs.org/en/) functions and saved to a [PostgreSQL](https://www.postgresql.org/) database.
 
+The data scraping and API can be found in separate repo at [https://github.com/Dataatti/sertifikaattilukija-api](https://github.com/Dataatti/sertifikaattilukija-api/blob/main/README.md)
+
 
 ## How to run
 
