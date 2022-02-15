@@ -11,8 +11,8 @@ describe('index', () => {
     cy.get('[data-testid="info-popup"]');
     cy.get('[data-testid="print-button"]');
 
-    cy.get('[data-testid="result-total"]').contains('50 kpl');
-    cy.get('[data-testid="company-list"]').find('.company-item').should('have.length', 50);
+    cy.get('[data-testid="result-total"]').contains('0 kpl');
+    cy.get('[data-testid="company-list"]').find('.company-item').should('have.length', 0);
 
     // Should hide info popup
     cy.get('[data-testid="info-popup"]').find('[aria-label="Close"]').click();

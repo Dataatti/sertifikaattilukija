@@ -73,8 +73,8 @@ const CompanyResult = ({ company }: { company: Company }) => {
       </Grid>
       <Typography align="center" sx={{ mt: '20vh' }}>
         Ovatko yrityksen tiedot virheelliset? Ota yhteyttä osoitteeseen{' '}
-        <MuiLink href="mailto:virpi.aittokoski@businessfinland.fi">
-          virpi.aittokoski (at) businessfinland.fi
+        <MuiLink href="mailto:stf@businessfinland.fi">
+          stf (at) businessfinland.fi
         </MuiLink>
       </Typography>
     </main>

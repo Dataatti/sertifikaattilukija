@@ -1,4 +1,3 @@
-import type { GetStaticProps } from 'next';
 import { useState } from 'react';
 import { Alert, Button, CircularProgress, Grid, Typography } from '@mui/material';
 import CompanyListItem from 'components/CompanyListItem';
@@ -6,16 +5,11 @@ import { Print } from '@mui/icons-material';
 import useLocalStorage from 'hooks/useLocalStorage';
 import SearchForm from 'components/SearchForm';
 
-interface HomeProps {
-  firstCompanies: Company[];
-  initialResultsAmount: number;
-}
-
 const searchLimit = 50;
 
-const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
-  const [companies, setCompanies] = useState(firstCompanies);
-  const [resultTotal, setResultTotal] = useState(initialResultsAmount);
+const Home = () => {
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [resultTotal, setResultTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [offset, setOffset] = useState(0);
   const [showInfo, setShowInfo] = useLocalStorage('showInfo', true);
@@ -32,8 +26,8 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
           data-testid="info-popup"
           className="print:hidden"
         >
-          Tässä palvelussa voit hakea matkailualan yritysten suorittamia ympäristösertifikaatteja
-          joko yrityksen nimen, y-tunnuksen, kaupungin tai sertifikaatin perusteella.
+          Tässä palvelussa voit hakea matkailualan yritysten suorittamia sertifikaatteja joko
+          yrityksen nimen, y-tunnuksen, kaupungin tai sertifikaatin perusteella.
         </Alert>
       )}
       <SearchForm
@@ -91,27 +85,6 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
       )}
     </main>
   );
-};
-
-export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const res = await fetch(`https://sertifikaattilukija.herokuapp.com/data?limit=${searchLimit}`);
-    const { data: companies } = await res.json();
-
-    return {
-      props: {
-        firstCompanies: companies,
-        initialResultsAmount: searchLimit,
-      },
-    };
-  } catch (err) {
-    return {
-      props: {
-        firstCompanies: [],
-        initialResultsAmount: 0,
-      },
-    };
-  }
 };
 
 export default Home;

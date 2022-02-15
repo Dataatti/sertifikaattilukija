@@ -19,7 +19,7 @@ function MyApp({ Component, emotionCache = clientSideEmotionCache, pageProps }: 
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>Sertifikaattilukija</title>
+        <title>Matkailualan sertifikaatit</title>
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />

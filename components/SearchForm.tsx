@@ -26,7 +26,7 @@ const SearchForm = ({
   const router = useRouter();
   const [company, setCompany] = useState('');
   const [certs, setCerts] = useState<Certificate[]>([]);
-  const [areas, setAreas] = useState<{ id: string; name: string }[]>([]);
+  const [areas, setAreas] = useState<{ id: string; name: string, type: string }[]>([]);
   const [fetchPreSelected, setFetchPreSelected] = useState(false);
 
   useEffect(() => {
@@ -125,15 +125,19 @@ const SearchForm = ({
             data-testid="certificate"
             value={certs}
             onChange={(event, newValue) => {
-              setCerts([...newValue]);
+              const hasAllSelected = newValue?.some((n) => n.id === 'all');
+              if (hasAllSelected) {
+                setCerts(certificates);
+              } else {
+                setCerts([...newValue]);
+              }
             }}
             multiple
             limitTags={1}
-            disableClearable
             fullWidth
-            options={certificates}
+            options={[{ name: 'Valitse kaikki', id: 'all' } as Certificate, ...certificates]}
             getOptionLabel={(option) => option.name}
-            renderInput={(params) => <TextField {...params} label="Sertifikaatti" />}
+            renderInput={(params) => <TextField {...params} label="Sertifikaatti/laatuohjelma" />}
           />
         </Grid>
         <Grid item xs={12} sm={3}>
@@ -149,6 +153,7 @@ const SearchForm = ({
             disableClearable
             fullWidth
             options={cities}
+            groupBy={(option: { name: string; id: string; type: string }) => option?.type}
             getOptionLabel={(option) => option.name}
             renderInput={(params) => <TextField {...params} label="Kunta/Maakunta" />}
           />
