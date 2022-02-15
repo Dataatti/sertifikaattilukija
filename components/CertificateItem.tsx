@@ -14,9 +14,8 @@ const CertificateItem = ({ certificate }: { certificate: Certificate }) => {
         <img
           src={logoUrl}
           alt={name}
-          height={mobile ? '50px' : '100px'}
-          width={mobile ? '100px' : '200px'}
-          style={{ objectFit: 'contain' }}
+          height={mobile ? '50px' : '80px'}
+          style={{ objectFit: 'contain', maxWidth: mobile ? '100px' : '160px', marginLeft: '8px' }}
         />
       </MuiLink>
     </Link>
