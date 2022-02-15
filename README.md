@@ -35,6 +35,14 @@ Change to the project directory
   cd sertifikaattilukija
 ```
 
+### Environment variables
+
+Environment variables have to be set before running the application. Either create .env file based on the following variables or set them according the current environment.
+
+| Variable    | Value |
+| ----------- | ----------- |
+| NEXT_PUBLIC_API_URL      | Full url of the Sertifikaattilukija-api instance  |
+
 ### Application
 
 Install project dependencies based on lockfile
