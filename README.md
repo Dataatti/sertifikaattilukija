@@ -37,7 +37,17 @@ Change to the project directory
 
 ### Environment variables
 
-Environment variables have to be set before running the application. Either create .env file based on the following variables or set them according the current environment.
+Environment variables have to be set before running the application. 
+
+Either copy .env.example to local .env file and update values
+
+```bash
+  cp .env.example .env
+```
+
+or set them in a environment specific way (if you are running the application in a cloud provider for example).
+
+#### Variable list
 
 | Variable    | Value |
 | ----------- | ----------- |
