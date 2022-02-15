@@ -47,7 +47,7 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
       />
       {loading && offset === 0 ? (
         <Grid container item alignItems="center" justifyContent="center" sx={{ marginY: '10vh' }}>
-          <CircularProgress />
+          <CircularProgress aria-label="Ladataan" />
         </Grid>
       ) : (
         <>
@@ -82,7 +82,7 @@ const Home = ({ firstCompanies, initialResultsAmount }: HomeProps) => {
                     Hae lisää
                   </Button>
                 ) : (
-                  <CircularProgress />
+                  <CircularProgress aria-label="Ladataan" />
                 )}
               </Grid>
             )}
