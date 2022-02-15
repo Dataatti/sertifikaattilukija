@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import Link from 'next/link';
 import { Button, Grid, Typography, Link as MuiLink } from '@mui/material';
 
@@ -11,7 +10,7 @@ const Custom404 = () => {
         alignItems="center"
         justifyContent="center"
         spacing={4}
-        sx={{ minHeight: 'calc(100vh - 80px - 220px)' }}
+        sx={{ minHeight: 'calc(100vh - 80px - 220px)', mt: '0px' }}
       >
         <Grid item>
           <Typography variant="h5">404</Typography>
