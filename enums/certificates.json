@@ -30,7 +30,7 @@
   {
     "name": "Green Key",
     "id": "green-key",
-    "logoUrl": "/images/green-key.webp",
+    "logoUrl": "/images/green-key.png",
     "website": "https://greenkey.fi",
     "description": "Green Key on kansainvälinen hotelli- ja matkailualalle suunnattu ympäristö- ja vastuullisuusmerkki, jonka on saanut jo yli 3200 majoitusalan yritystä yli 65 maassa. Jatkuvaan kehittämiseen kannustavaa Green Key -ohjelmaa hallinnoi Suomessa ympäristökasvatusjärjestö FEE Suomen omistama Going Green Oy. Suomessa käytössä olevat kategoriat ovat hotellit ja hostellit, leirintäalueet ja mökkikylät, pienet majoitusliikkeet, ravintolat ja käyntikohteet."
   },
@@ -65,14 +65,14 @@
   {
     "name": "ECEAT Suomi",
     "id": "eceat-suomi",
-    "logoUrl": "/images/eceat-suomi.webp",
+    "logoUrl": "/images/eceat-suomi.jpeg",
     "website": "https://luomumatkailu.fi/",
     "description": "Suomen luomumatkailuyhdistys - ECEAT Suomi ry (European Centre for Ecological and Agricultural Tourism) edistää ympäristövastuullisen matkailun avulla luomuviljelyä, luonnon- ja ympäristönsuojelua, kestävää maankäyttöä, kulttuuriperinnön ja -maiseman suojelua sekä maaseudun ekologisia toimintamahdollisuuksia. Lisäksi yhdistys tarjoaa ympäristökasvatusta."
   },
   {
     "name": "EMAS",
     "id": "emas",
-    "logoUrl": "/images/emas.webp",
+    "logoUrl": "/images/emas.png",
     "website": "https://www.ymparisto.fi/emas",
     "description": "EMAS (The Eco-Management and Audit Scheme) on kaikille yrityksille ja organisaatioille tarkoitettu vapaaehtoinen ympäristöasioiden hallintajärjestelmä, joka perustuu EU:n asetukseen (EY) N:o 1221/2009. Ympäristöjärjestelmä on organisaation ympäristöjohtamisen väline, jonka avulla organisaatio tunnistaa toimintansa, tuotteidensa ja palvelujensa välilliset ja välittömät ympäristövaikutukset ja toimii suunnitelmallisesti erilaisten päästöjen ja jätteiden sekä energian ja luonnonvarojen kulutuksen vähentämiseksi. "
   },
@@ -86,14 +86,14 @@
   {
     "name": "Joutsenmerkki",
     "id": "joutsenmerkki",
-    "logoUrl": "/images/joutsenmerkki.webp",
+    "logoUrl": "/images/joutsenmerkki.png",
     "website": "https://joutsenmerkki.fi/",
     "description": "Joutsenmerkki on yksi Pohjoismaiden tunnetuimmista ympäristömerkeistä. Kulutustuotteista lähtenyt sertifiointi on laajentunut kattamaan myös monia palveluita, kuten hotellit, ravintolat ja kongressikeskukset. Merkin tavoitteena on edistää kestävää kehitystä. Merkin avulla ohjataan kuluttajia ja ostajia valitsemaan ympäristön kannalta viisaasti ja  kannustetaan valmistajia ja palveluntarjoajia tarjoamaan ympäristön kannalta parempia vaihtoehtoja. Merkin saaminen perustuu elinkaaripohjaisten kriteerien täyttymiseen."
   },
   {
     "name": "Roope-satama",
     "id": "roope-satama",
-    "logoUrl": "/images/roope-satama.webp",
+    "logoUrl": "/images/roope-satama.png",
     "website": "https://www.pidasaaristosiistina.fi/ymparistotietoa/roope-satamat",
     "description": "Roope-satamaohjelma on Pidä Saaristo Siistinä ry:n suomalaisille venesatamille suunnittelema ainutlaatuinen ympäristöohjelma. Ohjelman tavoitteena on kehittää kaikenkokoisia venesatamia erityisesti ympäristönäkökulmat ja turvallisuusasiat huomioiden. Samalla ohjataan venesatamien käyttäjiä ympäristöystävälliseen toimintaan."
   },
