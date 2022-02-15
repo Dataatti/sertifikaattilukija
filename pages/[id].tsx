@@ -21,8 +21,7 @@ const CompanyResult = ({ company }: { company: Company }) => {
 
   const getAddressInfo = (company: Company) => {
     const { address, postCode, city } = company;
-    const addressArray = [address, postCode, city];
-    addressArray.filter(n => n);
+    const addressArray = [address, postCode, city].filter(n => n);
     return addressArray.length ? addressArray.join(', ') : 'Ei osoitetietoja';
   };
 
