@@ -28,6 +28,10 @@ const Home = () => {
         >
           Tässä palvelussa voit hakea matkailualan yritysten suorittamia sertifikaatteja joko
           yrityksen nimen, y-tunnuksen, kaupungin tai sertifikaatin perusteella.
+          <br />
+          <br />
+          Sertifikaattilukija on kokeiluversio, jonka takia kaikki sertifioidut tai STF-merkin
+          saaneet yritykset eivät vielä löydy lukijan hakuehdoilla.
         </Alert>
       )}
       <SearchForm
